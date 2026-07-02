@@ -1,0 +1,75 @@
+body {
+	background: var(--color-surface);
+	color: var(--color-ink-soft);
+	font-family: var(--font-body);
+	font-size: 16px;
+	line-height: 1.55;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: var(--color-ink);
+	font-family: var(--font-display);
+	font-weight: 900;
+	line-height: 0.98;
+	margin: 0;
+	text-transform: none;
+}
+
+h1 {
+	font-size: clamp(3rem, 8vw, 6.4rem);
+	letter-spacing: 0;
+	text-transform: uppercase;
+}
+
+h2 {
+	font-size: clamp(2.25rem, 4vw, 4.3rem);
+	letter-spacing: 0;
+}
+
+h3 {
+	font-size: 1.3rem;
+	line-height: 1.1;
+}
+
+p {
+	margin: 0;
+}
+
+.eyebrow,
+.section-kicker,
+.product-card__label,
+.product-code,
+.caption {
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+.screen-reader-text:focus {
+	background: var(--color-surface);
+	clip: auto;
+	clip-path: none;
+	color: var(--color-ink);
+	height: auto;
+	left: 1rem;
+	padding: 0.75rem 1rem;
+	top: 1rem;
+	width: auto;
+	z-index: 1000;
+}

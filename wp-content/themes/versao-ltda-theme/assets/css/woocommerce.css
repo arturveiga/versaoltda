@@ -1,0 +1,14 @@
+.woocommerce .button,
+.woocommerce button.button,
+.woocommerce a.button {
+	background: var(--color-accent);
+	border-radius: 0;
+	color: var(--color-surface);
+	font-family: var(--font-display);
+	font-weight: 900;
+}
+
+.woocommerce .price {
+	color: var(--color-ink);
+	font-weight: 900;
+}

@@ -1,0 +1,19 @@
+:root {
+	--color-ink: #06123c;
+	--color-ink-soft: #283557;
+	--color-muted: #7b8499;
+	--color-surface: #ffffff;
+	--color-paper: #f7f8fa;
+	--color-night: #020716;
+	--color-night-soft: #081439;
+	--color-accent: #ff0a8a;
+	--color-accent-dark: #c90066;
+	--color-warning: #f19a18;
+	--color-border: #e7eaf0;
+	--font-display: "Arial Black", Impact, sans-serif;
+	--font-body: Arial, Helvetica, sans-serif;
+	--container: 1080px;
+	--container-narrow: 930px;
+	--space-section: 118px;
+	--shadow-product: 0 34px 90px rgba(6, 18, 60, 0.16);
+}
