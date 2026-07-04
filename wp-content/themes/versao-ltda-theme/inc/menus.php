@@ -18,7 +18,6 @@ function versao_ltda_default_menu() {
 	$items = array(
 		'Home',
 		'Jogos',
-		'Extras',
 		'Sobre',
 		'Contato',
 	);
