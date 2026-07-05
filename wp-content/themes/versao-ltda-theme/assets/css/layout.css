@@ -40,25 +40,32 @@ body {
 	min-height: 84px;
 }
 
+/* ==========================================================
+   HEADER LOGO
+========================================================== */
+
 .site-logo {
-	display: inline-grid;
-	line-height: 0.82;
-	text-transform: uppercase;
+	display: flex;
+	align-items: center;
 }
 
-.site-logo__top {
-	color: var(--color-surface);
-	font-family: var(--font-display);
-	font-size: 1rem;
-	font-style: italic;
+.site-logo__image {
+	display: block;
+	height: 70px;
+	width: auto;
+	max-width: 100%;
 }
 
-.site-logo__bottom {
-	color: #ffd21a;
-	font-family: var(--font-display);
-	font-size: 2.3rem;
-	font-style: italic;
-	text-shadow: 4px 0 0 #1a75ff;
+.footer-brand {
+	display: flex;
+	justify-content: center;
+}
+
+.footer-brand__logo {
+	display: block;
+	width: 220px;
+	height: auto;
+	max-width: 100%;
 }
 
 .primary-navigation {

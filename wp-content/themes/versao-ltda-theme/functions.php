@@ -16,6 +16,7 @@ $versao_ltda_includes = array(
 	'inc/widgets.php',
 	'inc/theme-support.php',
 	'inc/woocommerce.php',
+	'inc/helpers.php',
 );
 
 foreach ( $versao_ltda_includes as $versao_ltda_file ) {
