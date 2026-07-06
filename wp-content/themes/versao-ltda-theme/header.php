@@ -18,22 +18,18 @@
 
 <body <?php body_class(); ?>>
 	<?php wp_body_open(); ?>
-	<a class="skip-link screen-reader-text" href="#main"><?php esc_html_e('Ir para o conteudo', 'versao-ltda-theme'); ?></a>
+	<a class="skip-link screen-reader-text"
+		href="#main"><?php esc_html_e('Ir para o conteudo', 'versao-ltda-theme'); ?></a>
 
 	<header class="site-header" id="site-header">
 		<div class="site-header__inner container">
 			<div class="site-branding">
 
-				<a
-					class="site-logo"
-					href="<?php echo esc_url(home_url('/')); ?>"
-					rel="home"
+				<a class="site-logo" href="<?php echo esc_url(home_url('/')); ?>" rel="home"
 					aria-label="<?php bloginfo('name'); ?>">
 
-					<img
-						src="<?php echo esc_url(vltda_asset('images/logo-top.png')); ?>"
-						alt="<?php echo esc_attr(get_bloginfo('name')); ?>"
-						class="site-logo__image">
+					<img src="<?php echo esc_url(vltda_asset('images/Logo_versao_ltda_svg.svg')); ?>"
+						alt="<?php echo esc_attr(get_bloginfo('name')); ?>" class="site-logo__image">
 
 				</a>
 
@@ -44,25 +40,54 @@
 				<span class="screen-reader-text"><?php esc_html_e('Abrir menu', 'versao-ltda-theme'); ?></span>
 			</button>
 
-			<nav class="primary-navigation" aria-label="<?php esc_attr_e('Menu principal', 'versao-ltda-theme'); ?>">
+			<!-- Menu -->
+			<nav class="primary-navigation">
+
 				<?php
-				wp_nav_menu(
-					array(
-						'theme_location' => 'primary',
-						'menu_id'        => 'primary-menu',
-						'menu_class'     => 'primary-menu',
-						'container'      => false,
-						'fallback_cb'    => 'versao_ltda_default_menu',
-					)
-				);
+				wp_nav_menu([
+					'theme_location' => 'primary',
+					'container'      => false,
+					'menu_class'     => 'primary-menu',
+					'fallback_cb'    => 'versao_ltda_default_menu',
+				]);
 				?>
+
 			</nav>
 
-			<div class="site-actions" aria-label="<?php esc_attr_e('Acoes da loja', 'versao-ltda-theme'); ?>">
-				<span class="site-actions__flag" aria-hidden="true"></span>
-				<a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php esc_attr_e('Pesquisar', 'versao-ltda-theme'); ?>">S</a>
-				<a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php esc_attr_e('Minha conta', 'versao-ltda-theme'); ?>">C</a>
-				<a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php esc_attr_e('Carrinho', 'versao-ltda-theme'); ?>">0</a>
+			<!-- Ações -->
+			<div class="site-header__actions">
+
+				<a href="#" class="header-action" aria-label="Buscar">
+
+					<img src="<?php echo esc_url(vltda_asset('icons/search.svg')); ?>" alt="">
+
+				</a>
+
+				<a href="#" class="header-action" aria-label="Favoritos">
+
+					<img src="<?php echo esc_url(vltda_asset('icons/fav.svg')); ?>" alt="">
+
+				</a>
+
+				<a href="<?php echo esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))); ?>"
+					class="header-action" aria-label="Minha Conta">
+
+					<img src="<?php echo esc_url(vltda_asset('icons/user.svg')); ?>" alt="">
+
+				</a>
+
+				<a href="<?php echo esc_url(wc_get_cart_url()); ?>"
+					class="header-action header-action--cart"
+					aria-label="Carrinho">
+
+					<img src="<?php echo esc_url(vltda_asset('icons/cart.svg')); ?>" alt="">
+
+					<span class="cart-counter">
+						<?php echo WC()->cart ? WC()->cart->get_cart_contents_count() : 0; ?>
+					</span>
+
+				</a>
+
 			</div>
 		</div>
 	</header>
