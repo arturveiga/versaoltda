@@ -10,10 +10,24 @@
 	--color-accent-dark: #c90066;
 	--color-warning: #f19a18;
 	--color-border: #e7eaf0;
-	--font-display: "Arial Black", Impact, sans-serif;
-	--font-body: Arial, Helvetica, sans-serif;
+	
+	
 	--container: 1080px;
 	--container-narrow: 930px;
 	--space-section: 118px;
 	--shadow-product: 0 34px 90px rgba(6, 18, 60, 0.16);
+
+	/* Fontes */
+	
+	--font-display: "Exo 2", sans-serif;
+	--font-body: "Fira Sans", sans-serif;
+	--font-mono: "Fira Mono", monospace;
+
+	/* Pesos */
+
+	--fw-light: 300;
+	--fw-regular: 400;
+	--fw-medium: 500;
+	--fw-bold: 700;
+	--fw-black: 900;
 }

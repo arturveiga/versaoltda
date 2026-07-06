@@ -25,6 +25,7 @@ function versao_ltda_enqueue_assets() {
 	$styles = array(
 		'reset.css',
 		'variables.css',
+		'fonts.css',
 		'typography.css',
 		'layout.css',
 		'components.css',
