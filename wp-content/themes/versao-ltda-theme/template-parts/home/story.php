@@ -15,10 +15,10 @@
 		</div>
 
 		<div class="intro__grid">
-			<h2><?php esc_html_e( 'Prepare-se, voce e a ultima esperanca, e falhar nao e uma opcao!', 'versao-ltda-theme' ); ?></h2>
+			<h2><?php esc_html_e( 'Prepare-se, você é a última esperança, e falhar não é uma opção!', 'versao-ltda-theme' ); ?></h2>
 			<div>
-				<p><?php esc_html_e( 'Assuma o papel de Gareth, um cavaleiro treinado para proteger seu povo, e enfrente Zadimus em uma jornada epica para Mega Drive.', 'versao-ltda-theme' ); ?></p>
-				<p><?php esc_html_e( 'Explore florestas, montanhas, pantanos e cenarios impressionantes em um dos maiores jogos ja criados para 16-bit, com jogabilidade fluida, magia e novas habilidades.', 'versao-ltda-theme' ); ?></p>
+				<p><?php esc_html_e( 'Assuma o papel de Gareth, um cavaleiro treinado para proteger seu povo, e enfrente Zadimus em uma jornada épica para Mega Drive.', 'versao-ltda-theme' ); ?></p>
+				<p><?php esc_html_e( 'Explore florestas, montanhas, pântanos e cenários impressionantes em um dos maiores jogos já criados para 16-bit. Com 128 Megabits, animações fluidas, magias, novas habilidades e uma trilha sonora poderosa, Demons of Asteborg entrega uma aventura feita para surpreender jogadores e colecionadores.', 'versao-ltda-theme' ); ?></p>
 			</div>
 		</div>
 

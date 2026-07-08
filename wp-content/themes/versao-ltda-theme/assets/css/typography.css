@@ -27,12 +27,12 @@ h1 {
 }
 
 h2 {
-	font-size: clamp(2.25rem, 4vw, 4.3rem);
+	font-size: clamp(2.3rem, 3.2vw, 3.7rem);
 	letter-spacing: 0;
 }
 
 h3 {
-	font-size: 1.3rem;
+	font-size: 1.18rem;
 	line-height: 1.1;
 }
 
@@ -47,8 +47,12 @@ p {
 .caption {
 	font-size: 0.72rem;
 	font-weight: 800;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
+}
+
+.section-kicker {
+	color: var(--color-accent);
 }
 
 .screen-reader-text {

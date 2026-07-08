@@ -19,7 +19,7 @@
 <body <?php body_class(); ?>>
 	<?php wp_body_open(); ?>
 	<a class="skip-link screen-reader-text"
-		href="#main"><?php esc_html_e('Ir para o conteudo', 'versao-ltda-theme'); ?></a>
+		href="#main"><?php esc_html_e('Ir para o conteúdo', 'versao-ltda-theme'); ?></a>
 
 	<header class="site-header" id="site-header">
 		<div class="site-header__inner container">
@@ -57,6 +57,12 @@
 			<!-- Ações -->
 			<div class="site-header__actions">
 
+				<a href="<?php echo esc_url(home_url('/')); ?>" class="header-action header-action--language" aria-label="Português Brasil">
+
+					<img src="<?php echo esc_url(vltda_asset('icons/icon_br.svg')); ?>" alt="">
+
+				</a>
+
 				<a href="#" class="header-action" aria-label="Buscar">
 
 					<img src="<?php echo esc_url(vltda_asset('icons/search.svg')); ?>" alt="">
@@ -69,21 +75,21 @@
 
 				</a>
 
-				<a href="<?php echo esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))); ?>"
+				<a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('myaccount') : home_url('/')); ?>"
 					class="header-action" aria-label="Minha Conta">
 
 					<img src="<?php echo esc_url(vltda_asset('icons/user.svg')); ?>" alt="">
 
 				</a>
 
-				<a href="<?php echo esc_url(wc_get_cart_url()); ?>"
+				<a href="<?php echo esc_url(function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/')); ?>"
 					class="header-action header-action--cart"
 					aria-label="Carrinho">
 
 					<img src="<?php echo esc_url(vltda_asset('icons/cart.svg')); ?>" alt="">
 
-					<span class="cart-counter">
-						<?php echo WC()->cart ? WC()->cart->get_cart_contents_count() : 0; ?>
+					<span class="cart-counter" aria-hidden="true">
+						<?php echo function_exists('WC') && class_exists('WooCommerce') && WC()->cart ? WC()->cart->get_cart_contents_count() : 0; ?>
 					</span>
 
 				</a>

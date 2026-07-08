@@ -3,6 +3,8 @@ wp-content/uploads/
 node_modules/
 
 vendor/
+!wp-includes/js/dist/vendor/
+!wp-includes/js/dist/vendor/**
 
 .env
 
@@ -13,3 +15,5 @@ vendor/
 Thumbs.db
 
 .DS_Store
+
+.tmp-plugin-downloads/

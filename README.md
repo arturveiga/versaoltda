@@ -1,19 +1,43 @@
-1. Clone o repositório.
+# Versao Ltda
 
-2. Crie um banco MySQL chamado:
+## Rodando com Docker
 
-versaoltda
+Requisitos:
 
-3. Importe o arquivo:
+- Docker Desktop
+- Docker Compose
 
-versao-ltda-dev.sql
+Suba o ambiente:
 
-4. Configure o wp-config.php.
+```bash
+docker compose up -d
+```
 
-5. Faça login no WordPress.
+Acesse:
 
-6. Crie sua branch:
+- Site: http://localhost:8080
+- phpMyAdmin: http://localhost:8081
 
+Credenciais do banco no Docker:
+
+- Banco: `versaoltda`
+- Usuario: `root`
+- Senha: `root`
+- Host interno: `db`
+
+O dump `database/versao-ltda-dev.sql` e importado automaticamente na primeira criacao do volume do MySQL.
+
+Para recriar o banco do zero e importar o dump novamente:
+
+```bash
+docker compose down -v
+docker compose up -d
+```
+
+## Fluxo de branch
+
+```bash
 git switch develop
 git pull
 git switch -c feature/nome-da-feature
+```

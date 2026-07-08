@@ -16,16 +16,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function versao_ltda_default_menu() {
 	$items = array(
-		'Home',
-		'Jogos',
-		'Extras',
-		'Sobre',
-		'Contato',
+		'Home'    => home_url( '/' ),
+		'Jogos'   => home_url( '/jogos/' ),
+		'Extras'  => home_url( '/#extras' ),
+		'Sobre'   => home_url( '/sobre/' ),
+		'Contato' => home_url( '/contato/' ),
 	);
 	?>
 	<ul id="primary-menu" class="primary-menu">
-		<?php foreach ( $items as $item ) : ?>
-			<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html( $item ); ?></a></li>
+		<?php foreach ( $items as $label => $url ) : ?>
+			<li><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $label ); ?></a></li>
 		<?php endforeach; ?>
 	</ul>
 	<?php
