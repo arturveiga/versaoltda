@@ -1,3 +1,7 @@
+/* ==========================================================
+   BASE
+========================================================== */
+
 body {
 	background-color: var(--color-surface);
 	background-image:
@@ -23,6 +27,9 @@ body {
 	padding-block: var(--space-section);
 }
 
+/* ==========================================================
+   Fim da seção BASE
+========================================================== */
 
 /* ==========================================================
    HEADER
@@ -182,10 +189,98 @@ body {
 =========================== */
 
 
+/* ==========================================================
+   INTRO
+========================================================== */
+
+.intro {
+	padding-top: 42px;
+}
+
+/* ===========================
+   Media Strip
+=========================== */
+
+.media-strip {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 16px;
+
+	margin-bottom: 44px;
+}
+
+.media-strip img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1.55;
+	object-fit: cover;
+}
+
+/* ===========================
+   Intro Grid
+=========================== */
+
+.intro__grid {
+	display: grid;
+	grid-template-columns: 0.88fr 1.12fr;
+	gap: 56px;
+	align-items: start;
+}
+
+.intro__grid h2 {
+	font-family: var(--font-display);
+	font-weight: var(--fw-black);
+	font-size: clamp(2.1rem, 3.6vw, 3.3rem);
+	line-height: 1.05;
+	margin-bottom: 20px;
+}
+
+.intro__grid p {
+	font-family: var(--font-body);
+	line-height: 1.75;
+	color: var(--color-ink-soft);
+}
+
+.intro__grid p+p {
+	margin-top: 1rem;
+}
+
+/* ===========================
+   Quote Row
+=========================== */
+
+.quote-row {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 26px;
+
+	max-width: 650px;
+	margin: 58px auto 0;
+}
+
+.quote-row blockquote {
+	margin: 0;
+
+	min-height: 140px;
+
+	padding: 30px 18px;
+
+	border: 2px solid rgba(6, 18, 60, 0.12);
+	border-radius: 50%;
+
+	text-align: center;
+
+	color: rgba(6, 18, 60, 0.28);
+}
+
+/* ===========================
+   Fim da seção INTRO
+=========================== */
 
 
-
-
+/* ================================
+   Mobile Navigation
+================================ */
 
 .nav-toggle {
 	background: transparent;
@@ -214,6 +309,14 @@ body {
 .nav-toggle__bar::after {
 	transform: translateY(6px);
 }
+
+/* ================================
+   Fim seção Mobile Navigation
+================================ */
+
+/* ===========================
+   HERO
+=========================== */
 
 .hero {
 	background: var(--color-night);
@@ -299,54 +402,13 @@ body {
 
 }
 
-.intro {
-	padding-top: 42px;
-}
+/* ===========================
+   Fim da seção HERO
+=========================== */
 
-.media-strip {
-	display: grid;
-	gap: 16px;
-	grid-template-columns: repeat(3, 1fr);
-	margin-bottom: 44px;
-}
-
-.media-strip img {
-	aspect-ratio: 1.55;
-	object-fit: cover;
-	width: 100%;
-}
-
-.intro__grid {
-	display: grid;
-	gap: 56px;
-	grid-template-columns: 0.88fr 1.12fr;
-}
-
-.intro__grid h2 {
-	font-size: clamp(2.1rem, 3.6vw, 3.3rem);
-}
-
-.intro__grid p+p {
-	margin-top: 1rem;
-}
-
-.quote-row {
-	display: grid;
-	gap: 26px;
-	grid-template-columns: repeat(3, 1fr);
-	margin: 58px auto 0;
-	max-width: 650px;
-}
-
-.quote-row blockquote {
-	border: 2px solid rgba(6, 18, 60, 0.12);
-	border-radius: 50%;
-	color: rgba(6, 18, 60, 0.28);
-	margin: 0;
-	min-height: 140px;
-	padding: 30px 18px;
-	text-align: center;
-}
+/* ===========================
+   DETAILS
+=========================== */
 
 .details {
 	padding-top: 70px;
@@ -379,6 +441,14 @@ body {
 	margin-top: 8px;
 }
 
+/* ===========================
+   Fim da seção DETAILS
+=========================== */
+
+/* ===========================
+   PHYSICAL
+=========================== */
+
 .physical__grid {
 	align-items: center;
 	display: grid;
@@ -402,19 +472,19 @@ body {
 	margin-top: 68px;
 }
 
-.button {
-
-	font-family: var(--font-display);
-
-	font-weight: var(--fw-bold);
-
-}
-
 .physical img {
 	filter: drop-shadow(var(--shadow-product));
 	justify-self: center;
 	max-width: 520px;
 }
+
+/* ===========================
+   Fim da seção PHYSICAL
+=========================== */
+
+/* ===========================
+   PRODUCT
+=========================== */
 
 .product-code {
 	color: var(--color-ink);
@@ -445,6 +515,30 @@ body {
 	color: var(--color-ink-soft);
 }
 
+/* ===========================
+   Fim da seção PRODUCT
+=========================== */
+
+/* ==========================
+   COMPONENTS
+========================== */
+
+.button {
+
+	font-family: var(--font-display);
+
+	font-weight: var(--fw-bold);
+
+}
+
+/* =============================
+   Fim seção COMPONENTS
+============================= */
+
+/* ===========================
+   Início da seção FOOTER
+=========================== */
+
 .footer-brand {
 	display: flex;
 	justify-content: center;
@@ -459,13 +553,6 @@ body {
 
 .primary-navigation {
 	justify-self: center;
-}
-
-.footer-menu {
-	align-items: center;
-	display: flex;
-	gap: 34px;
-	list-style: none;
 }
 
 .site-footer {
@@ -530,3 +617,7 @@ body {
 	margin-top: 38px;
 	text-align: right;
 }
+
+/* ===========================
+   Fim da seção FOOTER
+=========================== */
