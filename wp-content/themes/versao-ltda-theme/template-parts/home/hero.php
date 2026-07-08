@@ -18,7 +18,7 @@
 			<div class="hero__copy">
 
 				<div class="hero__release">
-					<span><?php esc_html_e('Lançamento', 'versao-ltda-theme'); ?></span><br>
+					<span><?php esc_html_e('Lançamento', 'versao-ltda-theme'); ?></span>
 					<strong>#001</strong>
 				</div>
 
