@@ -36,12 +36,26 @@
 	display: block;
 }
 
-.vltda-maintenance__subtitle {
-	font-size: clamp(18px, 3.4vw, 28px);
-	font-weight: 600;
-	letter-spacing: 0.2px;
+.vltda-maintenance__coming {
+	font-family: "Fira Sans", "FiraSans", sans-serif;
+	font-size: clamp(18px, 3vw, 26px);
+	font-weight: 400;
+	letter-spacing: 0;
 	line-height: 1.2;
-	padding: 0 8px;
+	margin-bottom: 10px;
 }
+
+.vltda-maintenance__subtitle {
+	font-family: "Fira Sans", "FiraSans", sans-serif;
+	font-size: clamp(14px, 2.5vw, 22px);
+	font-weight: 400;
+	letter-spacing: 0;
+	line-height: 1.35;
+	padding: 0 8px;
+	max-width: 680px;
+}
+
+
+
 
 

@@ -6,8 +6,9 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-$logo_src = vltda_asset('images/logo_versao_ltda_svg.svg');
-$bg_src = vltda_asset('images/maintenance/bg.jpg');
+$logo_src = vltda_asset('images/maintenance/Logo_VersaoLTDA.png');
+$bg_src = vltda_asset('images/maintenance/bg-maintenance.jpg');
+
 
 ?>
 <!doctype html>
@@ -26,10 +27,16 @@ $bg_src = vltda_asset('images/maintenance/bg.jpg');
 		<main class="vltda-maintenance" role="main">
 			<div class="vltda-maintenance__bg" aria-hidden="true"></div>
 			<div class="vltda-maintenance__center">
+				<div class="vltda-maintenance__coming">Está chegando</div>
 				<img class="vltda-maintenance__logo" src="<?php echo esc_url($logo_src); ?>" alt="" />
-				<div class="vltda-maintenance__subtitle">Porque alguns jogos merecem mais</div>
+				<div class="vltda-maintenance__subtitle">
+					Inspirada na era de ouro dos video-games, criamos edições físicas
+					para serem vividas, colecionadas e lembradas.<br><strong>
+					Porque alguns jogos merecem mais.</strong>
+				</div>
 			</div>
 		</main>
+
 
 		<?php wp_footer(); ?>
 	</body>
