@@ -1,7 +1,17 @@
 /* VLTDTA Maintenance Mode (Coming Soon - Static) */
 
+body.vltda-maintenance,
+html:has(body.vltda-maintenance),
+body.vltda-maintenance {
+	overflow-x: hidden;
+	overflow-y: hidden;
+	height: 100%;
+}
+
+
 .vltda-maintenance {
 	min-height: 100vh;
+	overflow: hidden;
 	display: flex;
 	align-items: center;
 	justify-content: center;
