@@ -1,15 +1,9 @@
-wp-content/uploads/
-
-node_modules/
-
-vendor/
+/node_modules/
 
 .env
-
 *.log
-
 *.zip
-
 Thumbs.db
-
 .DS_Store
+
+wp-content/uploads/
