@@ -15,6 +15,34 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return void
  */
 function versao_ltda_enqueue_assets() {
+	// When maintenance mode is active, enqueue only maintenance assets.
+	if (function_exists('vltda_maintenance_get_settings')) {
+		$settings = vltda_maintenance_get_settings();
+		if (!empty($settings['enabled']) && !is_admin() && (!is_user_logged_in() || !current_user_can('manage_options'))) {
+			$theme   = wp_get_theme();
+			$version = $theme->get( 'Version' );
+			$css_uri = get_template_directory_uri() . '/assets/css';
+			$js_uri  = get_template_directory_uri() . '/assets/js';
+
+			wp_enqueue_style(
+				'versao-ltda-maintenance-css',
+				$css_uri . '/maintenance.css',
+				array(),
+				$version
+			);
+
+			wp_enqueue_script(
+				'versao-ltda-maintenance-js',
+				$js_uri . '/maintenance.js',
+				array(),
+				$version,
+				true
+			);
+
+			return;
+		}
+	}
+
 	$theme   = wp_get_theme();
 	$version = $theme->get( 'Version' );
 	$css_dir = get_template_directory() . '/assets/css';
@@ -32,6 +60,7 @@ function versao_ltda_enqueue_assets() {
 		'woocommerce.css',
 		'responsive.css',
 	);
+
 
 	$extra_styles = glob( $css_dir . '/*.css' );
 

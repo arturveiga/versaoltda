@@ -17,7 +17,9 @@ $versao_ltda_includes = array(
 	'inc/theme-support.php',
 	'inc/woocommerce.php',
 	'inc/helpers.php',
+	'inc/maintenance.php',
 );
+
 
 foreach ( $versao_ltda_includes as $versao_ltda_file ) {
 	$versao_ltda_path = get_template_directory() . '/' . $versao_ltda_file;
