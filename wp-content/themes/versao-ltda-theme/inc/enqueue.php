@@ -16,30 +16,43 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function versao_ltda_enqueue_assets() {
 	// When maintenance mode is active, enqueue only maintenance assets.
-	if (function_exists('vltda_maintenance_get_settings')) {
+	if ( function_exists( 'vltda_maintenance_get_settings' ) ) {
 		$settings = vltda_maintenance_get_settings();
-		if (!empty($settings['enabled']) && !is_admin() && (!is_user_logged_in() || !current_user_can('manage_options'))) {
-			$theme   = wp_get_theme();
-			$version = $theme->get( 'Version' );
-			$css_uri = get_template_directory_uri() . '/assets/css';
-			$js_uri  = get_template_directory_uri() . '/assets/js';
 
-			wp_enqueue_style(
-				'versao-ltda-maintenance-css',
-				$css_uri . '/maintenance.css',
-				array(),
-				$version
-			);
+		// Maintenance page should be displayed only for non-admin requests.
+		if ( ! empty( $settings['enabled'] ) && ! is_admin() ) {
+			$should_block = ! ( is_user_logged_in() && current_user_can( 'manage_options' ) );
+			if ( $should_block ) {
+				$theme   = wp_get_theme();
+				$version = $theme->get( 'Version' );
+				$css_uri = get_template_directory_uri() . '/assets/css';
+				$js_uri  = get_template_directory_uri() . '/assets/js';
 
-			wp_enqueue_script(
-				'versao-ltda-maintenance-js',
-				$js_uri . '/maintenance.js',
-				array(),
-				$version,
-				true
-			);
+				wp_enqueue_style(
+					'versao-ltda-maintenance-css',
+					$css_uri . '/maintenance.css',
+					array(),
+					$version
+				);
 
-			return;
+				// Ensure font-face rules from theme are available during maintenance.
+				wp_enqueue_style(
+					'versao-ltda-maintenance-fonts',
+					$css_uri . '/fonts.css',
+					array(),
+					$version
+				);
+
+				wp_enqueue_script(
+					'versao-ltda-maintenance-js',
+					$js_uri . '/maintenance.js',
+					array(),
+					$version,
+					true
+				);
+
+				return;
+			}
 		}
 	}
 
@@ -60,7 +73,6 @@ function versao_ltda_enqueue_assets() {
 		'woocommerce.css',
 		'responsive.css',
 	);
-
 
 	$extra_styles = glob( $css_dir . '/*.css' );
 
@@ -123,3 +135,4 @@ function versao_ltda_enqueue_assets() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'versao_ltda_enqueue_assets' );
+
