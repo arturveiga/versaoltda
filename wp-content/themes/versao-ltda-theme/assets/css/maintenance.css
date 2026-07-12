@@ -24,6 +24,7 @@ body.vltda-maintenance {
 .vltda-maintenance__bg {
 	position: fixed;
 	inset: 0;
+	background-color: #071427; /* fallback to match the background image tone */
 	background-size: cover;
 	background-position: center;
 	z-index: -1;
