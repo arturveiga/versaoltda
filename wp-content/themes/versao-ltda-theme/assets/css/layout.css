@@ -156,10 +156,95 @@ body {
 	height: 19px;
 }
 
-.header-action--language img {
+.header-language {
+	position: relative;
+	flex-shrink: 0;
+}
+
+.header-action--language {
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	padding: 0;
+}
+
+.header-action--language img,
+.header-language__option img {
 	width: 22px;
 	height: 15px;
 	object-fit: cover;
+}
+
+.header-language__menu {
+	align-items: center;
+	background: #020716;
+	border: 1px solid rgba(255, 255, 255, 0.24);
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	left: 50%;
+	padding: 6px;
+	position: absolute;
+	top: calc(100% + 10px);
+	transform: translateX(-50%);
+	z-index: 30;
+}
+
+.header-language__menu[hidden] {
+	display: none;
+}
+
+.header-language__option {
+	align-items: center;
+	border: 1px solid transparent;
+	display: flex;
+	height: 28px;
+	justify-content: center;
+	width: 36px;
+}
+
+.header-language__option:hover,
+.header-language__option:focus,
+.header-language__option.is-active {
+	background: rgba(255, 255, 255, 0.1);
+	border-color: var(--color-warning);
+}
+
+.header-search {
+	align-items: center;
+	display: flex;
+	position: relative;
+}
+
+.header-search__input {
+	background: rgba(255, 255, 255, 0.96);
+	border: 0;
+	color: var(--color-ink);
+	font-family: var(--font-body);
+	font-size: 0.85rem;
+	opacity: 0;
+	padding: 0.55rem 0.75rem;
+	pointer-events: none;
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	transform: translateY(-50%);
+	transition: opacity 0.18s ease, width 0.18s ease;
+	width: 0;
+}
+
+.header-search.is-open .header-search__input,
+.header-search:focus-within .header-search__input {
+	opacity: 1;
+	pointer-events: auto;
+	width: 220px;
+}
+
+.header-search__toggle {
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	padding: 0;
 }
 
 /* ===========================
@@ -811,7 +896,10 @@ body {
 =========================== */
 
 .games-page,
-.contact-page {
+.contact-page,
+.shop-page,
+.wishlist-page,
+.search-page {
 	background-color: var(--color-surface);
 	background-image:
 		linear-gradient(rgba(6, 18, 60, 0.035) 1px, transparent 1px),
@@ -832,6 +920,17 @@ body {
 
 .games-page .products {
 	padding-top: 34px;
+}
+
+.shop-products,
+.search-products {
+	padding-top: 34px;
+}
+
+.product-grid__empty {
+	color: var(--color-ink-soft);
+	font-size: 1.05rem;
+	grid-column: 1 / -1;
 }
 
 .contact-section {

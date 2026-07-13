@@ -16,11 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function versao_ltda_default_menu() {
 	$items = array(
-		'Home'    => home_url( '/' ),
-		'Jogos'   => home_url( '/jogos/' ),
-		'Extras'  => home_url( '/#extras' ),
-		'Sobre'   => home_url( '/sobre/' ),
-		'Contato' => home_url( '/contato/' ),
+		__( 'Home', 'versao-ltda-theme' )    => home_url( '/' ),
+		__( 'Jogos', 'versao-ltda-theme' )   => home_url( '/jogos/' ),
+		__( 'Extras', 'versao-ltda-theme' )  => home_url( '/#extras' ),
+		__( 'Sobre', 'versao-ltda-theme' )   => home_url( '/sobre/' ),
+		__( 'Contato', 'versao-ltda-theme' ) => home_url( '/contato/' ),
 	);
 	?>
 	<ul id="primary-menu" class="primary-menu">

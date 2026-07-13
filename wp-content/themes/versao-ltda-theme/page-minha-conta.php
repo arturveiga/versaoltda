@@ -22,19 +22,46 @@ get_header();
 			</div>
 
 			<?php if ( is_user_logged_in() ) : ?>
-				<div class="account-dashboard">
-					<p class="section-kicker">VL / <?php esc_html_e( 'Minha conta', 'versao-ltda-theme' ); ?></p>
-					<h1><?php esc_html_e( 'Bem-vindo de volta.', 'versao-ltda-theme' ); ?></h1>
-					<p><?php esc_html_e( 'Gerencie seus pedidos, dados de acesso e endereços da sua conta Versão LTDA.', 'versao-ltda-theme' ); ?></p>
+				<?php
+				$current_user    = wp_get_current_user();
+				$user_name       = $current_user->display_name ?: $current_user->user_login;
+				$is_orders       = is_wc_endpoint_url( 'orders' ) || is_wc_endpoint_url( 'view-order' );
+				$is_edit_address = is_wc_endpoint_url( 'edit-address' );
+				?>
+				<div class="account-shell">
+					<aside class="account-shell__sidebar">
+						<h1>
+							<?php
+							printf(
+								esc_html__( 'Olá, %s', 'versao-ltda-theme' ),
+								esc_html( $user_name )
+							);
+							?>
+						</h1>
+						<p class="account-shell__intro"><?php esc_html_e( 'Bem-vindo à sua conta VERSÃO LTDA.', 'versao-ltda-theme' ); ?></p>
 
-					<div class="account-dashboard__actions">
-						<a class="button button--primary" href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'Meus pedidos', 'versao-ltda-theme' ); ?></a>
-						<a class="button account-button--muted" href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Sair', 'versao-ltda-theme' ); ?></a>
-					</div>
+						<nav class="account-shell__menu" aria-label="<?php esc_attr_e( 'Menu da conta', 'versao-ltda-theme' ); ?>">
+							<a<?php echo $is_orders ? ' class="is-active"' : ''; ?> href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>">
+								<strong><?php esc_html_e( 'Pedidos e pré-vendas', 'versao-ltda-theme' ); ?></strong>
+								<span><?php esc_html_e( 'Veja o status das suas compras.', 'versao-ltda-theme' ); ?></span>
+							</a>
+							<a<?php echo $is_edit_address ? ' class="is-active"' : ''; ?> href="<?php echo esc_url( versao_ltda_get_account_address_url() ); ?>">
+								<strong><?php esc_html_e( 'Dados e endereço', 'versao-ltda-theme' ); ?></strong>
+								<span><?php esc_html_e( 'Mantenha seus dados de entrega e cobrança atualizados.', 'versao-ltda-theme' ); ?></span>
+							</a>
+							<a href="<?php echo esc_url( versao_ltda_get_wishlist_url() ); ?>">
+								<strong><?php esc_html_e( 'Lista de desejos', 'versao-ltda-theme' ); ?></strong>
+								<span><?php esc_html_e( 'Salve edições que você quer acompanhar.', 'versao-ltda-theme' ); ?></span>
+							</a>
+							<a href="<?php echo esc_url( wc_logout_url() ); ?>">
+								<strong><?php esc_html_e( 'Sair', 'versao-ltda-theme' ); ?></strong>
+							</a>
+						</nav>
+					</aside>
 
-					<div class="account-dashboard__content">
+					<section class="account-shell__content">
 						<?php woocommerce_account_content(); ?>
-					</div>
+					</section>
 				</div>
 			<?php else : ?>
 				<div class="account-auth" id="customer_login">

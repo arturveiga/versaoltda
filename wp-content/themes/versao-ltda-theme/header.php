@@ -18,6 +18,8 @@
 
 <body <?php body_class(); ?>>
 	<?php wp_body_open(); ?>
+	<?php $language_switcher = versao_ltda_get_language_switcher(); ?>
+	<?php $supported_locales = versao_ltda_get_supported_locales(); ?>
 	<a class="skip-link screen-reader-text"
 		href="#main"><?php esc_html_e('Ir para o conteúdo', 'versao-ltda-theme'); ?></a>
 
@@ -57,26 +59,38 @@
 			<!-- Ações -->
 			<div class="site-header__actions">
 
-				<a href="<?php echo esc_url(home_url('/')); ?>" class="header-action header-action--language" aria-label="Português Brasil">
+				<div class="header-language" data-language-dropdown>
+					<button class="header-action header-action--language" type="button" aria-label="<?php esc_attr_e( 'Selecionar idioma', 'versao-ltda-theme' ); ?>" aria-expanded="false" aria-controls="header-language-menu" data-language-toggle>
+						<img src="<?php echo esc_url( vltda_asset( 'icons/' . $language_switcher['icon'] ) ); ?>" alt="">
+					</button>
 
-					<img src="<?php echo esc_url(vltda_asset('icons/icon_br.svg')); ?>" alt="">
+					<div class="header-language__menu" id="header-language-menu" data-language-menu hidden>
+						<?php foreach ( $supported_locales as $locale => $language ) : ?>
+							<a class="header-language__option<?php echo $locale === $language_switcher['current'] ? ' is-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'site_lang', $locale ) ); ?>" lang="<?php echo esc_attr( str_replace( '_', '-', $locale ) ); ?>" aria-label="<?php echo esc_attr( $language['label'] ); ?>" title="<?php echo esc_attr( $language['label'] ); ?>"<?php echo $locale === $language_switcher['current'] ? ' aria-current="true"' : ''; ?>>
+								<img src="<?php echo esc_url( vltda_asset( 'icons/' . $language['icon'] ) ); ?>" alt="">
+							</a>
+						<?php endforeach; ?>
+					</div>
+				</div>
 
-				</a>
+				<form class="header-search" role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+					<input class="header-search__input" type="search" name="s" placeholder="<?php esc_attr_e( 'Buscar jogos', 'versao-ltda-theme' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>">
+					<button class="header-action header-search__toggle" type="button" aria-label="<?php esc_attr_e( 'Abrir busca', 'versao-ltda-theme' ); ?>" aria-expanded="false">
 
-				<a href="#" class="header-action" aria-label="Buscar">
+						<img src="<?php echo esc_url(vltda_asset('icons/search.svg')); ?>" alt="">
 
-					<img src="<?php echo esc_url(vltda_asset('icons/search.svg')); ?>" alt="">
+					</button>
+					<button class="screen-reader-text" type="submit"><?php esc_html_e( 'Buscar', 'versao-ltda-theme' ); ?></button>
+				</form>
 
-				</a>
-
-				<a href="#" class="header-action" aria-label="Favoritos">
+				<a href="<?php echo esc_url( versao_ltda_get_wishlist_url() ); ?>" class="header-action" aria-label="<?php esc_attr_e( 'Whitelist', 'versao-ltda-theme' ); ?>">
 
 					<img src="<?php echo esc_url(vltda_asset('icons/fav.svg')); ?>" alt="">
 
 				</a>
 
 				<a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('myaccount') : home_url('/')); ?>"
-					class="header-action" aria-label="Minha Conta">
+					class="header-action" aria-label="<?php esc_attr_e( 'Minha Conta', 'versao-ltda-theme' ); ?>">
 
 					<img src="<?php echo esc_url(vltda_asset('icons/user.svg')); ?>" alt="">
 
@@ -84,7 +98,7 @@
 
 				<a href="<?php echo esc_url(function_exists('wc_get_cart_url') ? wc_get_cart_url() : home_url('/')); ?>"
 					class="header-action header-action--cart"
-					aria-label="Carrinho">
+					aria-label="<?php esc_attr_e( 'Carrinho', 'versao-ltda-theme' ); ?>">
 
 					<img src="<?php echo esc_url(vltda_asset('icons/cart.svg')); ?>" alt="">
 

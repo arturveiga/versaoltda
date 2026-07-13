@@ -11,13 +11,23 @@ services:
       WORDPRESS_DB_NAME: versaoltda
       WORDPRESS_DB_USER: root
       WORDPRESS_DB_PASSWORD: root
+      WORDPRESS_DEBUG: "false"
+      WORDPRESS_FS_METHOD: direct
     volumes:
       - ./:/var/www/html
+      - ./docker/php.ini:/usr/local/etc/php/conf.d/zz-versao-ltda.ini:ro
 
   db:
     image: mysql:8.0
     container_name: versaoltda_db
-    command: --default-authentication-plugin=mysql_native_password
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --innodb-buffer-pool-size=512M
+      - --innodb-buffer-pool-instances=1
+      - --innodb-log-buffer-size=64M
+      - --table-open-cache=2000
+      - --tmp-table-size=64M
+      - --max-heap-table-size=64M
     ports:
       - "3306:3306"
     environment:

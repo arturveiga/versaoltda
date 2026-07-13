@@ -99,6 +99,14 @@ define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+define( 'WP_MEMORY_LIMIT', '512M' );
+define( 'WP_MAX_MEMORY_LIMIT', '1G' );
+
+$versao_ltda_fs_method = getenv( 'WORDPRESS_FS_METHOD' );
+
+if ( in_array( $versao_ltda_fs_method, array( 'direct', 'ssh2', 'ftpext', 'ftpsockets' ), true ) ) {
+	define( 'FS_METHOD', $versao_ltda_fs_method );
+}
 
 
 /* That's all, stop editing! Happy publishing. */

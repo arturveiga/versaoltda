@@ -15,8 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return void
  */
 function versao_ltda_enqueue_assets() {
-	$theme   = wp_get_theme();
-	$version = $theme->get( 'Version' );
 	$css_dir = get_template_directory() . '/assets/css';
 	$css_uri = get_template_directory_uri() . '/assets/css';
 	$js_dir  = get_template_directory() . '/assets/js';
@@ -56,7 +54,7 @@ function versao_ltda_enqueue_assets() {
 			'versao-ltda-' . sanitize_title( basename( $style, '.css' ) ),
 			$css_uri . '/' . $style,
 			array(),
-			$version
+			(string) filemtime( $style_path )
 		);
 	}
 
@@ -88,7 +86,7 @@ function versao_ltda_enqueue_assets() {
 			'versao-ltda-' . sanitize_title( basename( $script, '.js' ) ),
 			$js_uri . '/' . $script,
 			array(),
-			$version,
+			(string) filemtime( $script_path ),
 			true
 		);
 	}

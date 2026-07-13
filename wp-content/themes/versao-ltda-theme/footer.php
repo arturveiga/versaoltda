@@ -33,12 +33,12 @@
 			?>
 			<?php if (! has_nav_menu('footer')) : ?>
 				<ul class="footer-menu">
-					<li><a href="<?php echo esc_url(home_url('/')); ?>">Home</a></li>
-					<li><a href="<?php echo esc_url(home_url('/jogos/')); ?>">Jogos</a></li>
-					<li><a href="<?php echo esc_url(home_url('/')); ?>">Extras</a></li>
-					<li><a href="<?php echo esc_url(home_url('/sobre/')); ?>">Sobre</a></li>
-					<li><a href="<?php echo esc_url(home_url('/contato/')); ?>">Contato</a></li>
-					<li><a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('myaccount') : home_url('/minha-conta/')); ?>">Minha Conta</a></li>
+					<li><a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e( 'Home', 'versao-ltda-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url(home_url('/jogos/')); ?>"><?php esc_html_e( 'Jogos', 'versao-ltda-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e( 'Extras', 'versao-ltda-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url(home_url('/sobre/')); ?>"><?php esc_html_e( 'Sobre', 'versao-ltda-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url(home_url('/contato/')); ?>"><?php esc_html_e( 'Contato', 'versao-ltda-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('myaccount') : home_url('/minha-conta/')); ?>"><?php esc_html_e( 'Minha Conta', 'versao-ltda-theme' ); ?></a></li>
 				</ul>
 			<?php endif; ?>
 		</nav>
