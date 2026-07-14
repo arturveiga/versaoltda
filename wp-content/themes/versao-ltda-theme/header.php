@@ -30,7 +30,7 @@
 				<a class="site-logo" href="<?php echo esc_url(home_url('/')); ?>" rel="home"
 					aria-label="<?php bloginfo('name'); ?>">
 
-					<img src="<?php echo esc_url(vltda_asset('images/Logo_versao_ltda_svg.svg')); ?>"
+					<img src="<?php echo esc_url(vltda_asset('images/Logo_versao_ltda_svg.svg')); ?>" 
 						alt="<?php echo esc_attr(get_bloginfo('name')); ?>" class="site-logo__image">
 
 				</a>
