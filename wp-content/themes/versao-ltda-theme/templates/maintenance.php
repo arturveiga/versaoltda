@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 }
 
 $logo_src = vltda_asset('images/maintenance/Logo_VersaoLTDA.png');
-$bg_src = vltda_asset('images/maintenance/bg-maintenance.jpg');
+$bg_src = vltda_asset('images/maintenance/bg-maintenance.webp');
 
 
 ?>

@@ -21,6 +21,8 @@ node_modules/
 !.env.example
 /wp-config.local.php
 
+wp-config.php
+
 # Logs, temporary files, and local archives.
 *.log
 *.zip
