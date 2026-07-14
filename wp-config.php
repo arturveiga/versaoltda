@@ -20,16 +20,16 @@
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'versaoltda' );
+define( 'DB_NAME', getenv( 'WORDPRESS_DB_NAME' ) ?: 'versaoltda' );
 
 /** Database username */
-define( 'DB_USER', 'root' );
+define( 'DB_USER', getenv( 'WORDPRESS_DB_USER' ) ?: 'root' );
 
 /** Database password */
-define( 'DB_PASSWORD', '' );
+define( 'DB_PASSWORD', getenv( 'WORDPRESS_DB_PASSWORD' ) ?: '' );
 
 /** Database hostname */
-define( 'DB_HOST', 'localhost' );
+define( 'DB_HOST', getenv( 'WORDPRESS_DB_HOST' ) ?: 'localhost' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8mb4' );
@@ -37,9 +37,12 @@ define( 'DB_CHARSET', 'utf8mb4' );
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
 
-if ( !defined('WP_CLI') ) {
-    define( 'WP_SITEURL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] );
-    define( 'WP_HOME',    $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] );
+if ( ! defined( 'WP_CLI' ) ) {
+	$versao_ltda_scheme = $_SERVER['REQUEST_SCHEME'] ?? 'http';
+	$versao_ltda_host   = $_SERVER['HTTP_HOST'] ?? 'localhost:8080';
+
+	define( 'WP_SITEURL', $versao_ltda_scheme . '://' . $versao_ltda_host );
+	define( 'WP_HOME', $versao_ltda_scheme . '://' . $versao_ltda_host );
 }
 
 
@@ -96,6 +99,14 @@ define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+define( 'WP_MEMORY_LIMIT', '512M' );
+define( 'WP_MAX_MEMORY_LIMIT', '1G' );
+
+$versao_ltda_fs_method = getenv( 'WORDPRESS_FS_METHOD' );
+
+if ( in_array( $versao_ltda_fs_method, array( 'direct', 'ssh2', 'ftpext', 'ftpsockets' ), true ) ) {
+	define( 'FS_METHOD', $versao_ltda_fs_method );
+}
 
 
 /* That's all, stop editing! Happy publishing. */

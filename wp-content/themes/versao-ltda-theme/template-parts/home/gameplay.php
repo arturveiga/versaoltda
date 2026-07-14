@@ -5,15 +5,25 @@
  * @package Versao_Ltda_Theme
  */
 
+$reserve_action = function_exists( 'versao_ltda_get_reserve_action' )
+	? versao_ltda_get_reserve_action( 'Demons of Asteborg' )
+	: array(
+		'href'       => home_url( '/cart/' ),
+		'class'      => '',
+		'attributes' => '',
+	);
 ?>
 <section class="physical section" id="comprar">
 	<div class="container physical__grid">
 		<div class="physical__copy">
-			<h2><?php esc_html_e( 'Alguns jogos merecem mais do que um download.', 'versao-ltda-theme' ); ?></h2>
-			<p><?php esc_html_e( 'Edicoes fisicas para jogar, guardar e colecionar.', 'versao-ltda-theme' ); ?></p>
-			<a class="button button--primary" href="#produtos"><?php esc_html_e( 'Reservar agora', 'versao-ltda-theme' ); ?></a>
-			<p class="product-code">#001 / Demons of Asteborg / Mega Drive<br><?php esc_html_e( 'White matte shell | Regular version', 'versao-ltda-theme' ); ?></p>
+			<p class="section-kicker"><?php esc_html_e( 'Exclusivo da Pré-Venda', 'versao-ltda-theme' ); ?></p>
+			<h2><?php esc_html_e( 'Cartucho cromado especial somente na pré-venda.', 'versao-ltda-theme' ); ?></h2>
+			<p><?php esc_html_e( 'A primeira edição de Demons of Asteborg, pela Versão LTDA, acompanha um cartucho cromado especial para marcar o lançamento #001 da coleção.', 'versao-ltda-theme' ); ?></p>
+			<a class="button button--primary <?php echo esc_attr( $reserve_action['class'] ); ?>" href="<?php echo esc_url( $reserve_action['href'] ); ?>"<?php echo $reserve_action['attributes']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+				<?php esc_html_e( 'Reservar agora', 'versao-ltda-theme' ); ?>
+			</a>
+			<p class="product-code">#001 / Demons of Asteborg / Mega Drive<br><?php esc_html_e( 'Cartucho Cromado | Versão Pré-Venda', 'versao-ltda-theme' ); ?></p>
 		</div>
-		<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/cartridge.jpg' ); ?>" alt="<?php esc_attr_e( 'Cartucho fisico Demons of Asteborg', 'versao-ltda-theme' ); ?>">
+		<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/cartridge.jpg' ); ?>" alt="<?php esc_attr_e( 'Cartucho físico Demons of Asteborg', 'versao-ltda-theme' ); ?>">
 	</div>
 </section>

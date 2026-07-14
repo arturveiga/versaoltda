@@ -1,9 +1,46 @@
-/node_modules/
+# WordPress runtime and generated content.
+/wp-content/uploads/
+/wp-content/cache/
+/wp-content/upgrade/
+/wp-content/backups/
+/wp-content/ai1wm-backups/
+/wp-content/updraft/
+/wp-content/debug.log
+/.maintenance
 
+# Local plugin downloads.
+/.tmp-plugin-downloads/
+
+# Project dependencies. Plugin-packaged vendor directories remain trackable.
+node_modules/
+/vendor/
+
+# Local environment and configuration overrides.
 .env
+.env.*
+!.env.example
+/wp-config.local.php
+
+# Logs, temporary files, and local archives.
 *.log
 *.zip
-Thumbs.db
-.DS_Store
+*.tar.gz
+*.sql.gz
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
 
-wp-content/uploads/
+# Test and coverage artifacts.
+.phpunit.result.cache
+.phpunit.cache/
+/coverage/
+
+# Editors and operating systems.
+.idea/
+.vscode/
+*.code-workspace
+Thumbs.db
+Desktop.ini
+.DS_Store

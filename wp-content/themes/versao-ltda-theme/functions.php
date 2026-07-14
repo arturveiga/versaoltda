@@ -11,6 +11,7 @@ if (! defined('ABSPATH')) {
 }
 
 $versao_ltda_includes = array(
+	'inc/i18n.php',
 	'inc/setup.php',
 	'inc/enqueue.php',
 	'inc/menus.php',
