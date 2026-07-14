@@ -92,3 +92,4 @@ function versao_ltda_enqueue_assets() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'versao_ltda_enqueue_assets' );
+

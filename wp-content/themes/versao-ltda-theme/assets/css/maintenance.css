@@ -1,0 +1,117 @@
+/* VLTDTA Maintenance Mode (Coming Soon - Static) */
+
+body.vltda-maintenance,
+html:has(body.vltda-maintenance),
+body.vltda-maintenance {
+	overflow-x: hidden;
+	overflow-y: hidden;
+	height: 100%;
+}
+
+
+.vltda-maintenance {
+	min-height: 100vh;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+	box-sizing: border-box;
+	position: relative;
+	color: #ffffff;
+}
+
+.vltda-maintenance__bg {
+	position: fixed;
+	inset: 0;
+	background-color: #071427; /* fallback to match the background image tone */
+	background-size: cover;
+	background-position: center;
+	z-index: -1;
+	/* background image set via body[data-bg] */
+}
+
+.vltda-maintenance__center {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	text-align: center;
+}
+
+.vltda-maintenance__logo {
+	width: min(420px, 70vw);
+	height: auto;
+	display: block;
+}
+
+.vltda-maintenance__coming {
+	font-family: "Exo 2", Arial, sans-serif;
+	font-size: clamp(18px, 3vw, 26px);
+	font-weight: 100;
+	letter-spacing: 0;
+	line-height: 1.2;
+	margin-bottom: 10px;
+}
+
+.vltda-maintenance__subtitle {
+	font-family: "Fira Sans", Arial, sans-serif;
+
+	font-size: clamp(14px, 2.5vw, 22px);
+	font-weight: 100;
+	letter-spacing: 0;
+	line-height: 1.5;
+	padding: 0 8px;
+	max-width: 680px;
+}
+
+.loader-dots {
+	display: flex;
+	gap: 10px;
+	align-items: flex-end;
+	height: 18px;
+}
+
+.loader-dots span {
+	width: 10px;
+	height: 10px;
+	background: rgba(255, 255, 255, 0.95);
+	border-radius: 50%;
+	display: inline-block;
+	transform-origin: center bottom;
+	animation: jump 0.9s infinite ease-in-out;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.loader-dots span:nth-child(2) {
+	animation-delay: 0.12s;
+}
+
+.loader-dots span:nth-child(3) {
+	animation-delay: 0.24s;
+}
+
+@keyframes jump {
+	0% {
+		transform: translateY(0) scaleY(1);
+	}
+
+	30% {
+		transform: translateY(-10px) scaleY(0.95);
+	}
+
+	60% {
+		transform: translateY(0) scaleY(1.02);
+	}
+
+	100% {
+		transform: translateY(0) scaleY(1);
+	}
+}
+
+
+
+
+
