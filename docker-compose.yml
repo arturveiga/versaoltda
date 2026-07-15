@@ -4,8 +4,8 @@ services:
     container_name: versaoltda_wordpress
     depends_on:
       - db
-    ports:
-      - "8080:80"
+    espose:
+      - "80"
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_NAME: versaoltda
