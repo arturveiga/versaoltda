@@ -70,13 +70,13 @@ while ( have_posts() ) :
 			array( 'product_spin_video_1f171347-a00d-68f0-ac10-cb52c21e94b4_0_0.jpeg', __( 'Demons of Asteborg com caixa e cartucho', 'versao-ltda-theme' ) ),
 			array( 'Top01.jpg', __( 'Cartucho cromado em perspectiva', 'versao-ltda-theme' ) ),
 			array( 'Front01.jpg', __( 'Vista frontal do cartucho cromado', 'versao-ltda-theme' ) ),
-			array( 'package-open.jpg', __( 'Caixa premium aberta com o cartucho', 'versao-ltda-theme' ) ),
-			array( 'product-box.jpg', __( 'Caixa da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
+			array( '02.jpg', __( 'Caixa premium aberta com o cartucho', 'versao-ltda-theme' ) ),
+			array( '01.jpg', __( 'Caixa da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
 		);
 	} else {
 		$image_url = has_post_thumbnail( $product_id )
 			? get_the_post_thumbnail_url( $product_id, 'full' )
-			: vltda_asset( 'images/product-box.jpg' );
+			: vltda_asset( 'images/01.jpg' );
 		$gallery   = array( array( $image_url, $product_name, true ) );
 	}
 

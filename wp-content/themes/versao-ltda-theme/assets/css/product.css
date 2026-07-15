@@ -1,9 +1,8 @@
 .single-product-page {
 	background-color: var(--color-surface);
-	background-image:
-		linear-gradient(rgba(6, 18, 60, 0.035) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(6, 18, 60, 0.035) 1px, transparent 1px);
-	background-size: 22px 22px;
+	background-image: url("../images/bg-pattern.png");
+	background-repeat: repeat;
+	background-size: auto;
 }
 
 .product-showcase {
@@ -111,6 +110,11 @@
 	-webkit-mask: url("../icons/fav.svg") center / contain no-repeat;
 	mask: url("../icons/fav.svg") center / contain no-repeat;
 	width: 20px;
+}
+
+.product-summary__wishlist.is-active span {
+	-webkit-mask-image: url("../icons/fav-filled.svg");
+	mask-image: url("../icons/fav-filled.svg");
 }
 
 .product-summary__wishlist:hover,

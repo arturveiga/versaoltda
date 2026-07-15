@@ -34,7 +34,8 @@
 .product-card img {
 	aspect-ratio: 0.78;
 	margin-inline: auto;
-	object-fit: contain;
+	object-fit: cover;
+	object-position: center;
 	width: 86%;
 }
 
@@ -126,6 +127,11 @@
 	mask: url("../icons/fav.svg") center / contain no-repeat;
 	-webkit-mask: url("../icons/fav.svg") center / contain no-repeat;
 	width: 25px;
+}
+
+.product-card__wishlist.is-active span {
+	mask-image: url("../icons/fav-filled.svg");
+	-webkit-mask-image: url("../icons/fav-filled.svg");
 }
 
 .is-soon {

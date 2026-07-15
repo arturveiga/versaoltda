@@ -54,7 +54,7 @@ return array(
 		'A primeira edição de Demons of Asteborg, pela Versão LTDA, acompanha um cartucho cromado especial para marcar o lançamento #001 da coleção.' => 'The first Versao LTDA edition of Demons of Asteborg includes a special chrome cartridge celebrating collection release #001.',
 		'Cartucho Cromado | Versão Pré-Venda' => 'Chrome Cartridge | Pre-order Edition',
 		'Cartucho físico Demons of Asteborg' => 'Physical Demons of Asteborg cartridge',
-		'Prepare-se, você é a última esperança, e falhar não é uma opção!' => 'Prepare yourself: you are the last hope, and failure is not an option!',
+		'Prepare-see, você é a última esperança, e falhar não é uma opção!' => 'Prepare yourself: you are the last hope, and failure is not an option!',
 		'Assuma o papel de Gareth, um cavaleiro treinado para proteger seu povo, e enfrente Zadimus em uma jornada épica para Mega Drive.' => 'Take the role of Gareth, a knight trained to protect his people, and face Zadimus in an epic Mega Drive journey.',
 		'Explore florestas, montanhas, pântanos e cenários impressionantes em um dos maiores jogos já criados para 16-bit. Com 128 Megabits, animações fluidas, magias, novas habilidades e uma trilha sonora poderosa, Demons of Asteborg entrega uma aventura feita para surpreender jogadores e colecionadores.' => 'Explore forests, mountains, swamps, and remarkable locations in one of the largest games ever made for 16-bit hardware. With 128 megabits, fluid animation, magic, new abilities, and a powerful soundtrack, Demons of Asteborg delivers an adventure built to surprise players and collectors.',
 		'Avaliacoes' => 'Reviews',

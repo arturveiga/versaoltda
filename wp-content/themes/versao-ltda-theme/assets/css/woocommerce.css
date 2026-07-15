@@ -19,10 +19,9 @@
 
 .cart-page .products {
 	background-color: var(--color-surface);
-	background-image:
-		linear-gradient(rgba(6, 18, 60, 0.035) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(6, 18, 60, 0.035) 1px, transparent 1px);
-	background-size: 22px 22px;
+	background-image: url("../images/bg-pattern.png");
+	background-repeat: repeat;
+	background-size: auto;
 }
 
 .wishlist-account {
@@ -40,10 +39,6 @@
 	border-right: 1px solid rgba(6, 18, 60, 0.18);
 	min-height: 880px;
 	padding-right: 44px;
-}
-
-.wishlist-account .breadcrumb {
-	margin-bottom: 30px;
 }
 
 .wishlist-account__sidebar h1 {
@@ -441,10 +436,9 @@
 
 .account-page {
 	background-color: var(--color-surface);
-	background-image:
-		linear-gradient(rgba(6, 18, 60, 0.035) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(6, 18, 60, 0.035) 1px, transparent 1px);
-	background-size: 22px 22px;
+	background-image: url("../images/bg-pattern.png");
+	background-repeat: repeat;
+	background-size: auto;
 }
 
 .account-section {
@@ -1064,10 +1058,9 @@
 /* Checkout */
 .checkout-page {
 	background-color: var(--color-surface);
-	background-image:
-		linear-gradient(rgba(6, 18, 60, 0.035) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(6, 18, 60, 0.035) 1px, transparent 1px);
-	background-size: 22px 22px;
+	background-image: url("../images/bg-pattern.png");
+	background-repeat: repeat;
+	background-size: auto;
 }
 
 .checkout-page__section {

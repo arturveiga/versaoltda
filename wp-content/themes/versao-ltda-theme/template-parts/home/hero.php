@@ -30,17 +30,21 @@ $reserve_action = function_exists( 'versao_ltda_get_reserve_action' )
 					src="<?php echo esc_url( vltda_asset( 'images/hero-logo.png' ) ); ?>"
 					alt="<?php esc_attr_e( 'Demons of Asteborg', 'versao-ltda-theme' ); ?>">
 
-				<p class="hero__description">
-					<span><?php esc_html_e( 'O primeiro lançamento da VERSÃO LTDA.', 'versao-ltda-theme' ); ?></span><br>
-					<?php esc_html_e(
-						'Uma edição física para Mega Drive, concebida com o cuidado de quem coleciona e o rigor de quem projeta.',
-						'versao-ltda-theme'
-					); ?>
-				</p>
+				<div class="hero__cta">
+					<p class="hero__description">
+						<strong class="hero__description-title"><?php esc_html_e( 'O primeiro lançamento da VERSÃO LTDA.', 'versao-ltda-theme' ); ?></strong>
+						<span class="hero__description-text">
+							<?php esc_html_e(
+								'Uma edição física para Mega Drive, concebida com o cuidado de quem coleciona e o rigor de quem projeta.',
+								'versao-ltda-theme'
+							); ?>
+						</span>
+					</p>
 
-				<a class="button button--primary <?php echo esc_attr( $reserve_action['class'] ); ?>" href="<?php echo esc_url( $reserve_action['href'] ); ?>"<?php echo $reserve_action['attributes']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-					<?php esc_html_e( 'Reservar agora', 'versao-ltda-theme' ); ?>
-				</a>
+					<a class="button button--primary <?php echo esc_attr( $reserve_action['class'] ); ?>" href="<?php echo esc_url( $reserve_action['href'] ); ?>"<?php echo $reserve_action['attributes']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+						<?php esc_html_e( 'Reservar agora', 'versao-ltda-theme' ); ?>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>

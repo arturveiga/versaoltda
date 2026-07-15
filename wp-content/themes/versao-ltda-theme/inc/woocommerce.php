@@ -519,7 +519,7 @@ function versao_ltda_render_product_card( $product, $index = 1, $wishlist_mode =
 			<?php if ( has_post_thumbnail( $product->get_id() ) ) : ?>
 				<?php echo wp_kses_post( $product->get_image( 'woocommerce_thumbnail' ) ); ?>
 			<?php else : ?>
-				<img src="<?php echo esc_url( vltda_asset( 'images/product-box.jpg' ) ); ?>" alt="<?php echo esc_attr( $product_name ); ?>">
+				<img src="<?php echo esc_url( vltda_asset( 'images/01.jpg' ) ); ?>" alt="<?php echo esc_attr( $product_name ); ?>">
 			<?php endif; ?>
 		</a>
 		<p class="product-card__label"><?php echo esc_html( $label ); ?></p>

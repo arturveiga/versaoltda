@@ -30,7 +30,7 @@
 				<a class="site-logo" href="<?php echo esc_url(home_url('/')); ?>" rel="home"
 					aria-label="<?php bloginfo('name'); ?>">
 
-					<img src="<?php echo esc_url(vltda_asset('images/logo_versao_ltda_svg.svg')); ?>" 
+					<img src="<?php echo esc_url(vltda_asset('images/logo_versao_ltda_svg.svg')); ?>"
 						alt="<?php echo esc_attr(get_bloginfo('name')); ?>" class="site-logo__image">
 
 				</a>
@@ -90,7 +90,7 @@
 				</a>
 
 				<a href="<?php echo esc_url(function_exists('wc_get_page_permalink') ? wc_get_page_permalink('myaccount') : home_url('/')); ?>"
-					class="header-action" aria-label="<?php esc_attr_e( 'Minha Conta', 'versao-ltda-theme' ); ?>">
+					class="header-action header-action--account" aria-label="<?php esc_attr_e( 'Minha Conta', 'versao-ltda-theme' ); ?>">
 
 					<img src="<?php echo esc_url(vltda_asset('icons/user.svg')); ?>" alt="">
 

@@ -38,7 +38,13 @@ define( 'DB_CHARSET', 'utf8mb4' );
 define( 'DB_COLLATE', '' );
 
 if ( ! defined( 'WP_CLI' ) ) {
-	$versao_ltda_scheme = $_SERVER['REQUEST_SCHEME'] ?? 'http';
+	$versao_ltda_forwarded_proto = $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '';
+
+	if ( false !== strpos( $versao_ltda_forwarded_proto, 'https' ) ) {
+		$_SERVER['HTTPS'] = 'on';
+	}
+
+	$versao_ltda_scheme = 'on' === ( $_SERVER['HTTPS'] ?? '' ) ? 'https' : ( $_SERVER['REQUEST_SCHEME'] ?? 'http' );
 	$versao_ltda_host   = $_SERVER['HTTP_HOST'] ?? 'localhost:8080';
 
 	define( 'WP_SITEURL', $versao_ltda_scheme . '://' . $versao_ltda_host );
@@ -95,7 +101,8 @@ $table_prefix = 'wp_';
  *
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
-define( 'WP_DEBUG', false );
+$versao_ltda_debug = filter_var( getenv( 'WORDPRESS_DEBUG' ) ?: false, FILTER_VALIDATE_BOOLEAN );
+define( 'WP_DEBUG', $versao_ltda_debug );
 
 /* Add any custom values between this line and the "stop editing" line. */
 

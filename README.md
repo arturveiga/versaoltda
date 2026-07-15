@@ -13,6 +13,20 @@ Suba o ambiente:
 docker compose up -d
 ```
 
+O WordPress e construido em uma imagem local a cada `up`. O codigo e implantado
+em um filesystem Linux temporario do Docker, sem o bind mount do projeto inteiro
+no Windows. Banco e uploads continuam persistentes entre os redeploys.
+Depois de alterar o codigo, faca o redeploy:
+
+```bash
+docker compose down
+docker compose up -d
+```
+
+O primeiro build pode demorar por causa do WordPress e dos plugins. Os builds
+seguintes reutilizam o cache do Docker, e a navegacao fica mais rapida porque
+os arquivos PHP nao sao lidos do NTFS em tempo real.
+
 Acesse:
 
 - Site: http://localhost:8080
@@ -33,6 +47,9 @@ Para recriar o banco do zero e importar o dump novamente:
 docker compose down -v
 docker compose up -d
 ```
+
+Atencao: a opcao `-v` remove tanto o banco quanto os uploads locais. Um
+`docker compose down` normal preserva ambos.
 
 ## Fluxo de branch
 
