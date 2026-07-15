@@ -1,9 +1,13 @@
 services:
   wordpress:
-    image: wordpress:php8.2-apache
-    container_name: versaoltda_wordpress
+    build:
+      context: .
+      dockerfile: Dockerfile
+    pull_policy: build
+    restart: unless-stopped
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     expose:
       - "80"
     environment:
@@ -13,35 +17,34 @@ services:
       WORDPRESS_DB_PASSWORD: root
       WORDPRESS_DEBUG: "false"
       WORDPRESS_FS_METHOD: direct
+    tmpfs:
+      - /var/www/html
     volumes:
-      - ./:/var/www/html
-      - ./docker/php.ini:/usr/local/etc/php/conf.d/zz-versao-ltda.ini:ro
+      - uploads_data:/var/www/html/wp-content/uploads
 
   db:
-    image: mysql:8.0
-    container_name: versaoltda_db
-    command:
-      - --default-authentication-plugin=mysql_native_password
-      - --innodb-buffer-pool-size=512M
-      - --innodb-buffer-pool-instances=1
-      - --innodb-log-buffer-size=64M
-      - --table-open-cache=2000
-      - --tmp-table-size=64M
-      - --max-heap-table-size=64M
-    ports:
-      - "3306:3306"
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    restart: unless-stopped
     environment:
       MYSQL_DATABASE: versaoltda
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - db_data:/var/lib/mysql
-      - ./database/versao-ltda-dev.sql:/docker-entrypoint-initdb.d/versao-ltda-dev.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
 
   phpmyadmin:
     image: phpmyadmin:latest
-    container_name: versaoltda_phpmyadmin
+    restart: unless-stopped
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     expose:
       - "80"
     environment:
@@ -51,3 +54,4 @@ services:
 
 volumes:
   db_data:
+  uploads_data:
