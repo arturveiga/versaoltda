@@ -4,7 +4,7 @@ services:
     container_name: versaoltda_wordpress
     depends_on:
       - db
-    espose:
+    expose:
       - "80"
     environment:
       WORDPRESS_DB_HOST: db:3306
