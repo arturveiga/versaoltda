@@ -152,6 +152,10 @@
 		grid-template-columns: 1fr;
 	}
 
+	.contact-details {
+		padding-top: 0;
+	}
+
 	.account-auth {
 		gap: 42px;
 		grid-template-columns: 1fr;
@@ -473,8 +477,30 @@
 		padding-top: 104px;
 	}
 
-	.contact-form {
-		padding: 18px;
+	.contact-section {
+		min-height: 0;
+		padding-bottom: 72px;
+	}
+
+	.contact-copy h1 {
+		font-size: clamp(3rem, 14vw, 4rem);
+	}
+
+	.contact-copy p {
+		font-size: 1rem;
+		margin-top: 22px;
+	}
+
+	.contact-grid {
+		margin-top: 20px;
+	}
+
+	.contact-form textarea {
+		min-height: 180px;
+	}
+
+	.contact-details {
+		gap: 30px;
 	}
 
 	.account-section {

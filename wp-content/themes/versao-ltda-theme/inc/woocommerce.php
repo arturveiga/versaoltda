@@ -118,6 +118,149 @@ function versao_ltda_cart_count_fragment( $fragments ) {
 add_filter( 'woocommerce_add_to_cart_fragments', 'versao_ltda_cart_count_fragment' );
 
 /**
+ * Complete the customer's location from the cart postcode.
+ *
+ * Checkout Blocks require more than the postcode before displaying shipping,
+ * so city, state and street are populated from the SuperFrete ViaCEP helper.
+ *
+ * @return void
+ */
+function versao_ltda_complete_shipping_address_from_postcode() {
+	if ( ! function_exists( 'WC' ) || ! WC()->customer ) {
+		return;
+	}
+
+	$postcode = WC()->customer->get_shipping_postcode();
+
+	if ( ! $postcode || ! class_exists( '\SuperFrete_API\Helpers\AddressHelper' ) ) {
+		return;
+	}
+
+	$address = \SuperFrete_API\Helpers\AddressHelper::get_address_from_postal_code( $postcode );
+
+	if ( ! is_array( $address ) || empty( $address['uf'] ) || empty( $address['localidade'] ) ) {
+		return;
+	}
+
+	$state  = wc_clean( $address['uf'] );
+	$city   = wc_clean( $address['localidade'] );
+	$street = isset( $address['logradouro'] ) ? wc_clean( $address['logradouro'] ) : '';
+
+	WC()->customer->set_shipping_country( 'BR' );
+	WC()->customer->set_shipping_state( $state );
+	WC()->customer->set_shipping_city( $city );
+	WC()->customer->set_shipping_postcode( wc_format_postcode( $postcode, 'BR' ) );
+
+	if ( $street ) {
+		WC()->customer->set_shipping_address_1( $street );
+	}
+
+	if ( ! WC()->customer->get_billing_first_name() ) {
+		WC()->customer->set_billing_country( 'BR' );
+		WC()->customer->set_billing_state( $state );
+		WC()->customer->set_billing_city( $city );
+		WC()->customer->set_billing_postcode( wc_format_postcode( $postcode, 'BR' ) );
+
+		if ( $street ) {
+			WC()->customer->set_billing_address_1( $street );
+		}
+	}
+
+	WC()->customer->save();
+}
+
+/**
+ * Run WooCommerce's shipping calculator for the custom cart template.
+ *
+ * @return void
+ */
+function versao_ltda_calculate_cart_shipping() {
+	if ( ! isset( $_POST['calc_shipping'] ) || ! function_exists( 'WC' ) || ! WC()->cart ) {
+		return;
+	}
+
+	$nonce = isset( $_POST['woocommerce-shipping-calculator-nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['woocommerce-shipping-calculator-nonce'] ) ) : '';
+
+	if ( ! wp_verify_nonce( $nonce, 'woocommerce-shipping-calculator' ) && ! wp_verify_nonce( $nonce, 'woocommerce-cart' ) ) {
+		wc_add_notice( __( 'Não foi possível calcular o frete. Atualize a página e tente novamente.', 'versao-ltda-theme' ), 'error' );
+		return;
+	}
+
+	if ( class_exists( 'WC_Shortcode_Cart' ) ) {
+		WC_Shortcode_Cart::calculate_shipping();
+		versao_ltda_complete_shipping_address_from_postcode();
+		$packages       = WC()->shipping()->calculate_shipping( WC()->cart->get_shipping_packages() );
+		$chosen_methods = WC()->session->get( 'chosen_shipping_methods', array() );
+
+		foreach ( $packages as $package_index => $package ) {
+			if ( empty( $package['rates'] ) ) {
+				continue;
+			}
+
+			$current_rate = isset( $chosen_methods[ $package_index ] ) ? $chosen_methods[ $package_index ] : '';
+
+			if ( ! isset( $package['rates'][ $current_rate ] ) ) {
+				$chosen_methods[ $package_index ] = array_key_first( $package['rates'] );
+			}
+		}
+
+		WC()->session->set( 'chosen_shipping_methods', $chosen_methods );
+		WC()->cart->calculate_totals();
+	}
+
+	wp_safe_redirect( wc_get_cart_url() );
+	exit;
+}
+add_action( 'template_redirect', 'versao_ltda_calculate_cart_shipping', 4 );
+
+/**
+ * Persist the shipping rate selected in the custom cart template.
+ *
+ * WooCommerce then reuses the chosen method and its cost during checkout.
+ *
+ * @return void
+ */
+function versao_ltda_update_cart_shipping_method() {
+	if ( ! isset( $_POST['versao_ltda_update_shipping'] ) || ! function_exists( 'WC' ) || ! WC()->session ) {
+		return;
+	}
+
+	$nonce = isset( $_POST['woocommerce-cart-nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['woocommerce-cart-nonce'] ) ) : '';
+
+	if ( ! wp_verify_nonce( $nonce, 'woocommerce-cart' ) ) {
+		wc_add_notice( __( 'Não foi possível atualizar o frete. Tente novamente.', 'versao-ltda-theme' ), 'error' );
+		return;
+	}
+
+	$posted_methods = isset( $_POST['shipping_method'] ) ? (array) wp_unslash( $_POST['shipping_method'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	$posted_methods = array_map( 'wc_clean', $posted_methods );
+	$packages       = WC()->shipping()->get_packages();
+	$chosen_methods = array();
+
+	foreach ( $posted_methods as $package_index => $rate_id ) {
+		$package_index = absint( $package_index );
+
+		if ( isset( $packages[ $package_index ]['rates'][ $rate_id ] ) ) {
+			$chosen_methods[ $package_index ] = $rate_id;
+		}
+	}
+
+	if ( empty( $chosen_methods ) ) {
+		return;
+	}
+
+	WC()->session->set( 'chosen_shipping_methods', $chosen_methods );
+
+	if ( WC()->cart ) {
+		WC()->cart->calculate_totals();
+	}
+
+	wp_safe_redirect( wc_get_cart_url() );
+	exit;
+}
+add_action( 'template_redirect', 'versao_ltda_update_cart_shipping_method', 5 );
+
+/**
  * Default game catalog used to bootstrap WooCommerce products for the theme.
  *
  * @return array
@@ -363,7 +506,7 @@ function versao_ltda_customize_billing_address_fields( $fields ) {
 		'billing_email'      => array( 'E-mail', 30, 'account-address-field--wide' ),
 		'billing_phone'      => array( 'Telefone', 40, 'account-address-field--narrow' ),
 		'billing_address_1'  => array( 'Endereço', 50, 'account-address-field--wide' ),
-		'billing_address_2'  => array( 'Complemento', 60, 'account-address-field--narrow' ),
+		'billing_address_2'  => array( 'Complemento (opcional)', 60, 'account-address-field--narrow' ),
 		'billing_city'       => array( 'Cidade', 70, 'account-address-field--third' ),
 		'billing_state'      => array( 'Estado', 80, 'account-address-field--third' ),
 		'billing_postcode'   => array( 'CEP', 90, 'account-address-field--third' ),
@@ -386,7 +529,8 @@ function versao_ltda_customize_billing_address_fields( $fields ) {
 	}
 
 	if ( isset( $fields['billing_address_2'] ) ) {
-		$fields['billing_address_2']['placeholder'] = __( 'Apartamento, bloco...', 'versao-ltda-theme' );
+		$fields['billing_address_2']['label_class'] = array();
+		$fields['billing_address_2']['placeholder'] = __( 'Apartamento, suíte, bloco etc.', 'versao-ltda-theme' );
 	}
 
 	if ( isset( $fields['billing_postcode'] ) ) {

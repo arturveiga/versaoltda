@@ -19,6 +19,7 @@ $versao_ltda_includes = array(
 	'inc/theme-support.php',
 	'inc/woocommerce.php',
 	'inc/helpers.php',
+	'inc/contact.php',
 	'inc/maintenance.php',
 );
 

@@ -20,6 +20,33 @@ if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 }
 
 $cart_items = WC()->cart->get_cart();
+$shipping_postcode = WC()->customer->get_shipping_postcode();
+$shipping_packages = WC()->cart->get_shipping_packages();
+$chosen_methods    = WC()->session->get( 'chosen_shipping_methods', array() );
+
+foreach ( $shipping_packages as $package_index => $shipping_package ) {
+	$cached_package = WC()->session->get( 'shipping_for_package_' . $package_index );
+
+	if ( is_array( $cached_package ) && isset( $cached_package['rates'] ) ) {
+		$shipping_packages[ $package_index ]['rates'] = $cached_package['rates'];
+	}
+}
+
+$selected_shipping_total = 0.0;
+
+foreach ( $shipping_packages as $package_index => $shipping_package ) {
+	$chosen_rate_id = isset( $chosen_methods[ $package_index ] ) ? $chosen_methods[ $package_index ] : '';
+
+	if ( ! $chosen_rate_id || empty( $shipping_package['rates'][ $chosen_rate_id ] ) ) {
+		continue;
+	}
+
+	$chosen_rate             = $shipping_package['rates'][ $chosen_rate_id ];
+	$selected_shipping_total += (float) $chosen_rate->get_cost() + array_sum( array_map( 'floatval', $chosen_rate->get_taxes() ) );
+}
+
+$current_shipping_total = (float) WC()->cart->get_shipping_total() + (float) WC()->cart->get_shipping_tax();
+$display_cart_total      = (float) WC()->cart->get_total( 'edit' ) + $selected_shipping_total - $current_shipping_total;
 ?>
 
 <main id="main" class="site-main cart-page">
@@ -150,23 +177,60 @@ $cart_items = WC()->cart->get_cart();
 							<div class="cart-page__inline-form">
 								<label class="screen-reader-text" for="calc_shipping_postcode"><?php esc_html_e( 'CEP para calcular o frete', 'versao-ltda-theme' ); ?></label>
 								<input type="hidden" name="calc_shipping_country" value="BR">
-								<input type="text" id="calc_shipping_postcode" name="calc_shipping_postcode" value="<?php echo esc_attr( WC()->customer->get_shipping_postcode() ); ?>" placeholder="<?php esc_attr_e( 'CEP para calcular o frete', 'versao-ltda-theme' ); ?>">
+								<input type="text" id="calc_shipping_postcode" name="calc_shipping_postcode" value="<?php echo esc_attr( WC()->customer->get_shipping_postcode() ); ?>" placeholder="00000-000" inputmode="numeric" autocomplete="postal-code" maxlength="9" pattern="[0-9]{5}-?[0-9]{3}">
 								<button class="button button--primary" type="submit" name="calc_shipping" value="1"><?php esc_html_e( 'OK', 'versao-ltda-theme' ); ?></button>
 							</div>
 
-							<?php if ( wc_coupons_enabled() ) : ?>
-								<div class="cart-page__inline-form">
-									<label class="screen-reader-text" for="coupon_code"><?php esc_html_e( 'Cupom de desconto', 'versao-ltda-theme' ); ?></label>
-									<input type="text" id="coupon_code" name="coupon_code" placeholder="<?php esc_attr_e( 'cupom de desconto', 'versao-ltda-theme' ); ?>">
-									<button class="button button--primary" type="submit" name="apply_coupon" value="<?php esc_attr_e( 'Aplicar cupom', 'versao-ltda-theme' ); ?>"><?php esc_html_e( 'OK', 'versao-ltda-theme' ); ?></button>
+							<?php if ( $shipping_postcode ) : ?>
+								<div class="cart-page__shipping-options" aria-live="polite">
+									<p class="cart-page__shipping-title"><?php esc_html_e( 'Opções de entrega SuperFrete', 'versao-ltda-theme' ); ?></p>
+									<?php
+									$has_shipping_rates = false;
+
+									foreach ( $shipping_packages as $package_index => $package ) :
+										if ( empty( $package['rates'] ) ) {
+											continue;
+										}
+
+										$has_shipping_rates = true;
+										$chosen_rate        = isset( $chosen_methods[ $package_index ] ) ? $chosen_methods[ $package_index ] : '';
+										?>
+										<fieldset class="cart-page__shipping-list">
+											<legend class="screen-reader-text"><?php esc_html_e( 'Escolha uma opção de entrega', 'versao-ltda-theme' ); ?></legend>
+											<?php foreach ( $package['rates'] as $rate_id => $rate ) : ?>
+												<?php $field_id = 'shipping_method_' . $package_index . '_' . sanitize_title( $rate_id ); ?>
+												<label class="cart-page__shipping-rate" for="<?php echo esc_attr( $field_id ); ?>">
+													<input
+														id="<?php echo esc_attr( $field_id ); ?>"
+														type="radio"
+														name="shipping_method[<?php echo esc_attr( $package_index ); ?>]"
+														data-index="<?php echo esc_attr( $package_index ); ?>"
+														value="<?php echo esc_attr( $rate_id ); ?>"
+														<?php checked( $rate_id, $chosen_rate ); ?>
+													>
+													<span><?php echo wp_kses_post( wc_cart_totals_shipping_method_label( $rate ) ); ?></span>
+												</label>
+											<?php endforeach; ?>
+										</fieldset>
+									<?php endforeach; ?>
+
+									<?php if ( ! $has_shipping_rates ) : ?>
+										<p class="cart-page__shipping-empty"><?php esc_html_e( 'Nenhuma opção de entrega foi encontrada para este CEP.', 'versao-ltda-theme' ); ?></p>
+									<?php endif; ?>
 								</div>
 							<?php endif; ?>
 						</div>
 
 						<div class="cart-page__summary">
+							<?php if ( $selected_shipping_total > 0 ) : ?>
+								<div class="cart-page__shipping-summary">
+									<span><?php esc_html_e( 'Frete', 'versao-ltda-theme' ); ?></span>
+									<strong><?php echo wp_kses_post( wc_price( $selected_shipping_total ) ); ?></strong>
+								</div>
+							<?php endif; ?>
 							<p><?php esc_html_e( 'Total', 'versao-ltda-theme' ); ?></p>
 							<strong data-cart-total data-currency="<?php echo esc_attr( get_woocommerce_currency() ); ?>">
-								<?php echo wp_kses_post( WC()->cart->get_total() ); ?>
+								<?php echo wp_kses_post( wc_price( $display_cart_total ) ); ?>
 							</strong>
 
 							<a class="button button--primary cart-page__checkout" href="<?php echo esc_url( wc_get_checkout_url() ); ?>">
@@ -178,9 +242,13 @@ $cart_items = WC()->cart->get_cart();
 					<button class="button cart-page__update" type="submit" name="update_cart" value="<?php esc_attr_e( 'Atualizar carrinho', 'versao-ltda-theme' ); ?>">
 						<?php esc_html_e( 'Atualizar carrinho', 'versao-ltda-theme' ); ?>
 					</button>
+					<button class="button cart-page__update" type="submit" name="versao_ltda_update_shipping" value="1" data-update-shipping>
+						<?php esc_html_e( 'Atualizar frete', 'versao-ltda-theme' ); ?>
+					</button>
 
 					<?php wp_nonce_field( 'woocommerce-cart', 'woocommerce-cart-nonce' ); ?>
 					<?php wp_nonce_field( 'woocommerce-shipping-calculator', 'woocommerce-shipping-calculator-nonce' ); ?>
+					<?php wp_nonce_field( 'superfrete_nonce', 'superfrete_nonce', false ); ?>
 				</form>
 			<?php endif; ?>
 		</div>

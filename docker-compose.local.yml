@@ -1,0 +1,28 @@
+services:
+  wordpress:
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_CONTACT_RECIPIENT: ${WORDPRESS_CONTACT_RECIPIENT:-arturveiga_@hotmail.com}
+      WORDPRESS_SMTP_HOST: mailpit
+      WORDPRESS_SMTP_PORT: 1025
+      WORDPRESS_SMTP_AUTH: "false"
+      WORDPRESS_SMTP_ENCRYPTION: none
+      WORDPRESS_SMTP_FROM_EMAIL: teste@example.com
+      WORDPRESS_SMTP_FROM_NAME: Versão LTDA
+
+  db:
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    ports:
+      - "8081:80"
+
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+    expose:
+      - "1025"

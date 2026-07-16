@@ -288,9 +288,24 @@
 	}
 
 	var updateButton = cartForm.querySelector( '.cart-page__update' );
+	var shippingUpdateButton = cartForm.querySelector( '[data-update-shipping]' );
+	var shippingPostcode = cartForm.querySelector( '#calc_shipping_postcode' );
 	var cartTotal = document.querySelector( '[data-cart-total]' );
 	var cartCounter = document.querySelector( '.cart-counter' );
 	var submitTimer;
+
+	function formatPostcode( value ) {
+		var digits = value.replace( /\D/g, '' ).slice( 0, 8 );
+
+		return digits.length > 5 ? digits.slice( 0, 5 ) + '-' + digits.slice( 5 ) : digits;
+	}
+
+	if ( shippingPostcode ) {
+		shippingPostcode.value = formatPostcode( shippingPostcode.value );
+		shippingPostcode.addEventListener( 'input', function () {
+			shippingPostcode.value = formatPostcode( shippingPostcode.value );
+		} );
+	}
 
 	function formatMoney( value ) {
 		var currency = cartTotal ? cartTotal.getAttribute( 'data-currency' ) || 'BRL' : 'BRL';
@@ -369,6 +384,12 @@
 	} );
 
 	cartForm.addEventListener( 'change', function ( event ) {
+		if ( event.target.matches( 'input[name^="shipping_method"]' ) && shippingUpdateButton ) {
+			event.stopPropagation();
+			shippingUpdateButton.click();
+			return;
+		}
+
 		if ( event.target.matches( '.qty' ) ) {
 			updateProjectedCart();
 			scheduleCartUpdate();
