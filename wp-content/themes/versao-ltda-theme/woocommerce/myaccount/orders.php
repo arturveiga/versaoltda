@@ -50,11 +50,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders );
 							?>
 							<div class="account-order__item">
 								<a class="account-order__image" href="<?php echo esc_url( $product_url ?: $order->get_view_order_url() ); ?>" aria-label="<?php echo esc_attr( $product_name ); ?>">
-									<?php if ( $product ) : ?>
-										<?php echo wp_kses_post( $product->get_image( 'woocommerce_thumbnail' ) ); ?>
-									<?php else : ?>
-										<img src="<?php echo esc_url( wc_placeholder_img_src( 'woocommerce_thumbnail' ) ); ?>" alt="">
-									<?php endif; ?>
+									<?php echo wp_kses_post( versao_ltda_get_order_product_image( $product, $product_name ) ); ?>
 								</a>
 
 								<div class="account-order__item-content">

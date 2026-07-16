@@ -118,6 +118,43 @@ function versao_ltda_cart_count_fragment( $fragments ) {
 add_filter( 'woocommerce_add_to_cart_fragments', 'versao_ltda_cart_count_fragment' );
 
 /**
+ * Render a product image with a theme fallback when an imported attachment is missing.
+ *
+ * Database dumps can retain attachment metadata without the matching uploads volume.
+ * In that case WordPress still generates an image tag, but its source returns 404.
+ *
+ * @param WC_Product|null $product Product object.
+ * @param string          $product_name Accessible image description.
+ * @param string          $size WordPress image size.
+ * @return string
+ */
+function versao_ltda_get_order_product_image( $product, $product_name, $size = 'woocommerce_thumbnail' ) {
+	if ( $product instanceof WC_Product ) {
+		$image_id   = $product->get_image_id();
+		$image_url  = $image_id ? wp_get_attachment_image_url( $image_id, $size ) : '';
+		$image_file = $image_id ? get_attached_file( $image_id ) : '';
+
+		if ( $image_url && ( ! $image_file || file_exists( $image_file ) ) ) {
+			return wp_get_attachment_image(
+				$image_id,
+				$size,
+				false,
+				array(
+					'alt'     => $product_name,
+					'loading' => 'lazy',
+				)
+			);
+		}
+	}
+
+	return sprintf(
+		'<img src="%1$s" alt="%2$s" loading="lazy">',
+		esc_url( vltda_asset( 'images/product_spin_video_1f171347-a00d-68f0-ac10-cb52c21e94b4_0_0.jpeg' ) ),
+		esc_attr( $product_name )
+	);
+}
+
+/**
  * Complete the customer's location from the cart postcode.
  *
  * Checkout Blocks require more than the postcode before displaying shipping,
@@ -489,6 +526,44 @@ function versao_ltda_redirect_account_address_index() {
 	exit;
 }
 add_action( 'template_redirect', 'versao_ltda_redirect_account_address_index', 20 );
+
+/**
+ * Rename the address complement label without changing its value or placeholder.
+ *
+ * @param array $fields Default WooCommerce address fields.
+ * @return array
+ */
+function versao_ltda_customize_default_address_fields( $fields ) {
+	if ( isset( $fields['address_2'] ) ) {
+		$fields['address_2']['label'] = __( 'Complemento (opcional)', 'versao-ltda-theme' );
+	}
+
+	return $fields;
+}
+add_filter( 'woocommerce_default_address_fields', 'versao_ltda_customize_default_address_fields' );
+
+/**
+ * Rename the complement field rendered by Checkout Blocks.
+ *
+ * Checkout Blocks builds core field labels from WooCommerce translations and
+ * does not consume the classic address field label filter above.
+ *
+ * @param string $translation Translated text.
+ * @param string $text Original WooCommerce text.
+ * @return string
+ */
+function versao_ltda_translate_checkout_address_2_label( $translation, $text ) {
+	if ( 'Apartment, suite, etc.' === $text ) {
+		return __( 'Complemento', 'versao-ltda-theme' );
+	}
+
+	if ( 'Apartment, suite, etc. (optional)' === $text ) {
+		return __( 'Complemento (opcional)', 'versao-ltda-theme' );
+	}
+
+	return $translation;
+}
+add_filter( 'gettext_woocommerce', 'versao_ltda_translate_checkout_address_2_label', 10, 2 );
 
 /**
  * Match the billing address fields to the account design while preserving the
