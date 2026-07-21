@@ -365,9 +365,11 @@
 	}
 
 	.quote-row {
-		gap: 12px;
+		gap: 6px;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		margin-top: 36px;
-		max-width: 260px;
+		max-width: none;
+		width: 100%;
 	}
 
 	.intro {
