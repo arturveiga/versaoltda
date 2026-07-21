@@ -29,8 +29,8 @@ $reserve_action = function_exists( 'versao_ltda_get_reserve_action' )
 			<p class="product-code">#001 / Demons of Asteborg / Mega Drive<br><?php esc_html_e( 'Cartucho Cromado | Versão Pré-Venda', 'versao-ltda-theme' ); ?></p>
 		</div>
 		<picture>
-			<source media="(max-width: 700px)" srcset="<?php echo esc_url( vltda_asset( 'images/Front01.jpg' ) ); ?>">
-			<img src="<?php echo esc_url( vltda_asset( 'images/Top01.jpg' ) ); ?>" alt="<?php esc_attr_e( 'Cartucho físico Demons of Asteborg', 'versao-ltda-theme' ); ?>">
+			<source media="(max-width: 700px)" srcset="<?php echo esc_url( vltda_asset( 'images/Top01-large.png' ) ); ?>">
+			<img src="<?php echo esc_url( vltda_asset( 'images/Top01-large.png' ) ); ?>" alt="<?php esc_attr_e( 'Cartucho físico Demons of Asteborg', 'versao-ltda-theme' ); ?>">
 		</picture>
 	</div>
 </section>
