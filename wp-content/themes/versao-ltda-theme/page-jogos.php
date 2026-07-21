@@ -18,7 +18,7 @@ get_header();
 			</nav>
 
 			<p class="section-kicker">VL / <?php esc_html_e( 'Catálogo', 'versao-ltda-theme' ); ?></p>
-			<h1><?php esc_html_e( 'Jogos.', 'versao-ltda-theme' ); ?></h1>
+			<h1><?php esc_html_e( 'Jogos', 'versao-ltda-theme' ); ?></h1>
 		</div>
 	</section>
 

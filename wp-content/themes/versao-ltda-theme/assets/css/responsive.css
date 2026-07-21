@@ -67,6 +67,11 @@
 		padding-left: 0;
 	}
 
+	.physical img {
+		margin-left: 0;
+		width: 100%;
+	}
+
 	.feature-grid,
 	.product-grid,
 	.site-footer__inner {
@@ -82,7 +87,7 @@
 	}
 
 	.cart-page__item {
-		grid-template-columns: 150px minmax(0, 1fr);
+		grid-template-columns: 220px minmax(0, 1fr);
 	}
 
 	.cart-page__item-actions {
@@ -262,8 +267,13 @@
 	}
 
 	.hero__cta {
+		align-items: center;
 		margin-inline: auto;
 		max-width: 310px;
+	}
+
+	.hero__copy p.hero__description {
+		text-align: center;
 	}
 
 	.hero__description-title {
@@ -290,6 +300,7 @@
 
 	.gameplay-carousel {
 		margin-bottom: 40px;
+		padding-inline: 0;
 		padding-bottom: 28px;
 	}
 
@@ -310,7 +321,8 @@
 	}
 
 	.gameplay-carousel__arrow {
-		background: rgba(2, 7, 22, 0.82);
+		background-color: rgba(2, 7, 22, 0.82);
+		background-size: auto 24px;
 		border: 1px solid rgba(255, 255, 255, 0.62);
 		border-radius: 50%;
 		display: block;
@@ -321,34 +333,12 @@
 		z-index: 2;
 	}
 
-	.gameplay-carousel__arrow::before {
-		border-color: #fff;
-		border-style: solid;
-		content: "";
-		display: block;
-		height: 10px;
-		left: 50%;
-		position: absolute;
-		top: 50%;
-		width: 10px;
-	}
-
 	.gameplay-carousel__arrow--prev {
 		left: 10px;
 	}
 
-	.gameplay-carousel__arrow--prev::before {
-		border-width: 0 0 2px 2px;
-		transform: translate(-38%, -50%) rotate(45deg);
-	}
-
 	.gameplay-carousel__arrow--next {
 		right: 10px;
-	}
-
-	.gameplay-carousel__arrow--next::before {
-		border-width: 2px 2px 0 0;
-		transform: translate(-62%, -50%) rotate(45deg);
 	}
 
 	.gameplay-carousel__dots {
@@ -384,6 +374,11 @@
 		padding-bottom: 48px;
 	}
 
+	.intro__grid h2 span,
+	.physical__copy h2 span {
+		white-space: normal;
+	}
+
 	.details__showcase {
 		display: block;
 		margin-top: 44px;
@@ -402,8 +397,10 @@
 	}
 
 	.physical img {
+		margin-left: 0;
 		max-width: 100%;
 		transform: none;
+		width: 100%;
 	}
 
 	.footer-brand {
@@ -425,8 +422,8 @@
 	}
 
 	.cart-page__thumb {
-		height: auto;
-		min-height: 220px;
+		height: 280px;
+		min-height: 0;
 	}
 
 	.cart-page__item-actions {
@@ -460,6 +457,10 @@
 		margin-top: 40px;
 	}
 
+	.about-hero__title-line {
+		white-space: normal;
+	}
+
 	.about-video {
 		margin-top: 42px;
 	}
@@ -483,7 +484,7 @@
 	}
 
 	.contact-copy h1 {
-		font-size: clamp(3rem, 14vw, 4rem);
+		font-size: clamp(2.75rem, 13vw, 3.6rem);
 	}
 
 	.contact-copy p {

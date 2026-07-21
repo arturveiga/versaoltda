@@ -4,8 +4,8 @@
 	background: var(--color-accent);
 	border-radius: 0;
 	color: var(--color-surface);
-	font-family: var(--font-display);
-	font-weight: 900;
+	font-family: var(--font-mono);
+	font-weight: var(--fw-bold);
 }
 
 .woocommerce .price {
@@ -150,8 +150,8 @@
 	border-radius: 0;
 	color: var(--color-surface);
 	display: inline-flex;
-	font-family: var(--font-display);
-	font-weight: var(--fw-black);
+	font-family: var(--font-mono);
+	font-weight: var(--fw-bold);
 	margin-top: 18px;
 	padding: 0.65rem 1rem;
 	text-decoration: none;
@@ -186,24 +186,26 @@
 	border: 1px solid rgba(6, 18, 60, 0.14);
 	display: grid;
 	gap: 30px;
-	grid-template-columns: 180px minmax(0, 1fr) 120px;
-	min-height: 218px;
-	padding: 16px 20px 16px 16px;
+	grid-template-columns: 300px minmax(0, 1fr) 120px;
+	min-height: 330px;
+	padding: 14px 20px 14px 14px;
 }
 
 .cart-page__thumb {
 	align-items: center;
 	border: 1px solid rgba(6, 18, 60, 0.12);
 	display: flex;
-	height: 184px;
+	height: clamp(270px, 22vw, 300px);
 	justify-content: center;
-	padding: 14px;
+	overflow: hidden;
+	padding: 0;
 }
 
 .cart-page__thumb img {
 	display: block;
 	height: 100%;
-	object-fit: contain;
+	object-fit: cover;
+	object-position: center;
 	width: 100%;
 }
 
@@ -388,6 +390,7 @@
 .cart-page__summary {
 	justify-self: end;
 	min-width: 260px;
+	text-align: right;
 }
 
 .cart-page__shipping-summary {
@@ -427,9 +430,11 @@
 }
 
 .cart-page__checkout {
-	font-size: 1.35rem;
+	font-size: 1.15rem;
 	margin-top: 56px;
-	width: 100%;
+	max-width: 100%;
+	min-width: 240px;
+	width: auto;
 }
 
 .cart-page__update {
@@ -481,12 +486,25 @@
 	display: none;
 }
 
+.account-page .woocommerce-error::before,
+.account-page .woocommerce-info::before,
+.account-page .woocommerce-message::before {
+	content: none;
+	display: none;
+}
+
+.account-page .woocommerce-error,
+.account-page .woocommerce-info,
+.account-page .woocommerce-message {
+	padding-left: 18px;
+}
+
 .woocommerce-message a {
 	background: var(--color-accent);
 	color: var(--color-surface);
 	display: inline-flex;
-	font-family: var(--font-display);
-	font-weight: 900;
+	font-family: var(--font-mono);
+	font-weight: var(--fw-bold);
 	margin-top: 12px;
 	min-height: 36px;
 	padding: 0.5rem 0.85rem;
@@ -650,6 +668,15 @@
 	min-height: 42px;
 	padding: 0 10px;
 	width: 100%;
+}
+
+.account-address__form #billing_document_field::before {
+	content: none;
+	display: none;
+}
+
+.account-address__form #billing_document {
+	padding-left: 10px !important;
 }
 
 .account-address__form .select2-container .select2-selection--single {
@@ -983,9 +1010,9 @@
 .account-order-view__status {
 	background: #c9c9c9;
 	color: var(--color-surface);
-	font-family: var(--font-display);
+	font-family: var(--font-mono);
 	font-size: 0.76rem;
-	font-weight: var(--fw-black);
+	font-weight: var(--fw-bold);
 	line-height: 1;
 	margin-bottom: 3px;
 	padding: 0.65rem 0.85rem;
@@ -1019,9 +1046,9 @@
 .account-order-detail h3,
 .account-order-addresses > h3 {
 	color: var(--color-ink);
-	font-family: var(--font-display);
+	font-family: var(--font-mono);
 	font-size: 1.4rem;
-	font-weight: var(--fw-black);
+	font-weight: var(--fw-bold);
 	line-height: 1;
 	text-transform: none;
 }
@@ -1214,9 +1241,9 @@
 	border: 0;
 	border-radius: 0;
 	color: #fff;
-	font-family: var(--font-display);
+	font-family: var(--font-mono);
 	font-size: 0.75rem;
-	font-weight: var(--fw-black);
+	font-weight: var(--fw-bold);
 	padding: 0.6rem 0.8rem;
 	text-decoration: none;
 	text-transform: uppercase;
@@ -1295,64 +1322,72 @@
 
 .account-auth {
 	display: grid;
-	gap: 78px;
+	gap: 52px;
 	grid-template-columns: 1fr 1px 1fr;
-	margin-top: 34px;
+	margin: 34px auto 0;
+	max-width: 1120px;
 }
 
 .account-panel h1,
 .account-panel h2,
 .account-dashboard h1 {
-	border-bottom: 1px solid rgba(6, 18, 60, 0.14);
-	font-size: 2rem;
-	font-weight: var(--fw-medium);
-	line-height: 1.15;
-	padding-bottom: 18px;
-	position: relative;
+	color: var(--color-ink);
+	font-family: var(--font-display);
+	font-size: clamp(2.35rem, 3.6vw, 3.15rem);
+	font-weight: var(--fw-black);
+	line-height: 0.98;
 	text-transform: none;
 }
 
 .account-panel h1::after,
 .account-panel h2::after {
-	background: var(--color-warning);
-	bottom: -1px;
-	content: "";
-	display: block;
-	height: 2px;
-	left: 0;
-	position: absolute;
-	width: 140px;
+	content: none;
+	display: none;
 }
 
 .account-panel > p,
 .account-dashboard > p {
 	color: var(--color-ink-soft);
-	font-size: 1rem;
-	line-height: 1.55;
-	margin-top: 34px;
+	font-size: 0.95rem;
+	line-height: 1.45;
+	margin-top: 10px;
 	max-width: 620px;
 }
 
 .account-form {
 	display: grid;
-	gap: 16px;
-	margin-top: 36px;
+	gap: 9px;
+	margin-top: 26px;
 }
 
 .account-form label {
 	color: var(--color-ink-soft);
-	font-weight: var(--fw-bold);
+	font-family: var(--font-mono);
+	font-size: 0.72rem;
+	font-weight: var(--fw-regular);
 }
 
 .account-form input[type="text"],
 .account-form input[type="email"],
 .account-form input[type="password"] {
 	border: 1px solid rgba(6, 18, 60, 0.16);
-	border-radius: 999px;
+	border-radius: 0;
 	color: var(--color-ink);
-	min-height: 52px;
-	padding: 0 18px;
+	min-height: 42px;
+	padding: 0 10px;
 	width: 100%;
+}
+
+.account-form__actions {
+	align-items: center;
+	display: flex;
+	gap: 16px;
+	justify-content: space-between;
+	margin-top: 2px;
+}
+
+.account-form__actions--end {
+	justify-content: flex-end;
 }
 
 .account-form__remember {
@@ -1367,14 +1402,22 @@
 }
 
 .account-form .button {
-	border-radius: 999px;
-	justify-self: start;
-	min-width: 140px;
+	background: var(--color-warning);
+	border: 0;
+	border-radius: 0;
+	color: var(--color-surface);
+	font-family: var(--font-mono);
+	font-size: 0.88rem;
+	font-weight: var(--fw-bold);
+	min-height: 38px;
+	padding: 0.55rem 1rem;
 }
 
 .account-form__link {
 	color: var(--color-ink-soft);
-	margin-top: 8px;
+	font-size: 0.68rem;
+	justify-self: end;
+	margin-top: -4px;
 	text-decoration: none;
 }
 
@@ -1416,18 +1459,17 @@
 .account-auth__divider span {
 	align-items: center;
 	background: var(--color-surface);
-	border: 1px solid rgba(6, 18, 60, 0.14);
-	border-radius: 50%;
+	border: 0;
 	color: var(--color-ink-soft);
 	display: flex;
 	font-style: italic;
-	height: 58px;
+	height: 42px;
 	justify-content: center;
 	left: 50%;
 	position: absolute;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	width: 58px;
+	width: 42px;
 }
 
 .account-form__privacy {
@@ -1437,22 +1479,23 @@
 }
 
 .account-benefits {
-	margin-top: 56px;
+	margin-top: 34px;
 }
 
 .account-benefits h3 {
-	color: var(--color-ink-soft);
-	font-family: var(--font-body);
-	font-size: 1.3rem;
-	font-weight: var(--fw-regular);
-	margin-bottom: 24px;
+	color: var(--color-ink);
+	font-family: var(--font-display);
+	font-size: 1.25rem;
+	font-weight: var(--fw-black);
+	margin-bottom: 16px;
 	text-transform: none;
 }
 
 .account-benefits ul {
 	color: var(--color-ink-soft);
 	display: grid;
-	gap: 12px;
+	font-size: 0.9rem;
+	gap: 10px;
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -1462,11 +1505,31 @@
 	color: #0d9f62;
 	content: "✓";
 	font-weight: 900;
-	margin-right: 12px;
+	margin-right: 10px;
+}
+
+.account-panel > .account-security-copy {
+	color: var(--color-ink-soft);
+	display: grid;
+	font-family: var(--font-mono);
+	font-size: 0.62rem;
+	gap: 3px;
+	line-height: 1.35;
+	margin-top: 26px;
+	max-width: 420px;
+}
+
+.account-panel > .account-security-copy strong {
+	font-weight: var(--fw-regular);
+	letter-spacing: 0.08em;
 }
 
 .account-dashboard {
-	margin-top: 34px;
+	margin-top: 0;
+}
+
+.account-dashboard > p {
+	margin-top: 0;
 }
 
 .account-dashboard__actions {
@@ -1485,6 +1548,57 @@
 	border-top: 1px solid rgba(6, 18, 60, 0.14);
 	margin-top: 42px;
 	padding-top: 32px;
+}
+
+@media (max-width: 900px) {
+	.account-shell,
+	.wishlist-account__inner {
+		grid-template-columns: 280px minmax(0, 1fr);
+	}
+
+	.account-auth {
+		gap: 30px;
+	}
+}
+
+@media (max-width: 700px) {
+	.account-shell,
+	.wishlist-account__inner,
+	.account-auth {
+		grid-template-columns: 1fr;
+	}
+
+	.account-shell__sidebar,
+	.wishlist-account__sidebar {
+		border-bottom: 1px solid rgba(6, 18, 60, 0.18);
+		border-right: 0;
+		min-height: 0;
+		padding-bottom: 34px;
+		padding-right: 0;
+	}
+
+	.account-shell__menu,
+	.wishlist-account__menu {
+		margin-top: 34px;
+		padding-left: 0;
+	}
+
+	.account-auth__divider {
+		height: 1px;
+	}
+
+	.account-address__form .woocommerce-address-fields__field-wrapper {
+		grid-template-columns: 1fr;
+	}
+
+	.account-address__form .form-row {
+		grid-column: 1;
+	}
+
+	.wishlist-account__content {
+		padding-left: 0;
+		padding-top: 0;
+	}
 }
 
 /* Checkout */
@@ -1575,6 +1689,11 @@
 	padding: 0;
 }
 
+.checkout-page .wc-block-checkout__shipping-fields .wc-block-components-address-form .wc-block-components-address-form__country,
+.checkout-page .wc-block-checkout__billing-fields .wc-block-components-address-form .wc-block-components-address-form__country {
+	margin-block: 12px;
+}
+
 .checkout-page .wc-block-components-text-input input,
 .checkout-page .wc-block-components-combobox .wc-block-components-combobox-control input.components-combobox-control__input,
 .checkout-page .wc-blocks-components-select .wc-blocks-components-select__select {
@@ -1610,9 +1729,9 @@
 	border: 0;
 	border-radius: 0;
 	color: var(--color-surface);
-	font-family: var(--font-display);
+	font-family: var(--font-mono);
 	font-size: 1rem;
-	font-weight: var(--fw-black);
+	font-weight: var(--fw-bold);
 	min-height: 46px;
 	text-transform: uppercase;
 }

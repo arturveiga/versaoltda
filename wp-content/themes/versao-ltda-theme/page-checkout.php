@@ -18,7 +18,7 @@ get_header();
 				<span>/</span>
 				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>"><?php esc_html_e( 'Carrinho', 'versao-ltda-theme' ); ?></a>
 				<span>/</span>
-				<span><?php esc_html_e( 'Finalizar pedido', 'versao-ltda-theme' ); ?></span>
+				<span aria-current="page"><?php esc_html_e( 'Checkout', 'versao-ltda-theme' ); ?></span>
 			</nav>
 
 			<header class="checkout-page__header">

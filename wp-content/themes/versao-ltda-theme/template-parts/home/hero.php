@@ -5,13 +5,12 @@
  * @package Versao_Ltda_Theme
  */
 
-$reserve_action = function_exists( 'versao_ltda_get_reserve_action' )
-	? versao_ltda_get_reserve_action( 'Demons of Asteborg' )
-	: array(
-		'href'       => home_url( '/cart/' ),
-		'class'      => '',
-		'attributes' => '',
-	);
+$featured_product = function_exists( 'versao_ltda_get_product_by_title' )
+	? versao_ltda_get_product_by_title( 'Demons of Asteborg' )
+	: null;
+$product_url      = $featured_product
+	? get_permalink( $featured_product->get_id() )
+	: home_url( '/produto/demons-of-asteborg/' );
 ?>
 
 <section class="hero">
@@ -41,8 +40,8 @@ $reserve_action = function_exists( 'versao_ltda_get_reserve_action' )
 						</span>
 					</p>
 
-					<a class="button button--primary <?php echo esc_attr( $reserve_action['class'] ); ?>" href="<?php echo esc_url( $reserve_action['href'] ); ?>"<?php echo $reserve_action['attributes']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-						<?php esc_html_e( 'Reservar agora', 'versao-ltda-theme' ); ?>
+					<a class="button button--primary" href="<?php echo esc_url( $product_url ); ?>">
+						<?php esc_html_e( 'Conhecer Mais', 'versao-ltda-theme' ); ?>
 					</a>
 				</div>
 			</div>

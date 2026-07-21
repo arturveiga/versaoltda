@@ -14,7 +14,6 @@ get_header();
 	<?php get_template_part( 'template-parts/home/features' ); ?>
 	<?php get_template_part( 'template-parts/home/package' ); ?>
 	<?php get_template_part( 'template-parts/home/gameplay' ); ?>
-	<?php get_template_part( 'template-parts/home/products' ); ?>
 	<?php get_template_part( 'template-parts/home/newsletter' ); ?>
 </main>
 

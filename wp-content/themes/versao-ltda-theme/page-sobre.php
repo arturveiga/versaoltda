@@ -18,9 +18,9 @@ get_header();
 			</nav>
 
 			<h1>
-				<?php esc_html_e( 'O digital é prático.', 'versao-ltda-theme' ); ?><br>
-				<?php esc_html_e( 'O físico é', 'versao-ltda-theme' ); ?><br>
-				<span><?php esc_html_e( 'memorável.', 'versao-ltda-theme' ); ?></span>
+				<span class="about-hero__title-line"><?php esc_html_e( 'O digital é prático.', 'versao-ltda-theme' ); ?></span>
+				<span class="about-hero__title-line"><?php esc_html_e( 'O físico é', 'versao-ltda-theme' ); ?></span>
+				<span class="about-hero__title-line about-hero__title-line--accent"><?php esc_html_e( 'memorável.', 'versao-ltda-theme' ); ?></span>
 			</h1>
 
 			<div class="about-hero__copy">

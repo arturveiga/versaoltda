@@ -155,6 +155,81 @@ function versao_ltda_get_order_product_image( $product, $product_name, $size = '
 }
 
 /**
+ * Replace missing Checkout Blocks product images with the theme fallback.
+ *
+ * Valid local and externally hosted images are preserved. Imported attachment
+ * records whose original or generated thumbnail file is absent are discarded.
+ *
+ * @param array  $product_images Product image objects from the Store API.
+ * @param array  $cart_item Cart item data.
+ * @param string $cart_item_key Cart item key.
+ * @return array
+ */
+function versao_ltda_store_api_cart_item_images( $product_images, $cart_item, $cart_item_key ) {
+	$valid_images = array();
+	$upload_dir   = wp_get_upload_dir();
+	$upload_url   = isset( $upload_dir['baseurl'] ) ? trailingslashit( $upload_dir['baseurl'] ) : '';
+	$upload_path  = isset( $upload_dir['basedir'] ) ? trailingslashit( $upload_dir['basedir'] ) : '';
+
+	foreach ( (array) $product_images as $image ) {
+		if ( ! is_object( $image ) || ! isset( $image->id ) || empty( $image->src ) || empty( $image->thumbnail ) ) {
+			continue;
+		}
+
+		$image_urls_are_valid = true;
+		$uses_local_upload    = false;
+
+		foreach ( array( $image->src, $image->thumbnail ) as $image_url ) {
+			if ( ! $upload_url || 0 !== strpos( $image_url, $upload_url ) ) {
+				continue;
+			}
+
+			$uses_local_upload = true;
+			$relative_path = rawurldecode( strtok( substr( $image_url, strlen( $upload_url ) ), '?' ) );
+
+			if ( ! $relative_path || ! file_exists( $upload_path . wp_normalize_path( $relative_path ) ) ) {
+				$image_urls_are_valid = false;
+				break;
+			}
+		}
+
+		$image_id   = isset( $image->id ) ? absint( $image->id ) : 0;
+		$image_file = $image_id ? get_attached_file( $image_id ) : '';
+
+		if ( $uses_local_upload && $image_file && ! file_exists( $image_file ) ) {
+			$image_urls_are_valid = false;
+		}
+
+		if ( $image_urls_are_valid ) {
+			$valid_images[] = $image;
+		}
+	}
+
+	if ( $valid_images ) {
+		return $valid_images;
+	}
+
+	$product      = isset( $cart_item['data'] ) && $cart_item['data'] instanceof WC_Product ? $cart_item['data'] : null;
+	$product_name = $product ? $product->get_name() : __( 'Produto', 'versao-ltda-theme' );
+	$fallback_url = vltda_asset( 'images/product_spin_video_1f171347-a00d-68f0-ac10-cb52c21e94b4_0_0.jpeg' );
+
+	return array(
+		(object) array(
+			'id'               => 0,
+			'src'              => $fallback_url,
+			'thumbnail'        => $fallback_url,
+			'srcset'           => '',
+			'sizes'            => '',
+			'thumbnail_srcset' => '',
+			'thumbnail_sizes'  => '',
+			'name'             => $product_name,
+			'alt'              => $product_name,
+		),
+	);
+}
+add_filter( 'woocommerce_store_api_cart_item_images', 'versao_ltda_store_api_cart_item_images', 10, 3 );
+
+/**
  * Complete the customer's location from the cart postcode.
  *
  * Checkout Blocks require more than the postcode before displaying shipping,
@@ -528,6 +603,34 @@ function versao_ltda_redirect_account_address_index() {
 add_action( 'template_redirect', 'versao_ltda_redirect_account_address_index', 20 );
 
 /**
+ * Get the short name used in account greetings.
+ *
+ * @param WP_User|null $user User object. Defaults to the current user.
+ * @return string
+ */
+function versao_ltda_get_account_first_name( $user = null ) {
+	$user = $user instanceof WP_User ? $user : wp_get_current_user();
+
+	if ( ! $user->exists() ) {
+		return __( '[Nome]', 'versao-ltda-theme' );
+	}
+
+	$first_name = trim( (string) $user->first_name );
+
+	if ( ! $first_name ) {
+		$first_name = trim( (string) get_user_meta( $user->ID, 'billing_first_name', true ) );
+	}
+
+	if ( ! $first_name ) {
+		$display_name = trim( (string) $user->display_name );
+		$name_parts   = preg_split( '/\s+/u', $display_name );
+		$first_name   = $name_parts && $name_parts[0] ? $name_parts[0] : $user->user_login;
+	}
+
+	return $first_name;
+}
+
+/**
  * Rename the address complement label without changing its value or placeholder.
  *
  * @param array $fields Default WooCommerce address fields.
@@ -576,16 +679,19 @@ function versao_ltda_customize_billing_address_fields( $fields ) {
 	unset( $fields['billing_company'] );
 
 	$field_settings = array(
-		'billing_first_name' => array( 'Nome', 10, 'account-address-field--half' ),
-		'billing_last_name'  => array( 'Sobrenome', 20, 'account-address-field--half' ),
-		'billing_email'      => array( 'E-mail', 30, 'account-address-field--wide' ),
-		'billing_phone'      => array( 'Telefone', 40, 'account-address-field--narrow' ),
-		'billing_address_1'  => array( 'Endereço', 50, 'account-address-field--wide' ),
-		'billing_address_2'  => array( 'Complemento (opcional)', 60, 'account-address-field--narrow' ),
-		'billing_city'       => array( 'Cidade', 70, 'account-address-field--third' ),
-		'billing_state'      => array( 'Estado', 80, 'account-address-field--third' ),
-		'billing_postcode'   => array( 'CEP', 90, 'account-address-field--third' ),
-		'billing_country'    => array( 'País', 100, 'account-address-field--full' ),
+		'billing_first_name'   => array( 'Nome', 10, 'account-address-field--half' ),
+		'billing_last_name'    => array( 'Sobrenome', 20, 'account-address-field--half' ),
+		'billing_document'     => array( 'CPF/CNPJ', 30, 'account-address-field--narrow' ),
+		'billing_email'        => array( 'E-mail', 40, 'account-address-field--wide' ),
+		'billing_phone'        => array( 'Telefone', 50, 'account-address-field--narrow' ),
+		'billing_address_1'    => array( 'Endereço', 60, 'account-address-field--wide' ),
+		'billing_address_2'    => array( 'Complemento (opcional)', 70, 'account-address-field--narrow' ),
+		'billing_city'         => array( 'Cidade', 80, 'account-address-field--third' ),
+		'billing_state'        => array( 'Estado', 90, 'account-address-field--third' ),
+		'billing_postcode'     => array( 'CEP', 100, 'account-address-field--third' ),
+		'billing_country'      => array( 'País', 110, 'account-address-field--full' ),
+		'billing_number'       => array( 'Número', 120, 'account-address-field--narrow' ),
+		'billing_neighborhood' => array( 'Bairro', 130, 'account-address-field--narrow' ),
 	);
 
 	foreach ( $field_settings as $key => $settings ) {
@@ -614,7 +720,7 @@ function versao_ltda_customize_billing_address_fields( $fields ) {
 
 	return $fields;
 }
-add_filter( 'woocommerce_billing_fields', 'versao_ltda_customize_billing_address_fields' );
+add_filter( 'woocommerce_billing_fields', 'versao_ltda_customize_billing_address_fields', 30 );
 
 /**
  * Get catalog products from WooCommerce.

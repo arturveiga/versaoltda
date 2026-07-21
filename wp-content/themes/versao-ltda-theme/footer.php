@@ -16,7 +16,7 @@
 				src="<?php echo esc_url(vltda_asset('images/logo_versao_ltda_svg.svg')); ?>"
 				alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
 
-			<p><?php esc_html_e('Alguns jogos merecem mais.', 'versao-ltda-theme'); ?></p>
+			<p><?php esc_html_e('Alguns jogos merecem mais', 'versao-ltda-theme'); ?></p>
 
 		</div>
 

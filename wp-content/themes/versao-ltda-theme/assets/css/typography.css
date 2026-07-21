@@ -96,9 +96,9 @@ p {
 
 .button {
 
-	font-family: var(--font-display);
+	font-family: var(--font-mono);
 
-	font-weight: var(--fw-medium);
+	font-weight: var(--fw-bold);
 
 }
 

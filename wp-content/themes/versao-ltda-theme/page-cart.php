@@ -94,7 +94,7 @@ $display_cart_total      = (float) WC()->cart->get_total( 'edit' ) + $selected_s
 								<a class="cart-page__thumb" href="<?php echo esc_url( $product_permalink ?: '#' ); ?>" aria-label="<?php echo esc_attr( wp_strip_all_tags( $product_name ) ); ?>">
 									<?php
 									if ( has_post_thumbnail( $product_id ) ) {
-										$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image( 'woocommerce_thumbnail' ), $cart_item, $cart_item_key );
+										$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image( 'woocommerce_single' ), $cart_item, $cart_item_key );
 										echo $thumbnail; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 									} else {
 										?>
@@ -234,7 +234,7 @@ $display_cart_total      = (float) WC()->cart->get_total( 'edit' ) + $selected_s
 							</strong>
 
 							<a class="button button--primary cart-page__checkout" href="<?php echo esc_url( wc_get_checkout_url() ); ?>">
-								<?php esc_html_e( 'Continuar para Finalização', 'versao-ltda-theme' ); ?>
+								<?php esc_html_e( 'Ir para o Checkout', 'versao-ltda-theme' ); ?>
 							</a>
 						</div>
 					</div>

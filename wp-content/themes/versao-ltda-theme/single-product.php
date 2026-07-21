@@ -36,13 +36,16 @@ while ( have_posts() ) :
 	$is_demo      = '001' === $sku || 'demons-of-asteborg' === $product->get_slug();
 	$short_copy   = trim( wp_strip_all_tags( $product->get_short_description() ) );
 	$full_copy    = trim( wp_strip_all_tags( $product->get_description() ) );
+	$copies_match = $short_copy && $full_copy && $short_copy === $full_copy;
+	$short_words  = $short_copy ? preg_split( '/\s+/u', $short_copy ) : array();
+	$full_words   = $full_copy ? preg_split( '/\s+/u', $full_copy ) : array();
 
-	if ( $is_demo && ! $short_copy ) {
+	if ( $is_demo && count( $short_words ) < 12 ) {
 		$short_copy = __( 'Assuma o papel de Gareth, um cavaleiro treinado para proteger seu povo, e enfrente Zodimus em uma jornada épica para salvar o reino de Asteborg.', 'versao-ltda-theme' );
 	}
 
-	if ( $is_demo && ! $full_copy ) {
-		$full_copy = __( 'Explore florestas, montanhas, pântanos e cenários impressionantes em um dos maiores jogos já criados para 16-bit, com animações fluidas, trilha sonora poderosa e chefes memoráveis.', 'versao-ltda-theme' );
+	if ( $is_demo && ( $copies_match || count( $full_words ) < 20 ) ) {
+		$full_copy  = __( 'Explore florestas, montanhas, pântanos e cenários impressionantes em um dos maiores jogos já criados para 16-bit. Com 128 megabits, animações fluidas, trilha sonora poderosa e chefes memoráveis, Demons of Asteborg é uma verdadeira carta de amor aos clássicos.', 'versao-ltda-theme' );
 	}
 
 	if ( ! $short_copy ) {
@@ -82,7 +85,8 @@ while ( have_posts() ) :
 
 	$main_image = $gallery[0];
 	$main_src   = ! empty( $main_image[2] ) ? $main_image[0] : vltda_asset( 'images/' . $main_image[0] );
-	$related    = versao_ltda_get_catalog_products( array( 'limit' => 3 ) );
+	$show_related_products = (bool) apply_filters( 'versao_ltda_show_product_related', false );
+	$related               = $show_related_products ? versao_ltda_get_catalog_products( array( 'limit' => 3 ) ) : array();
 	?>
 	<main id="main" class="site-main single-product-page">
 		<section class="product-showcase section">
@@ -97,19 +101,26 @@ while ( have_posts() ) :
 
 				<div class="product-showcase__grid">
 					<div class="product-gallery" data-product-gallery>
-						<div class="product-gallery__stage">
+						<div class="product-gallery__stage" data-product-gallery-stage>
 							<img data-product-gallery-main src="<?php echo esc_url( $main_src ); ?>" alt="<?php echo esc_attr( $main_image[1] ); ?>">
+							<button class="product-gallery__fullscreen" type="button" data-gallery-fullscreen aria-label="<?php esc_attr_e( 'Visualizar imagem em tela cheia', 'versao-ltda-theme' ); ?>">
+								<span class="screen-reader-text"><?php esc_html_e( 'Visualizar imagem em tela cheia', 'versao-ltda-theme' ); ?></span>
+							</button>
 						</div>
 
 						<?php if ( 1 < count( $gallery ) ) : ?>
-							<div class="product-gallery__thumbs" aria-label="<?php esc_attr_e( 'Imagens do produto', 'versao-ltda-theme' ); ?>">
-								<?php foreach ( $gallery as $index => $image ) : ?>
-									<?php $image_src = ! empty( $image[2] ) ? $image[0] : vltda_asset( 'images/' . $image[0] ); ?>
-									<button type="button" class="product-gallery__thumb<?php echo 0 === $index ? ' is-active' : ''; ?>" data-gallery-src="<?php echo esc_url( $image_src ); ?>" data-gallery-alt="<?php echo esc_attr( $image[1] ); ?>" aria-pressed="<?php echo 0 === $index ? 'true' : 'false'; ?>">
-										<img src="<?php echo esc_url( $image_src ); ?>" alt="">
-										<span class="screen-reader-text"><?php echo esc_html( $image[1] ); ?></span>
-									</button>
-								<?php endforeach; ?>
+							<div class="product-gallery__navigation">
+								<button class="product-gallery__arrow product-gallery__arrow--prev" type="button" data-gallery-prev aria-label="<?php esc_attr_e( 'Imagem anterior', 'versao-ltda-theme' ); ?>"></button>
+								<div class="product-gallery__thumbs" aria-label="<?php esc_attr_e( 'Imagens do produto', 'versao-ltda-theme' ); ?>">
+									<?php foreach ( $gallery as $index => $image ) : ?>
+										<?php $image_src = ! empty( $image[2] ) ? $image[0] : vltda_asset( 'images/' . $image[0] ); ?>
+										<button type="button" class="product-gallery__thumb<?php echo 0 === $index ? ' is-active' : ''; ?>" data-gallery-src="<?php echo esc_url( $image_src ); ?>" data-gallery-alt="<?php echo esc_attr( $image[1] ); ?>" aria-pressed="<?php echo 0 === $index ? 'true' : 'false'; ?>">
+											<img src="<?php echo esc_url( $image_src ); ?>" alt="">
+											<span class="screen-reader-text"><?php echo esc_html( $image[1] ); ?></span>
+										</button>
+									<?php endforeach; ?>
+								</div>
+								<button class="product-gallery__arrow product-gallery__arrow--next" type="button" data-gallery-next aria-label="<?php esc_attr_e( 'Próxima imagem', 'versao-ltda-theme' ); ?>"></button>
 							</div>
 						<?php endif; ?>
 					</div>
@@ -158,7 +169,14 @@ while ( have_posts() ) :
 
 				<div class="product-story__copy">
 					<p class="product-story__eyebrow"><?php esc_html_e( 'Sobre o jogo', 'versao-ltda-theme' ); ?></p>
-					<h2><?php echo esc_html( $story_title ); ?></h2>
+					<h2>
+						<?php if ( $is_demo ) : ?>
+							<span><?php esc_html_e( 'Aventura, ação e', 'versao-ltda-theme' ); ?></span>
+							<span><?php esc_html_e( 'magia em 16-bits.', 'versao-ltda-theme' ); ?></span>
+						<?php else : ?>
+							<?php echo esc_html( $story_title ); ?>
+						<?php endif; ?>
+					</h2>
 					<p><?php echo esc_html( $short_copy ); ?></p>
 					<p><?php echo esc_html( $full_copy ); ?></p>
 				</div>
@@ -189,16 +207,18 @@ while ( have_posts() ) :
 			</div>
 		</section>
 
-		<section class="product-related section">
-			<div class="container container--narrow">
-				<h2><?php esc_html_e( 'Outros lançamentos', 'versao-ltda-theme' ); ?></h2>
-				<div class="product-grid product-related__grid">
-					<?php foreach ( $related as $index => $related_product ) : ?>
-						<?php versao_ltda_render_product_card( $related_product, $index + 1 ); ?>
-					<?php endforeach; ?>
+		<?php if ( $show_related_products ) : ?>
+			<section class="product-related section">
+				<div class="container container--narrow">
+					<h2><?php esc_html_e( 'Outros lançamentos', 'versao-ltda-theme' ); ?></h2>
+					<div class="product-grid product-related__grid">
+						<?php foreach ( $related as $index => $related_product ) : ?>
+							<?php versao_ltda_render_product_card( $related_product, $index + 1 ); ?>
+						<?php endforeach; ?>
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		<?php endif; ?>
 	</main>
 	<?php
 	do_action( 'woocommerce_after_single_product' );

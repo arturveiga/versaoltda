@@ -19,7 +19,7 @@ $products     = array_values(
 	)
 );
 $user         = wp_get_current_user();
-$user_name    = $user && $user->exists() ? $user->display_name : __( '[Nome]', 'versao-ltda-theme' );
+$user_name    = versao_ltda_get_account_first_name( $user );
 $updated      = isset( $_GET['wishlist_updated'] ) ? sanitize_key( wp_unslash( $_GET['wishlist_updated'] ) ) : '';
 ?>
 

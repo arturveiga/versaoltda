@@ -45,9 +45,9 @@ if ( ! $load_address ) {
 
 	<section class="account-payment-methods" aria-labelledby="account-payment-methods-title">
 		<h3 id="account-payment-methods-title"><?php esc_html_e( 'Formas de pagamento:', 'versao-ltda-theme' ); ?></h3>
-		<p><?php esc_html_e( 'Consulte ou gerencie seus métodos de pagamento para agilizar suas próximas compras.', 'versao-ltda-theme' ); ?></p>
-		<a class="button account-payment-methods__button" href="<?php echo esc_url( wc_get_account_endpoint_url( 'payment-methods' ) ); ?>">
-			<?php esc_html_e( 'Gerenciar formas de pagamento', 'versao-ltda-theme' ); ?>
+		<p><?php esc_html_e( 'Os métodos de pagamento são escolhidos com segurança durante a finalização da compra. No momento, a loja não armazena cartões ou carteiras digitais na sua conta.', 'versao-ltda-theme' ); ?></p>
+		<a class="button account-payment-methods__button" href="<?php echo esc_url( wc_get_checkout_url() ); ?>">
+			<?php esc_html_e( 'Escolher no checkout', 'versao-ltda-theme' ); ?>
 		</a>
 	</section>
 	<?php

@@ -17,7 +17,11 @@ $reserve_action = function_exists( 'versao_ltda_get_reserve_action' )
 	<div class="container physical__grid">
 		<div class="physical__copy">
 			<p class="section-kicker"><?php esc_html_e( 'Exclusivo da Pré-Venda', 'versao-ltda-theme' ); ?></p>
-			<h2><?php esc_html_e( 'Cartucho cromado especial somente na pré-venda.', 'versao-ltda-theme' ); ?></h2>
+			<h2>
+				<span><?php esc_html_e( 'Cartucho cromado especial', 'versao-ltda-theme' ); ?></span>
+				<span><?php esc_html_e( 'somente na', 'versao-ltda-theme' ); ?></span>
+				<span><?php esc_html_e( 'pré-venda.', 'versao-ltda-theme' ); ?></span>
+			</h2>
 			<p><?php esc_html_e( 'A primeira edição de Demons of Asteborg, pela Versão LTDA, acompanha um cartucho cromado especial para marcar o lançamento #001 da coleção.', 'versao-ltda-theme' ); ?></p>
 			<a class="button button--primary <?php echo esc_attr( $reserve_action['class'] ); ?>" href="<?php echo esc_url( $reserve_action['href'] ); ?>"<?php echo $reserve_action['attributes']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 				<?php esc_html_e( 'Reservar agora', 'versao-ltda-theme' ); ?>
