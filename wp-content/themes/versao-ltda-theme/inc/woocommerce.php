@@ -149,7 +149,7 @@ function versao_ltda_get_order_product_image( $product, $product_name, $size = '
 
 	return sprintf(
 		'<img src="%1$s" alt="%2$s" loading="lazy">',
-		esc_url( vltda_asset( 'images/product_spin_video_1f171347-a00d-68f0-ac10-cb52c21e94b4_0_0.jpeg' ) ),
+		esc_url( vltda_asset( 'images/product-photo.jpg' ) ),
 		esc_attr( $product_name )
 	);
 }
@@ -211,7 +211,7 @@ function versao_ltda_store_api_cart_item_images( $product_images, $cart_item, $c
 
 	$product      = isset( $cart_item['data'] ) && $cart_item['data'] instanceof WC_Product ? $cart_item['data'] : null;
 	$product_name = $product ? $product->get_name() : __( 'Produto', 'versao-ltda-theme' );
-	$fallback_url = vltda_asset( 'images/product_spin_video_1f171347-a00d-68f0-ac10-cb52c21e94b4_0_0.jpeg' );
+	$fallback_url = vltda_asset( 'images/product-photo.jpg' );
 
 	return array(
 		(object) array(
@@ -844,7 +844,7 @@ function versao_ltda_render_product_card( $product, $index = 1, $wishlist_mode =
 			<?php if ( has_post_thumbnail( $product->get_id() ) ) : ?>
 				<?php echo wp_kses_post( $product->get_image( 'woocommerce_thumbnail' ) ); ?>
 			<?php else : ?>
-				<img src="<?php echo esc_url( vltda_asset( 'images/01.jpg' ) ); ?>" alt="<?php echo esc_attr( $product_name ); ?>">
+				<img src="<?php echo esc_url( vltda_asset( 'images/product-photo.jpg' ) ); ?>" alt="<?php echo esc_attr( $product_name ); ?>">
 			<?php endif; ?>
 		</a>
 		<p class="product-card__label"><?php echo esc_html( $label ); ?></p>

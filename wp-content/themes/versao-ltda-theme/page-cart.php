@@ -98,7 +98,7 @@ $display_cart_total      = (float) WC()->cart->get_total( 'edit' ) + $selected_s
 										echo $thumbnail; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 									} else {
 										?>
-										<img src="<?php echo esc_url( vltda_asset( 'images/01.jpg' ) ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $product_name ) ); ?>">
+										<img src="<?php echo esc_url( vltda_asset( 'images/product-photo.jpg' ) ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $product_name ) ); ?>">
 										<?php
 									}
 									?>

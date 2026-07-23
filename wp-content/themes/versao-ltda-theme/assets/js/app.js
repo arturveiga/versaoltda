@@ -70,33 +70,23 @@
 		var thumbnails = gallery.querySelectorAll( '[data-gallery-src]' );
 		var previousButton = gallery.querySelector( '[data-gallery-prev]' );
 		var nextButton = gallery.querySelector( '[data-gallery-next]' );
-		var fullscreenButton = gallery.querySelector( '[data-gallery-fullscreen]' );
 		var stage = gallery.querySelector( '[data-product-gallery-stage]' );
+		var dialog = gallery.querySelector( '[data-gallery-dialog]' );
+		var dialogImage = gallery.querySelector( '[data-gallery-dialog-image]' );
+		var dialogCounter = gallery.querySelector( '[data-gallery-dialog-counter]' );
+		var dialogPreviousButton = gallery.querySelector( '[data-gallery-dialog-prev]' );
+		var dialogNextButton = gallery.querySelector( '[data-gallery-dialog-next]' );
+		var dialogCloseButton = gallery.querySelector( '[data-gallery-dialog-close]' );
 		var activeIndex = 0;
 
 		if ( ! mainImage ) {
 			return;
 		}
 
-		if ( fullscreenButton && stage && stage.requestFullscreen ) {
-			fullscreenButton.addEventListener( 'click', function () {
-				if ( document.fullscreenElement === stage ) {
-					document.exitFullscreen();
-					return;
-				}
-
-				stage.requestFullscreen();
-			} );
-		} else if ( fullscreenButton ) {
-			fullscreenButton.hidden = true;
-		}
-
-		if ( ! thumbnails.length ) {
-			return;
-		}
-
 		var showImage = function ( index ) {
-			activeIndex = ( index + thumbnails.length ) % thumbnails.length;
+			var imageCount = thumbnails.length || 1;
+
+			activeIndex = ( index + imageCount ) % imageCount;
 
 			thumbnails.forEach( function ( item, itemIndex ) {
 				var isActive = itemIndex === activeIndex;
@@ -105,8 +95,19 @@
 				item.setAttribute( 'aria-pressed', isActive ? 'true' : 'false' );
 			} );
 
-			mainImage.src = thumbnails[ activeIndex ].getAttribute( 'data-gallery-src' );
-			mainImage.alt = thumbnails[ activeIndex ].getAttribute( 'data-gallery-alt' ) || '';
+			if ( thumbnails.length ) {
+				mainImage.src = thumbnails[ activeIndex ].getAttribute( 'data-gallery-src' );
+				mainImage.alt = thumbnails[ activeIndex ].getAttribute( 'data-gallery-alt' ) || '';
+			}
+
+			if ( dialogImage ) {
+				dialogImage.src = mainImage.src;
+				dialogImage.alt = mainImage.alt;
+			}
+
+			if ( dialogCounter ) {
+				dialogCounter.textContent = ( activeIndex + 1 ) + ' de ' + imageCount;
+			}
 		};
 
 		thumbnails.forEach( function ( thumbnail, index ) {
@@ -124,6 +125,85 @@
 		if ( nextButton ) {
 			nextButton.addEventListener( 'click', function () {
 				showImage( activeIndex + 1 );
+			} );
+		}
+
+		if ( stage ) {
+			stage.addEventListener( 'click', function () {
+				if ( dialog && 'function' === typeof dialog.showModal ) {
+					showImage( activeIndex );
+					dialog.showModal();
+					document.documentElement.classList.add( 'has-gallery-modal' );
+
+					if ( dialogCloseButton ) {
+						dialogCloseButton.focus();
+					}
+
+					return;
+				}
+
+				if ( stage.requestFullscreen ) {
+					if ( document.fullscreenElement === stage ) {
+						document.exitFullscreen();
+						return;
+					}
+
+					stage.requestFullscreen();
+				}
+			} );
+		}
+
+		var closeDialog = function () {
+			if ( dialog && dialog.open ) {
+				dialog.close();
+			}
+		};
+
+		if ( dialogPreviousButton ) {
+			dialogPreviousButton.addEventListener( 'click', function () {
+				showImage( activeIndex - 1 );
+			} );
+		}
+
+		if ( dialogNextButton ) {
+			dialogNextButton.addEventListener( 'click', function () {
+				showImage( activeIndex + 1 );
+			} );
+		}
+
+		if ( dialogCloseButton ) {
+			dialogCloseButton.addEventListener( 'click', closeDialog );
+		}
+
+		if ( dialog ) {
+			dialog.addEventListener( 'click', function ( event ) {
+				if (
+					event.target === dialog ||
+					event.target.classList.contains( 'product-gallery-modal__content' ) ||
+					event.target.classList.contains( 'product-gallery-modal__figure' )
+				) {
+					closeDialog();
+				}
+			} );
+
+			dialog.addEventListener( 'keydown', function ( event ) {
+				if ( 'ArrowLeft' === event.key ) {
+					event.preventDefault();
+					showImage( activeIndex - 1 );
+				}
+
+				if ( 'ArrowRight' === event.key ) {
+					event.preventDefault();
+					showImage( activeIndex + 1 );
+				}
+			} );
+
+			dialog.addEventListener( 'close', function () {
+				document.documentElement.classList.remove( 'has-gallery-modal' );
+
+				if ( stage ) {
+					stage.focus();
+				}
 			} );
 		}
 

@@ -12,6 +12,7 @@ body {
 	font-family: var(--font-body);
 	font-weight: var(--fw-regular);
 	min-height: 100vh;
+	overflow-x: clip;
 }
 
 .container {
@@ -637,10 +638,16 @@ body {
 	-webkit-mask-image: radial-gradient(ellipse 82% 78% at 50% 50%, #000 58%, rgba(0, 0, 0, 0.94) 72%, transparent 100%);
 	aspect-ratio: 16 / 9;
 	display: block;
+	height: auto;
 	mask-image: radial-gradient(ellipse 82% 78% at 50% 50%, #000 58%, rgba(0, 0, 0, 0.94) 72%, transparent 100%);
 	object-fit: contain;
 	width: 100%;
 	filter: drop-shadow(0 34px 70px rgba(6, 18, 60, 0.14));
+}
+
+.details__image--product-box {
+	transform: scale(1.28);
+	transform-origin: 50% 50%;
 }
 
 .details__viewport {
@@ -782,7 +789,9 @@ body {
 	margin-top: 52px;
 }
 
-.physical picture {
+.physical__media {
+	cursor: pointer;
+	isolation: isolate;
 	justify-self: center;
 	max-width: 820px;
 	overflow: visible;
@@ -791,17 +800,69 @@ body {
 	z-index: 1;
 }
 
+.physical__media:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 8px;
+}
+
+.physical__media::before {
+	background: radial-gradient(
+		ellipse 72% 66% at 52% 50%,
+		rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0.92) 44%,
+		rgba(255, 255, 255, 0.56) 64%,
+		rgba(255, 255, 255, 0) 84%
+	);
+	content: "";
+	inset: -8% -14%;
+	pointer-events: none;
+	position: absolute;
+	z-index: -1;
+}
+
 .physical img {
-	-webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.35) 7%, #000 18%, #000 82%, rgba(0, 0, 0, 0.35) 93%, transparent 100%);
 	aspect-ratio: 16 / 9;
 	display: block;
 	filter: drop-shadow(0 34px 90px rgba(6, 18, 60, 0.2));
-	margin-left: -18%;
-	mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.35) 7%, #000 18%, #000 82%, rgba(0, 0, 0, 0.35) 93%, transparent 100%);
-	max-width: none;
+	height: auto;
+	margin-left: 0;
+	max-width: 100%;
 	object-fit: contain;
 	object-position: center;
-	width: 138%;
+	width: 100%;
+}
+
+.physical__image {
+	transform: scale(1.42);
+	transform-origin: 75% 75%;
+	transition: opacity 320ms ease;
+}
+
+.physical__image--closed {
+	opacity: 1;
+	position: relative;
+}
+
+.physical__image--open {
+	inset: 0;
+	opacity: 0;
+	position: absolute;
+}
+
+.physical__media:hover .physical__image--closed,
+.physical__media:focus-visible .physical__image--closed {
+	opacity: 0;
+}
+
+.physical__media:hover .physical__image--open,
+.physical__media:focus-visible .physical__image--open {
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.physical__image {
+		transition: none;
+	}
 }
 
 /* ===========================

@@ -28,9 +28,9 @@ $reserve_action = function_exists( 'versao_ltda_get_reserve_action' )
 			</a>
 			<p class="product-code">#001 / Demons of Asteborg / Mega Drive<br><?php esc_html_e( 'Cartucho Cromado | Versão Pré-Venda', 'versao-ltda-theme' ); ?></p>
 		</div>
-		<picture>
-			<source media="(max-width: 700px)" srcset="<?php echo esc_url( vltda_asset( 'images/Top01-large.png' ) ); ?>">
-			<img src="<?php echo esc_url( vltda_asset( 'images/Top01-large.png' ) ); ?>" alt="<?php esc_attr_e( 'Cartucho físico Demons of Asteborg', 'versao-ltda-theme' ); ?>">
-		</picture>
+		<div class="physical__media" role="group" aria-label="<?php esc_attr_e( 'Passe o mouse ou use o foco para ver o interior do cartucho', 'versao-ltda-theme' ); ?>" tabindex="0">
+			<img class="physical__image physical__image--closed" src="<?php echo esc_url( vltda_asset( 'images/cartridge-chrome.png' ) ); ?>" alt="<?php esc_attr_e( 'Cartucho cromado de Demons of Asteborg', 'versao-ltda-theme' ); ?>" width="3840" height="2160" loading="lazy" decoding="async">
+			<img class="physical__image physical__image--open" src="<?php echo esc_url( vltda_asset( 'images/cartridge-chrome-pcb.png' ) ); ?>" alt="" width="3840" height="2160" loading="lazy" decoding="async" aria-hidden="true">
+		</div>
 	</div>
 </section>

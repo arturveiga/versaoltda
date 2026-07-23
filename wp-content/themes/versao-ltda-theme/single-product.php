@@ -70,7 +70,7 @@ while ( have_posts() ) :
 
 	if ( $is_demo ) {
 		$gallery = array(
-			array( 'product_spin_video_1f171347-a00d-68f0-ac10-cb52c21e94b4_0_0.jpeg', __( 'Demons of Asteborg com caixa e cartucho', 'versao-ltda-theme' ) ),
+			array( 'product-photo.jpg', __( 'Caixa da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
 			array( 'Top01-large.png', __( 'Cartucho cromado em perspectiva', 'versao-ltda-theme' ) ),
 			array( 'Front01.jpg', __( 'Vista frontal do cartucho cromado', 'versao-ltda-theme' ) ),
 			array( '02.jpg', __( 'Caixa premium aberta com o cartucho', 'versao-ltda-theme' ) ),
@@ -79,7 +79,7 @@ while ( have_posts() ) :
 	} else {
 		$image_url = has_post_thumbnail( $product_id )
 			? get_the_post_thumbnail_url( $product_id, 'full' )
-			: vltda_asset( 'images/01.jpg' );
+			: vltda_asset( 'images/product-photo.jpg' );
 		$gallery   = array( array( $image_url, $product_name, true ) );
 	}
 
@@ -101,12 +101,9 @@ while ( have_posts() ) :
 
 				<div class="product-showcase__grid">
 					<div class="product-gallery" data-product-gallery>
-						<div class="product-gallery__stage" data-product-gallery-stage>
+						<button class="product-gallery__stage" type="button" data-product-gallery-stage aria-label="<?php esc_attr_e( 'Ampliar imagem do produto', 'versao-ltda-theme' ); ?>">
 							<img data-product-gallery-main src="<?php echo esc_url( $main_src ); ?>" alt="<?php echo esc_attr( $main_image[1] ); ?>">
-							<button class="product-gallery__fullscreen" type="button" data-gallery-fullscreen aria-label="<?php esc_attr_e( 'Visualizar imagem em tela cheia', 'versao-ltda-theme' ); ?>">
-								<span class="screen-reader-text"><?php esc_html_e( 'Visualizar imagem em tela cheia', 'versao-ltda-theme' ); ?></span>
-							</button>
-						</div>
+						</button>
 
 						<?php if ( 1 < count( $gallery ) ) : ?>
 							<div class="product-gallery__navigation">
@@ -123,6 +120,33 @@ while ( have_posts() ) :
 								<button class="product-gallery__arrow product-gallery__arrow--next" type="button" data-gallery-next aria-label="<?php esc_attr_e( 'Próxima imagem', 'versao-ltda-theme' ); ?>"></button>
 							</div>
 						<?php endif; ?>
+
+						<dialog class="product-gallery-modal" data-gallery-dialog aria-label="<?php esc_attr_e( 'Visualização ampliada do produto', 'versao-ltda-theme' ); ?>" aria-modal="true">
+							<div class="product-gallery-modal__content">
+								<button class="product-gallery-modal__close" type="button" data-gallery-dialog-close aria-label="<?php esc_attr_e( 'Fechar imagem ampliada', 'versao-ltda-theme' ); ?>">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<?php if ( 1 < count( $gallery ) ) : ?>
+									<button class="product-gallery-modal__arrow product-gallery-modal__arrow--prev" type="button" data-gallery-dialog-prev aria-label="<?php esc_attr_e( 'Imagem anterior', 'versao-ltda-theme' ); ?>"></button>
+								<?php endif; ?>
+								<figure class="product-gallery-modal__figure">
+									<img data-gallery-dialog-image src="<?php echo esc_url( $main_src ); ?>" alt="<?php echo esc_attr( $main_image[1] ); ?>">
+									<figcaption class="product-gallery-modal__counter" data-gallery-dialog-counter aria-live="polite">
+										<?php
+										printf(
+											/* translators: 1: current image number, 2: total number of images. */
+											esc_html__( '%1$d de %2$d', 'versao-ltda-theme' ),
+											1,
+											count( $gallery )
+										);
+										?>
+									</figcaption>
+								</figure>
+								<?php if ( 1 < count( $gallery ) ) : ?>
+									<button class="product-gallery-modal__arrow product-gallery-modal__arrow--next" type="button" data-gallery-dialog-next aria-label="<?php esc_attr_e( 'Próxima imagem', 'versao-ltda-theme' ); ?>"></button>
+								<?php endif; ?>
+							</div>
+						</dialog>
 					</div>
 
 					<section class="product-summary" aria-labelledby="product-title">

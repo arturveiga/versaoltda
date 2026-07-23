@@ -394,15 +394,23 @@
 		margin-top: 36px;
 	}
 
-	.physical picture {
+	.physical__media {
 		max-width: 100%;
 	}
 
 	.physical img {
 		margin-left: 0;
 		max-width: 100%;
-		transform: none;
+		transform: scale(1.22);
 		width: 100%;
+	}
+
+	.physical__media:focus .physical__image--closed {
+		opacity: 0;
+	}
+
+	.physical__media:focus .physical__image--open {
+		opacity: 1;
 	}
 
 	.footer-brand {
