@@ -407,6 +407,27 @@ function versao_ltda_get_default_games() {
 }
 
 /**
+ * Allow quantity selection for games managed by the theme catalog.
+ *
+ * This runtime filter keeps the storefront consistent while older product
+ * objects or persistent caches still contain the previous individual-sale flag.
+ *
+ * @param bool            $sold_individually Current individual-sale state.
+ * @param WC_Product|null $product Product being evaluated.
+ * @return bool
+ */
+function versao_ltda_allow_catalog_product_quantities( $sold_individually, $product ) {
+	if ( ! $product instanceof WC_Product ) {
+		return $sold_individually;
+	}
+
+	$catalog_skus = array_column( versao_ltda_get_default_games(), 'sku' );
+
+	return in_array( $product->get_sku(), $catalog_skus, true ) ? false : $sold_individually;
+}
+add_filter( 'woocommerce_is_sold_individually', 'versao_ltda_allow_catalog_product_quantities', 10, 2 );
+
+/**
  * Create the base WooCommerce products expected by the visual catalog.
  *
  * @return void
