@@ -68,6 +68,7 @@
 	document.querySelectorAll( '[data-product-gallery]' ).forEach( function ( gallery ) {
 		var mainImage = gallery.querySelector( '[data-product-gallery-main]' );
 		var thumbnails = gallery.querySelectorAll( '[data-gallery-src]' );
+		var thumbnailsViewport = gallery.querySelector( '.product-gallery__thumbs' );
 		var previousButton = gallery.querySelector( '[data-gallery-prev]' );
 		var nextButton = gallery.querySelector( '[data-gallery-next]' );
 		var stage = gallery.querySelector( '[data-product-gallery-stage]' );
@@ -98,6 +99,13 @@
 			if ( thumbnails.length ) {
 				mainImage.src = thumbnails[ activeIndex ].getAttribute( 'data-gallery-src' );
 				mainImage.alt = thumbnails[ activeIndex ].getAttribute( 'data-gallery-alt' ) || '';
+
+				if ( thumbnailsViewport && thumbnailsViewport.scrollTo ) {
+					thumbnailsViewport.scrollTo( {
+						left: thumbnails[ activeIndex ].offsetLeft - ( thumbnailsViewport.clientWidth - thumbnails[ activeIndex ].offsetWidth ) / 2,
+						behavior: window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ? 'auto' : 'smooth',
+					} );
+				}
 			}
 
 			if ( dialogImage ) {
@@ -477,6 +485,13 @@
 		var previousButton = carousel.querySelector( '[data-details-prev]' );
 		var nextButton = carousel.querySelector( '[data-details-next]' );
 		var dots = carousel.querySelectorAll( '[data-details-dot]' );
+		var zoomButton = carousel.querySelector( '[data-details-zoom]' );
+		var dialog = carousel.parentElement.querySelector( '[data-details-dialog]' );
+		var dialogImage = dialog ? dialog.querySelector( '[data-details-dialog-image]' ) : null;
+		var dialogCounter = dialog ? dialog.querySelector( '[data-details-dialog-counter]' ) : null;
+		var dialogPreviousButton = dialog ? dialog.querySelector( '[data-details-dialog-prev]' ) : null;
+		var dialogNextButton = dialog ? dialog.querySelector( '[data-details-dialog-next]' ) : null;
+		var dialogCloseButton = dialog ? dialog.querySelector( '[data-details-dialog-close]' ) : null;
 		var reducedMotionQuery = window.matchMedia( '(prefers-reduced-motion: reduce)' );
 		var currentSlide = 0;
 		var pointerStart = null;
@@ -485,6 +500,19 @@
 		if ( ! track || slides.length < 2 ) {
 			return;
 		}
+
+		var updateDialog = function () {
+			var activeImage = slides[ currentSlide ].querySelector( 'img' );
+
+			if ( activeImage && dialogImage ) {
+				dialogImage.src = activeImage.currentSrc || activeImage.src;
+				dialogImage.alt = activeImage.alt;
+			}
+
+			if ( dialogCounter ) {
+				dialogCounter.textContent = ( currentSlide + 1 ) + ' de ' + slides.length;
+			}
+		};
 
 		var updateCarousel = function () {
 			track.style.transform = 'translateX(-' + ( currentSlide * 100 ) + '%)';
@@ -500,6 +528,10 @@
 					dot.removeAttribute( 'aria-current' );
 				}
 			} );
+
+			if ( dialog && dialog.open ) {
+				updateDialog();
+			}
 		};
 
 		var goToSlide = function ( index ) {
@@ -542,6 +574,10 @@
 		} );
 
 		carousel.addEventListener( 'keydown', function ( event ) {
+			if ( event.target.closest( '[data-details-dialog]' ) ) {
+				return;
+			}
+
 			if ( 'ArrowLeft' === event.key ) {
 				goToSlide( currentSlide - 1 );
 			}
@@ -554,12 +590,21 @@
 		} );
 
 		carousel.addEventListener( 'pointerdown', function ( event ) {
+			if ( event.target.closest( '[data-details-dialog]' ) ) {
+				return;
+			}
+
 			if ( 'mouse' !== event.pointerType ) {
 				pointerStart = event.clientX;
 			}
 		} );
 
 		carousel.addEventListener( 'pointerup', function ( event ) {
+			if ( event.target.closest( '[data-details-dialog]' ) ) {
+				pointerStart = null;
+				return;
+			}
+
 			if ( null === pointerStart ) {
 				return;
 			}
@@ -594,6 +639,79 @@
 			reducedMotionQuery.addEventListener( 'change', startAutoplay );
 		} else {
 			reducedMotionQuery.addListener( startAutoplay );
+		}
+
+		var closeDialog = function () {
+			if ( dialog && dialog.open ) {
+				dialog.close();
+			}
+		};
+
+		if ( zoomButton ) {
+			zoomButton.addEventListener( 'click', function () {
+				if ( dialog && 'function' === typeof dialog.showModal ) {
+					stopAutoplay();
+					updateDialog();
+					dialog.showModal();
+					document.documentElement.classList.add( 'has-details-modal' );
+
+					if ( dialogCloseButton ) {
+						dialogCloseButton.focus();
+					}
+				}
+			} );
+		}
+
+		if ( dialogPreviousButton ) {
+			dialogPreviousButton.addEventListener( 'click', function () {
+				goToSlide( currentSlide - 1 );
+			} );
+		}
+
+		if ( dialogNextButton ) {
+			dialogNextButton.addEventListener( 'click', function () {
+				goToSlide( currentSlide + 1 );
+			} );
+		}
+
+		if ( dialogCloseButton ) {
+			dialogCloseButton.addEventListener( 'click', closeDialog );
+		}
+
+		if ( dialog ) {
+			dialog.addEventListener( 'click', function ( event ) {
+				if (
+					event.target === dialog ||
+					event.target.classList.contains( 'details-modal__content' ) ||
+					event.target.classList.contains( 'details-modal__figure' )
+				) {
+					closeDialog();
+				}
+			} );
+
+			dialog.addEventListener( 'keydown', function ( event ) {
+				if ( 'ArrowLeft' === event.key ) {
+					event.preventDefault();
+					event.stopPropagation();
+					goToSlide( currentSlide - 1 );
+				}
+
+				if ( 'ArrowRight' === event.key ) {
+					event.preventDefault();
+					event.stopPropagation();
+					goToSlide( currentSlide + 1 );
+				}
+			} );
+
+			dialog.addEventListener( 'close', function () {
+				document.documentElement.classList.remove( 'has-details-modal' );
+
+				if ( zoomButton ) {
+					zoomButton.focus();
+				}
+
+				startAutoplay();
+			} );
 		}
 
 		updateCarousel();

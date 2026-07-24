@@ -59,9 +59,15 @@
 }
 
 .product-gallery__thumbs {
-	display: grid;
+	display: flex;
 	gap: 9px;
-	grid-template-columns: repeat(5, minmax(0, 1fr));
+	overflow-x: auto;
+	scroll-behavior: smooth;
+	scrollbar-width: none;
+}
+
+.product-gallery__thumbs::-webkit-scrollbar {
+	display: none;
 }
 
 .product-gallery__arrow {
@@ -238,6 +244,7 @@ html.has-gallery-modal {
 	background: var(--color-surface);
 	border: 2px solid transparent;
 	cursor: pointer;
+	flex: 0 0 calc((100% - 36px) / 5);
 	overflow: hidden;
 	padding: 0;
 }
@@ -356,14 +363,19 @@ html.has-gallery-modal {
 	background: var(--color-accent);
 	border-radius: 0;
 	color: var(--color-surface);
-	display: inline-flex;
+	display: flex;
 	font-family: var(--font-mono);
 	font-size: 0.96rem;
 	font-weight: var(--fw-bold);
-	margin-top: 20px;
+	margin-top: 18px;
 	min-height: 38px;
 	padding: 0.58rem 0.9rem;
 	text-decoration: none;
+	width: max-content;
+}
+
+.woocommerce a.button.product-summary__cta {
+	margin-top: 18px;
 }
 
 .product-summary__cta.is-soon {
@@ -402,7 +414,7 @@ html.has-gallery-modal {
 	height: auto;
 	margin-top: 24px;
 	opacity: 0.82;
-	width: 105px;
+	width: 150px;
 }
 
 .product-story {
@@ -431,42 +443,11 @@ html.has-gallery-modal {
 	position: relative;
 }
 
-.product-story__frame img {
+.product-story__frame iframe {
+	border: 0;
 	display: block;
 	height: 100%;
-	image-rendering: pixelated;
-	object-fit: cover;
 	width: 100%;
-}
-
-.product-story__frame::after {
-	background: linear-gradient(90deg, rgba(2, 7, 22, 0.42), transparent 22%, transparent 78%, rgba(2, 7, 22, 0.42));
-	content: "";
-	inset: 0;
-	pointer-events: none;
-	position: absolute;
-}
-
-.product-story__play {
-	border: 3px solid var(--color-surface);
-	border-radius: 50%;
-	height: 58px;
-	left: 50%;
-	position: absolute;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	width: 58px;
-	z-index: 1;
-}
-
-.product-story__play::after {
-	border-bottom: 11px solid transparent;
-	border-left: 17px solid var(--color-surface);
-	border-top: 11px solid transparent;
-	content: "";
-	left: 21px;
-	position: absolute;
-	top: 15px;
 }
 
 .product-story__copy h2 {
@@ -662,6 +643,10 @@ html.has-gallery-modal {
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.product-gallery__thumbs {
+		scroll-behavior: auto;
+	}
+
 	.product-gallery__stage img,
 	.product-gallery-modal__close,
 	.product-gallery-modal__arrow {

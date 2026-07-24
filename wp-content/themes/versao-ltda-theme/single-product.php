@@ -70,11 +70,17 @@ while ( have_posts() ) :
 
 	if ( $is_demo ) {
 		$gallery = array(
-			array( 'product-photo.jpg', __( 'Caixa da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
-			array( 'Top01-large.png', __( 'Cartucho cromado em perspectiva', 'versao-ltda-theme' ) ),
-			array( 'Front01.jpg', __( 'Vista frontal do cartucho cromado', 'versao-ltda-theme' ) ),
-			array( '02.jpg', __( 'Caixa premium aberta com o cartucho', 'versao-ltda-theme' ) ),
-			array( '01.jpg', __( 'Caixa da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/01-complete-edition.jpg', __( 'Edição física completa de Demons of Asteborg em cenário ambientado', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/02-game-box.jpg', __( 'Caixa da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/03-open-premium-package.jpg', __( 'Embalagem premium aberta com o cartucho de Demons of Asteborg', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/04-collectors-slipcase.jpg', __( 'Caixa e luva ilustrada da edição de colecionador', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/05-complete-contents.jpg', __( 'Conteúdo completo da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/06-open-edition-contents.jpg', __( 'Embalagem aberta com manual, impressos e cartucho', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/07-box-and-cartridge.jpg', __( 'Caixa e cartucho da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/08-illustrated-card.jpg', __( 'Card ilustrado de Demons of Asteborg', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/09-cartridge-board.jpg', __( 'Placas internas do cartucho com tecnologia Mega Drive', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/10-cartridge.jpg', __( 'Cartucho de Demons of Asteborg para Mega Drive', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/11-cartridge-interior.jpg', __( 'Cartucho aberto exibindo a placa interna', 'versao-ltda-theme' ) ),
 		);
 	} else {
 		$image_url = has_post_thumbnail( $product_id )
@@ -186,8 +192,14 @@ while ( have_posts() ) :
 				<div class="product-story__media">
 					<p><?php esc_html_e( 'Vídeo / Trailer:', 'versao-ltda-theme' ); ?></p>
 					<div class="product-story__frame">
-						<img src="<?php echo esc_url( vltda_asset( 'images/gameplay-1.jpg' ) ); ?>" alt="<?php esc_attr_e( 'Cena de gameplay de Demons of Asteborg', 'versao-ltda-theme' ); ?>">
-						<span class="product-story__play" aria-hidden="true"></span>
+						<iframe
+							src="https://www.youtube-nocookie.com/embed/PKNenGI7yN8?rel=0"
+							title="<?php esc_attr_e( 'Trailer oficial de Demons of Asteborg', 'versao-ltda-theme' ); ?>"
+							loading="lazy"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+							referrerpolicy="strict-origin-when-cross-origin"
+							allowfullscreen
+						></iframe>
 					</div>
 				</div>
 

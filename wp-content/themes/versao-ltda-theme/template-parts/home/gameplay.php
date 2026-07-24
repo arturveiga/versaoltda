@@ -18,8 +18,8 @@ $reserve_action = function_exists( 'versao_ltda_get_reserve_action' )
 		<div class="physical__copy">
 			<p class="section-kicker"><?php esc_html_e( 'Exclusivo da Pré-Venda', 'versao-ltda-theme' ); ?></p>
 			<h2>
-				<span><?php esc_html_e( 'Cartucho cromado especial', 'versao-ltda-theme' ); ?></span>
-				<span><?php esc_html_e( 'somente na', 'versao-ltda-theme' ); ?></span>
+				<span><?php esc_html_e( 'Cartucho cromado', 'versao-ltda-theme' ); ?></span>
+				<span><?php esc_html_e( 'especial somente na', 'versao-ltda-theme' ); ?></span>
 				<span><?php esc_html_e( 'pré-venda.', 'versao-ltda-theme' ); ?></span>
 			</h2>
 			<p><?php esc_html_e( 'A primeira edição de Demons of Asteborg, pela Versão LTDA, acompanha um cartucho cromado especial para marcar o lançamento #001 da coleção.', 'versao-ltda-theme' ); ?></p>

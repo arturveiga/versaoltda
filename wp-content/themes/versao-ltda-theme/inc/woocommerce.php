@@ -767,6 +767,24 @@ function versao_ltda_get_catalog_products( $args = array() ) {
 }
 
 /**
+ * Check whether a product can be reserved immediately.
+ *
+ * @param WC_Product $product Product object.
+ * @return bool
+ */
+function versao_ltda_product_can_be_reserved( $product ) {
+	if ( ! $product instanceof WC_Product ) {
+		return false;
+	}
+
+	$state = $product->get_meta( '_versao_ltda_card_state' );
+
+	return ! in_array( $state, array( 'soon', 'sold' ), true )
+		&& $product->is_purchasable()
+		&& $product->is_in_stock();
+}
+
+/**
  * Get product card action data from a product object.
  *
  * @param WC_Product $product Product object.

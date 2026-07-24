@@ -6,7 +6,6 @@
  */
 
 $package_slides = array(
-	array( 'package-carousel/01-complete-edition.jpg', __( 'Edição física completa de Demons of Asteborg em cenário ambientado', 'versao-ltda-theme' ) ),
 	array( 'package-carousel/02-game-box.jpg', __( 'Caixa da edição física de Demons of Asteborg', 'versao-ltda-theme' ), 'details__image--product-box' ),
 	array( 'package-carousel/03-open-premium-package.jpg', __( 'Embalagem premium aberta com o cartucho de Demons of Asteborg', 'versao-ltda-theme' ) ),
 	array( 'package-carousel/04-collectors-slipcase.jpg', __( 'Caixa e luva ilustrada da edição de colecionador', 'versao-ltda-theme' ) ),
@@ -49,6 +48,9 @@ $package_slides = array(
 							</figure>
 						<?php endforeach; ?>
 					</div>
+					<button class="details__zoom" type="button" data-details-zoom aria-label="<?php esc_attr_e( 'Ampliar imagem atual', 'versao-ltda-theme' ); ?>">
+						<span class="screen-reader-text"><?php esc_html_e( 'Ampliar imagem atual', 'versao-ltda-theme' ); ?></span>
+					</button>
 				</div>
 
 				<button class="details__arrow details__arrow--next" type="button" data-details-next aria-label="<?php esc_attr_e( 'Próximo item', 'versao-ltda-theme' ); ?>"></button>
@@ -60,6 +62,29 @@ $package_slides = array(
 				<?php endforeach; ?>
 			</div>
 		</div>
+
+		<dialog class="details-modal" data-details-dialog aria-label="<?php esc_attr_e( 'Visualização ampliada do conteúdo da edição', 'versao-ltda-theme' ); ?>" aria-modal="true">
+			<div class="details-modal__content">
+				<button class="details-modal__close" type="button" data-details-dialog-close aria-label="<?php esc_attr_e( 'Fechar imagem ampliada', 'versao-ltda-theme' ); ?>">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<button class="details-modal__arrow details-modal__arrow--prev" type="button" data-details-dialog-prev aria-label="<?php esc_attr_e( 'Imagem anterior', 'versao-ltda-theme' ); ?>"></button>
+				<figure class="details-modal__figure">
+					<img data-details-dialog-image src="<?php echo esc_url( vltda_asset( 'images/' . $package_slides[0][0] ) ); ?>" alt="<?php echo esc_attr( $package_slides[0][1] ); ?>">
+					<figcaption class="details-modal__counter" data-details-dialog-counter aria-live="polite">
+						<?php
+						printf(
+							/* translators: 1: current image number, 2: total number of images. */
+							esc_html__( '%1$d de %2$d', 'versao-ltda-theme' ),
+							1,
+							count( $package_slides )
+						);
+						?>
+					</figcaption>
+				</figure>
+				<button class="details-modal__arrow details-modal__arrow--next" type="button" data-details-dialog-next aria-label="<?php esc_attr_e( 'Próxima imagem', 'versao-ltda-theme' ); ?>"></button>
+			</div>
+		</dialog>
 
 		<p class="caption"><?php esc_html_e( 'Conteúdo completo da Edição #001 - Edição Especial de Pré-Venda', 'versao-ltda-theme' ); ?></p>
 

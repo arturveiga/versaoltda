@@ -384,6 +384,8 @@
 	.details__showcase {
 		display: block;
 		margin-top: 44px;
+		margin-left: 0;
+		width: 100%;
 	}
 
 	.details__arrow {
@@ -401,8 +403,42 @@
 	.physical img {
 		margin-left: 0;
 		max-width: 100%;
-		transform: scale(1.22);
+		transform: scale(1.3);
 		width: 100%;
+	}
+
+	.details__zoom {
+		bottom: 12px;
+		height: 42px;
+		right: 12px;
+		width: 42px;
+	}
+
+	.details-modal__content {
+		grid-template-columns: 46px minmax(0, 1fr) 46px;
+		padding: 54px 8px 42px;
+	}
+
+	.details-modal__figure img {
+		max-height: 82vh;
+		max-width: calc(100vw - 108px);
+	}
+
+	.details-modal__arrow {
+		background-size: auto 20px;
+		height: 42px;
+		width: 42px;
+	}
+
+	.details-modal__close {
+		height: 40px;
+		right: 12px;
+		top: 10px;
+		width: 40px;
+	}
+
+	.details-modal__counter {
+		bottom: 12px;
 	}
 
 	.physical__media:focus .physical__image--closed {

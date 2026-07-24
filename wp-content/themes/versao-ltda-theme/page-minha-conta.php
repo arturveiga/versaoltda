@@ -159,10 +159,6 @@ get_header();
 							</ul>
 						</div>
 
-						<p class="account-security-copy">
-							<strong><?php esc_html_e( 'Verificação de segurança', 'versao-ltda-theme' ); ?></strong>
-							<?php esc_html_e( 'Seus dados serão utilizados para criar e gerenciar sua conta, processar pedidos e melhorar sua experiência no site, conforme nossa Política de Privacidade.', 'versao-ltda-theme' ); ?>
-						</p>
 					</section>
 				</div>
 			<?php endif; ?>
