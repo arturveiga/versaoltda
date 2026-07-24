@@ -6,7 +6,7 @@
  */
 
 $package_slides = array(
-	array( 'package-carousel/02-game-box.jpg', __( 'Caixa da edição física de Demons of Asteborg', 'versao-ltda-theme' ), 'details__image--product-box' ),
+	array( 'package-carousel/02-game-box.jpg', __( 'Caixa da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
 	array( 'package-carousel/03-open-premium-package.jpg', __( 'Embalagem premium aberta com o cartucho de Demons of Asteborg', 'versao-ltda-theme' ) ),
 	array( 'package-carousel/04-collectors-slipcase.jpg', __( 'Caixa e luva ilustrada da edição de colecionador', 'versao-ltda-theme' ) ),
 	array( 'package-carousel/05-complete-contents.jpg', __( 'Conteúdo completo da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
