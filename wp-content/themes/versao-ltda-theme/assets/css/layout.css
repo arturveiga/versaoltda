@@ -926,6 +926,10 @@ html.has-details-modal {
    PHYSICAL
 =========================== */
 
+.physical {
+	overflow-x: clip;
+}
+
 .physical__grid {
 	align-items: center;
 	display: grid;
@@ -995,7 +999,7 @@ html.has-details-modal {
 }
 
 .physical__image {
-	transform: scale(1.55);
+	transform: scale(2);
 	transform-origin: 50% 50%;
 	transition: opacity 320ms ease;
 }
