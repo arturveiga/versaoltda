@@ -39,11 +39,16 @@ get_header();
 			</div>
 
 			<div class="about-video">
-				<iframe
-					src="https://www.youtube.com/embed/BoebDxvaWoo"
-					title="<?php esc_attr_e( 'Vídeo institucional da Versão LTDA', 'versao-ltda-theme' ); ?>"
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-					allowfullscreen></iframe>
+				<video
+					controls
+					playsinline
+					preload="metadata"
+					poster="<?php echo esc_url( vltda_asset( 'images/bg-footer.jpg' ) ); ?>"
+					aria-label="<?php esc_attr_e( 'Vídeo institucional da Versão LTDA', 'versao-ltda-theme' ); ?>"
+				>
+					<source src="<?php echo esc_url( vltda_asset( 'videos/brand-manifesto.mp4' ) ); ?>" type="video/mp4">
+					<?php esc_html_e( 'Seu navegador não oferece suporte à reprodução deste vídeo.', 'versao-ltda-theme' ); ?>
+				</video>
 			</div>
 
 			<div class="about-powered">

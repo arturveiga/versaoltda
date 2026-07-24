@@ -1166,10 +1166,12 @@ html.has-details-modal {
 	position: relative;
 }
 
-.about-video iframe {
+.about-video iframe,
+.about-video video {
 	border: 0;
 	height: 100%;
 	inset: 0;
+	object-fit: cover;
 	position: absolute;
 	width: 100%;
 }
