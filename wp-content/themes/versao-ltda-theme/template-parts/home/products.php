@@ -26,6 +26,26 @@
 		}
 
 		if ( $is_cart_page ) {
+			$cart_product_ids = array();
+
+			if ( function_exists( 'WC' ) && WC()->cart ) {
+				foreach ( WC()->cart->get_cart() as $cart_item ) {
+					$cart_product_ids[] = (int) $cart_item['product_id'];
+				}
+			}
+
+			if ( $cart_product_ids ) {
+				$products = array_values(
+					array_filter(
+						$products,
+						static function ( $product ) use ( $cart_product_ids ) {
+							return $product instanceof WC_Product
+								&& ! in_array( $product->get_id(), $cart_product_ids, true );
+						}
+					)
+				);
+			}
+
 			$products = array_slice( $products, 0, 3 );
 		}
 

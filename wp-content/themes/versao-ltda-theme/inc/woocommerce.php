@@ -417,7 +417,16 @@ function versao_ltda_ensure_default_products() {
 	}
 
 	foreach ( versao_ltda_get_default_games() as $game ) {
-		if ( wc_get_product_id_by_sku( $game['sku'] ) ) {
+		$product_id = wc_get_product_id_by_sku( $game['sku'] );
+
+		if ( $product_id ) {
+			$product = wc_get_product( $product_id );
+
+			if ( $product instanceof WC_Product && $product->is_sold_individually() ) {
+				$product->set_sold_individually( false );
+				$product->save();
+			}
+
 			continue;
 		}
 
@@ -433,7 +442,7 @@ function versao_ltda_ensure_default_products() {
 		$product->set_price( $game['price'] );
 		$product->set_manage_stock( false );
 		$product->set_stock_status( $game['stock_status'] );
-		$product->set_sold_individually( true );
+		$product->set_sold_individually( false );
 		$product->update_meta_data( '_versao_ltda_edition', __( 'Pre-Order Version', 'versao-ltda-theme' ) );
 
 		if ( $game['state'] ) {

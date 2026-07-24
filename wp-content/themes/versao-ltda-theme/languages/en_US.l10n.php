@@ -163,6 +163,7 @@ return array(
 		'Entre em contato com nossa equipe pela página de contato para receber ajuda.' => 'Contact our team through the contact page for assistance.',
 		'Seu carrinho.' => 'Your cart.',
 		'Seu carrinho está vazio por enquanto.' => 'Your cart is currently empty.',
+		'Ir para o Checkout' => 'Proceed to checkout',
 		'Ver lançamentos' => 'View releases',
 		'Diminuir quantidade' => 'Decrease quantity',
 		'Aumentar quantidade' => 'Increase quantity',
