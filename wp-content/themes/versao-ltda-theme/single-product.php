@@ -70,7 +70,7 @@ while ( have_posts() ) :
 
 	if ( $is_demo ) {
 		$gallery = array(
-			array( 'package-carousel/01-complete-edition.jpg', __( 'Edição física completa de Demons of Asteborg em cenário ambientado', 'versao-ltda-theme' ) ),
+			array( 'package-carousel/01-complete-edition.jpg', __( 'Caixa e cartucho de Demons of Asteborg em cenário inspirado no jogo', 'versao-ltda-theme' ) ),
 			array( 'package-carousel/02-game-box.jpg', __( 'Caixa da edição física de Demons of Asteborg', 'versao-ltda-theme' ) ),
 			array( 'package-carousel/03-open-premium-package.jpg', __( 'Embalagem premium aberta com o cartucho de Demons of Asteborg', 'versao-ltda-theme' ) ),
 			array( 'package-carousel/04-collectors-slipcase.jpg', __( 'Caixa e luva ilustrada da edição de colecionador', 'versao-ltda-theme' ) ),

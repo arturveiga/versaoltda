@@ -27,7 +27,7 @@ $package_slides = array(
 
 		<div class="details__carousel" data-details-carousel role="region" aria-label="<?php esc_attr_e( 'Conteúdo completo da edição', 'versao-ltda-theme' ); ?>" tabindex="0">
 			<div class="details__showcase">
-				<button class="details__arrow details__arrow--prev" type="button" data-details-prev aria-label="<?php esc_attr_e( 'Item anterior', 'versao-ltda-theme' ); ?>"></button>
+				<button class="details__arrow details__arrow--prev" type="button" data-detaeils-prev aria-label="<?php esc_attr_e( 'Item anterior', 'versao-ltda-theme' ); ?>"></button>
 
 				<div class="details__viewport">
 					<div class="details__track" data-details-track>

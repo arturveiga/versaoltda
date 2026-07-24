@@ -424,9 +424,9 @@ html.has-gallery-modal {
 }
 
 .product-story__grid {
-	align-items: center;
+	align-items: start;
 	display: grid;
-	gap: 54px;
+	gap: 38px;
 	grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.85fr);
 }
 
@@ -437,7 +437,7 @@ html.has-gallery-modal {
 }
 
 .product-story__frame {
-	aspect-ratio: 16 / 9;
+	aspect-ratio: 1.38;
 	background: #020716;
 	overflow: hidden;
 	position: relative;
@@ -450,6 +450,10 @@ html.has-gallery-modal {
 	height: 100%;
 	object-fit: contain;
 	width: 100%;
+}
+
+.product-story__copy {
+	padding-top: 22px;
 }
 
 .product-story__copy h2 {
@@ -559,6 +563,7 @@ html.has-gallery-modal {
 
 	.product-story__copy {
 		max-width: 680px;
+		padding-top: 0;
 	}
 }
 

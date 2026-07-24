@@ -159,7 +159,7 @@
 
 .cart-page__main {
 	background: var(--color-surface);
-	padding-block: 148px 112px;
+	padding-block: 112px;
 }
 
 .cart-page__kicker {
@@ -264,6 +264,10 @@
 	height: 32px;
 }
 
+.cart-page__quantity--fixed {
+	grid-template-columns: 42px;
+}
+
 .cart-page__quantity .qty {
 	appearance: textfield;
 	border: 0;
@@ -273,6 +277,16 @@
 	font-weight: 700;
 	text-align: center;
 	width: 100%;
+}
+
+.cart-page__quantity-value {
+	align-items: center;
+	color: var(--color-ink);
+	display: flex;
+	font-family: var(--font-mono);
+	font-size: 1rem;
+	font-weight: 700;
+	justify-content: center;
 }
 
 .cart-page__quantity .qty::-webkit-outer-spin-button,

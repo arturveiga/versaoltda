@@ -13,13 +13,20 @@
 
 	<div class="container container--narrow product-grid">
 		<?php
-		$is_games_page = is_page_template( 'page-jogos.php' ) || is_page( 'jogos' );
-		$products = function_exists( 'versao_ltda_get_catalog_products' )
-			? versao_ltda_get_catalog_products( array( 'limit' => $is_games_page ? -1 : 3 ) )
+		$is_games_page       = is_page_template( 'page-jogos.php' ) || is_page( 'jogos' );
+		$is_cart_page        = is_page_template( 'page-cart.php' ) || ( function_exists( 'is_cart' ) && is_cart() );
+		$reservable_only     = $is_games_page || $is_cart_page;
+		$product_query_limit = $reservable_only ? -1 : 3;
+		$products            = function_exists( 'versao_ltda_get_catalog_products' )
+			? versao_ltda_get_catalog_products( array( 'limit' => $product_query_limit ) )
 			: array();
 
-		if ( $is_games_page && function_exists( 'versao_ltda_product_can_be_reserved' ) ) {
+		if ( $reservable_only && function_exists( 'versao_ltda_product_can_be_reserved' ) ) {
 			$products = array_values( array_filter( $products, 'versao_ltda_product_can_be_reserved' ) );
+		}
+
+		if ( $is_cart_page ) {
+			$products = array_slice( $products, 0, 3 );
 		}
 
 		if ( $products ) :
@@ -30,7 +37,7 @@
 			?>
 			<p class="product-grid__empty">
 				<?php
-				if ( $is_games_page ) {
+				if ( $reservable_only ) {
 					esc_html_e( 'Nenhum jogo disponível para reserva agora.', 'versao-ltda-theme' );
 				} else {
 					esc_html_e( 'Nenhum lançamento cadastrado ainda.', 'versao-ltda-theme' );

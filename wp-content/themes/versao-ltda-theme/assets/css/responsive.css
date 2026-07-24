@@ -181,7 +181,7 @@
 	}
 
 	.home .site-header {
-		position: absolute;
+		position: relative;
 	}
 
 	.site-header__inner {
@@ -239,37 +239,75 @@
 	}
 
 	.hero,
-	.hero__content {
-		min-height: 640px;
+	.hero__content,
+	.hero__copy {
+		min-height: clamp(640px, 177.87vw, 760px);
+	}
+
+	.hero > .container {
+		height: 100%;
+		padding-inline: 0;
 	}
 
 	.hero__content {
-		align-items: flex-end;
-		padding-bottom: 42px;
+		align-items: stretch;
+		justify-content: flex-start;
+		padding-bottom: 0;
 	}
 
 	.hero__media {
-		background-position: 28% top;
+		background-image: url("../images/hero-mobile.jpg");
+		background-position: center top;
+		background-size: cover;
 	}
 
 	.hero__copy {
-		background: rgba(2, 7, 22, 0.56);
-		margin-inline: auto;
-		padding: 20px;
+		background: transparent;
+		margin: 0;
+		max-width: none;
+		padding: 0;
+		position: relative;
 		transform: none;
+		width: 100%;
+	}
+
+	.hero__release {
+		font-size: 0.78rem;
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		right: 24px;
+		top: 18px;
+		z-index: 2;
+	}
+
+	.hero__logo {
+		left: 50%;
+		margin: 0;
+		max-width: 330px;
+		position: absolute;
+		top: 29px;
+		transform: translateX(-50%);
+		width: calc(100% - 44px);
 	}
 
 	.hero__description {
 		gap: 6px;
-		margin: 16px 0 0;
-		max-width: 310px;
+		margin: 0;
+		max-width: 339px;
 		text-align: center;
 	}
 
 	.hero__cta {
 		align-items: center;
-		margin-inline: auto;
-		max-width: 310px;
+		background: rgba(2, 7, 22, 0.78);
+		bottom: 0;
+		left: 0;
+		margin: 0;
+		max-width: none;
+		padding: 24px 18px 30px;
+		position: absolute;
+		right: 0;
 	}
 
 	.hero__copy p.hero__description {
@@ -277,7 +315,7 @@
 	}
 
 	.hero__description-title {
-		font-size: 0.96rem;
+		font-size: clamp(0.86rem, 4.1vw, 0.98rem);
 		line-height: 1.25;
 	}
 
@@ -287,8 +325,10 @@
 	}
 
 	.hero__copy .button {
-		margin-top: 16px;
-		min-width: 154px;
+		font-size: 1.2rem;
+		margin-top: 18px;
+		min-height: 46px;
+		min-width: 212px;
 	}
 
 	.quote-row,

@@ -52,7 +52,13 @@ $display_cart_total      = (float) WC()->cart->get_total( 'edit' ) + $selected_s
 <main id="main" class="site-main cart-page">
 	<section class="cart-page__main section">
 		<div class="container container--narrow">
-			<p class="section-kicker cart-page__kicker"><?php esc_html_e( 'Carrinho', 'versao-ltda-theme' ); ?></p>
+			<nav class="breadcrumb" aria-label="<?php esc_attr_e( 'Caminho de navegação', 'versao-ltda-theme' ); ?>">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'versao-ltda-theme' ); ?></a>
+				<span>/</span>
+				<span aria-current="page"><?php esc_html_e( 'Carrinho', 'versao-ltda-theme' ); ?></span>
+			</nav>
+
+
 			<h1><?php esc_html_e( 'Seu carrinho.', 'versao-ltda-theme' ); ?></h1>
 
 			<div class="woocommerce-notices-wrapper">
@@ -132,23 +138,29 @@ $display_cart_total      = (float) WC()->cart->get_total( 'edit' ) + $selected_s
 								</div>
 
 								<div class="cart-page__item-actions">
-									<div class="quantity cart-page__quantity">
-										<button class="cart-page__qty-button" type="button" data-cart-qty="minus" aria-label="<?php esc_attr_e( 'Diminuir quantidade', 'versao-ltda-theme' ); ?>">-</button>
-										<?php
-										woocommerce_quantity_input(
-											array(
-												'input_name'   => "cart[{$cart_item_key}][qty]",
-												'input_value'  => $cart_item['quantity'],
-												'max_value'    => $_product->get_max_purchase_quantity(),
-												'min_value'    => $_product->is_sold_individually() ? 1 : 0,
-												'product_name' => $product_name,
-											),
-											$_product,
-											true
-										);
-										?>
-										<button class="cart-page__qty-button" type="button" data-cart-qty="plus" aria-label="<?php esc_attr_e( 'Aumentar quantidade', 'versao-ltda-theme' ); ?>">+</button>
-									</div>
+									<?php if ( $_product->is_sold_individually() ) : ?>
+										<div class="quantity cart-page__quantity cart-page__quantity--fixed">
+											<span class="cart-page__quantity-value" aria-label="<?php echo esc_attr( sprintf( __( 'Quantidade: %s', 'versao-ltda-theme' ), 1 ) ); ?>">1</span>
+										</div>
+									<?php else : ?>
+										<div class="quantity cart-page__quantity">
+											<button class="cart-page__qty-button" type="button" data-cart-qty="minus" aria-label="<?php esc_attr_e( 'Diminuir quantidade', 'versao-ltda-theme' ); ?>">-</button>
+											<?php
+											woocommerce_quantity_input(
+												array(
+													'input_name'   => "cart[{$cart_item_key}][qty]",
+													'input_value'  => $cart_item['quantity'],
+													'max_value'    => $_product->get_max_purchase_quantity(),
+													'min_value'    => 0,
+													'product_name' => $product_name,
+												),
+												$_product,
+												true
+											);
+											?>
+											<button class="cart-page__qty-button" type="button" data-cart-qty="plus" aria-label="<?php esc_attr_e( 'Aumentar quantidade', 'versao-ltda-theme' ); ?>">+</button>
+										</div>
+									<?php endif; ?>
 
 									<?php
 									echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
