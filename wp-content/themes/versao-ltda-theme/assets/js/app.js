@@ -556,15 +556,19 @@
 			}, 4600 );
 		};
 
-		previousButton.addEventListener( 'click', function () {
-			goToSlide( currentSlide - 1 );
-			startAutoplay();
-		} );
+		if ( previousButton ) {
+			previousButton.addEventListener( 'click', function () {
+				goToSlide( currentSlide - 1 );
+				startAutoplay();
+			} );
+		}
 
-		nextButton.addEventListener( 'click', function () {
-			goToSlide( currentSlide + 1 );
-			startAutoplay();
-		} );
+		if ( nextButton ) {
+			nextButton.addEventListener( 'click', function () {
+				goToSlide( currentSlide + 1 );
+				startAutoplay();
+			} );
+		}
 
 		dots.forEach( function ( dot ) {
 			dot.addEventListener( 'click', function () {

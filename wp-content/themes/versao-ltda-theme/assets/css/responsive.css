@@ -172,6 +172,16 @@
 }
 
 @media (max-width: 700px) {
+	html {
+		scrollbar-width: none;
+	}
+
+	html::-webkit-scrollbar {
+		display: none;
+		height: 0;
+		width: 0;
+	}
+
 	.container {
 		padding-inline: 18px;
 	}
