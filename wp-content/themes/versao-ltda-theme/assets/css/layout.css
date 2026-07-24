@@ -999,7 +999,7 @@ html.has-details-modal {
 }
 
 .physical__image {
-	transform: scale(2);
+	transform: translateY(-20px) scale(2);
 	transform-origin: 50% 50%;
 	transition: opacity 320ms ease;
 }
