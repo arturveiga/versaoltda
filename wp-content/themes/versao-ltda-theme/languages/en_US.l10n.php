@@ -141,6 +141,7 @@ return array(
 		'Caixa premium aberta com o cartucho' => 'Open premium box with cartridge',
 		'Caixa da edição física de Demons of Asteborg' => 'Demons of Asteborg physical edition box',
 		'Vídeo / Trailer:' => 'Video / Trailer:',
+		'Seu navegador não oferece suporte à reprodução deste vídeo.' => 'Your browser does not support video playback.',
 		'Cena de gameplay de Demons of Asteborg' => 'Demons of Asteborg gameplay scene',
 		'Sobre o jogo' => 'About the game',
 		'Aventura, ação e magia em 16-bits.' => 'Adventure, action, and magic in 16 bits.',

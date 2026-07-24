@@ -192,14 +192,16 @@ while ( have_posts() ) :
 				<div class="product-story__media">
 					<p><?php esc_html_e( 'Vídeo / Trailer:', 'versao-ltda-theme' ); ?></p>
 					<div class="product-story__frame">
-						<iframe
-							src="https://www.youtube-nocookie.com/embed/PKNenGI7yN8?rel=0"
-							title="<?php esc_attr_e( 'Trailer oficial de Demons of Asteborg', 'versao-ltda-theme' ); ?>"
-							loading="lazy"
-							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-							referrerpolicy="strict-origin-when-cross-origin"
-							allowfullscreen
-						></iframe>
+						<video
+							controls
+							playsinline
+							preload="metadata"
+							poster="<?php echo esc_url( vltda_asset( 'images/gameplay-1.jpg' ) ); ?>"
+							aria-label="<?php esc_attr_e( 'Trailer oficial de Demons of Asteborg', 'versao-ltda-theme' ); ?>"
+						>
+							<source src="<?php echo esc_url( vltda_asset( 'videos/doa-trailer.mp4' ) ); ?>" type="video/mp4">
+							<?php esc_html_e( 'Seu navegador não oferece suporte à reprodução deste vídeo.', 'versao-ltda-theme' ); ?>
+						</video>
 					</div>
 				</div>
 

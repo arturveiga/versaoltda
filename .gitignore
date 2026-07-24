@@ -8,6 +8,9 @@
 /wp-content/debug.log
 /.maintenance
 
+# Large self-hosted media deployed directly to production.
+/wp-content/themes/versao-ltda-theme/assets/videos/*.mp4
+
 # Local plugin downloads.
 /.tmp-plugin-downloads/
 
