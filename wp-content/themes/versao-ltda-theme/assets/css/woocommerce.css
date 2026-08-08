@@ -1435,6 +1435,73 @@
 	text-decoration: none;
 }
 
+.account-form__notice {
+	border-left: 3px solid var(--color-warning);
+	color: var(--color-ink-soft);
+	font-size: 0.86rem;
+	line-height: 1.45;
+	margin-top: 18px;
+	padding-left: 12px;
+}
+
+.account-form__notice.is-success {
+	border-left-color: #2f8f46;
+	color: #216f35;
+}
+
+.account-form__notice--below-submit {
+	margin-top: 14px;
+}
+
+.account-auth--lost-password {
+	display: block;
+	max-width: 620px;
+}
+
+.account-auth--lost-password .lost_reset_password {
+	display: grid;
+	gap: 12px;
+	margin-top: 26px;
+}
+
+.account-auth--lost-password .lost_reset_password p {
+	color: var(--color-ink-soft);
+	font-size: 0.95rem;
+	line-height: 1.45;
+	margin: 0;
+}
+
+.account-auth--lost-password .lost_reset_password label {
+	color: var(--color-ink-soft);
+	display: block;
+	font-family: var(--font-mono);
+	font-size: 0.72rem;
+	font-weight: var(--fw-regular);
+	margin-bottom: 9px;
+}
+
+.account-auth--lost-password .lost_reset_password input[type="text"],
+.account-auth--lost-password .lost_reset_password input[type="password"] {
+	border: 1px solid rgba(6, 18, 60, 0.16);
+	border-radius: 0;
+	color: var(--color-ink);
+	min-height: 42px;
+	padding: 0 10px;
+	width: 100%;
+}
+
+.account-auth--lost-password .lost_reset_password .button {
+	background: var(--color-warning);
+	border: 0;
+	border-radius: 0;
+	color: var(--color-surface);
+	font-family: var(--font-mono);
+	font-size: 0.88rem;
+	font-weight: var(--fw-bold);
+	min-height: 38px;
+	padding: 0.55rem 1rem;
+}
+
 .account-google {
 	align-items: center;
 	background: var(--color-surface);

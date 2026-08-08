@@ -3,18 +3,23 @@
 
 	document.documentElement.classList.add( 'has-js' );
 
-	var languageDropdown = document.querySelector( '[data-language-dropdown]' );
-
-	if ( languageDropdown ) {
+	document.querySelectorAll( '[data-language-dropdown]' ).forEach( function ( languageDropdown ) {
 		var languageToggle = languageDropdown.querySelector( '[data-language-toggle]' );
 		var languageMenu = languageDropdown.querySelector( '[data-language-menu]' );
+
+		if ( ! languageToggle || ! languageMenu ) {
+			return;
+		}
 
 		var closeLanguageMenu = function () {
 			languageMenu.hidden = true;
 			languageToggle.setAttribute( 'aria-expanded', 'false' );
 		};
 
-		languageToggle.addEventListener( 'click', function () {
+		languageToggle.addEventListener( 'click', function ( event ) {
+			event.preventDefault();
+			event.stopPropagation();
+
 			var isOpen = languageMenu.hidden;
 
 			languageMenu.hidden = ! isOpen;
@@ -33,7 +38,7 @@
 				languageToggle.focus();
 			}
 		} );
-	}
+	} );
 
 	var headerSearch = document.querySelector( '.header-search' );
 

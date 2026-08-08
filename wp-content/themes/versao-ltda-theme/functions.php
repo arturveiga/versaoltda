@@ -20,6 +20,7 @@ $versao_ltda_includes = array(
 	'inc/woocommerce.php',
 	'inc/helpers.php',
 	'inc/contact.php',
+	'inc/product-notify.php',
 	'inc/maintenance.php',
 );
 

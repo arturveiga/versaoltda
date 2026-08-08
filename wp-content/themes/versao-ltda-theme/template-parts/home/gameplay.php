@@ -4,14 +4,6 @@
  *
  * @package Versao_Ltda_Theme
  */
-
-$reserve_action = function_exists( 'versao_ltda_get_reserve_action' )
-	? versao_ltda_get_reserve_action( 'Demons of Asteborg' )
-	: array(
-		'href'       => home_url( '/cart/' ),
-		'class'      => '',
-		'attributes' => '',
-	);
 ?>
 <section class="physical section" id="comprar">
 	<div class="container physical__grid">
@@ -23,8 +15,8 @@ $reserve_action = function_exists( 'versao_ltda_get_reserve_action' )
 				<span><?php esc_html_e( 'na pré-venda.', 'versao-ltda-theme' ); ?></span>
 			</h2>
 			<p><?php esc_html_e( 'A primeira edição de Demons of Asteborg, pela Versão LTDA, acompanha um cartucho cromado especial para marcar o lançamento #001 da coleção.', 'versao-ltda-theme' ); ?></p>
-			<a class="button button--primary <?php echo esc_attr( $reserve_action['class'] ); ?>" href="<?php echo esc_url( $reserve_action['href'] ); ?>"<?php echo $reserve_action['attributes']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-				<?php esc_html_e( 'Reservar agora', 'versao-ltda-theme' ); ?>
+			<a class="button button--primary" href="<?php echo esc_url( home_url( '/produto/demons-of-asteborg/' ) ); ?>">
+				<?php esc_html_e( 'Conhecer Mais', 'versao-ltda-theme' ); ?>
 			</a>
 			<p class="product-code">#001 / Demons of Asteborg / Mega Drive<br><?php esc_html_e( 'Cartucho Cromado | Versão Pré-Venda', 'versao-ltda-theme' ); ?></p>
 		</div>

@@ -6,6 +6,21 @@
  */
 
 get_header();
+
+$is_lost_password  = function_exists( 'is_wc_endpoint_url' ) && is_wc_endpoint_url( 'lost-password' );
+$reset_link_sent   = isset( $_GET['reset-link-sent'] ) && wc_string_to_bool( wp_unslash( $_GET['reset-link-sent'] ) );
+$reset_key         = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
+$reset_login       = isset( $_GET['login'] ) ? sanitize_user( wp_unslash( $_GET['login'] ) ) : '';
+$reset_user_id     = isset( $_GET['id'] ) ? absint( $_GET['id'] ) : 0;
+$show_reset_form   = isset( $_GET['show-reset-form'] ) && wc_string_to_bool( wp_unslash( $_GET['show-reset-form'] ) );
+$reset_user        = null;
+
+if ( $reset_user_id && ! $reset_login ) {
+	$reset_user  = get_userdata( $reset_user_id );
+	$reset_login = $reset_user ? $reset_user->user_login : '';
+}
+
+$has_reset_key = $is_lost_password && $reset_key && $reset_login;
 ?>
 
 <main id="main" class="site-main account-page">
@@ -21,7 +36,48 @@ get_header();
 				<?php wc_print_notices(); ?>
 			</div>
 
-			<?php if ( is_user_logged_in() ) : ?>
+			<?php if ( $is_lost_password ) : ?>
+				<div class="account-auth account-auth--lost-password">
+					<section class="account-panel account-panel--login">
+						<h1>
+							<?php
+							$has_reset_key || $show_reset_form
+								? esc_html_e( 'Criar nova senha.', 'versao-ltda-theme' )
+								: esc_html_e( 'Recuperar senha.', 'versao-ltda-theme' );
+							?>
+						</h1>
+						<p>
+							<?php
+							$has_reset_key || $show_reset_form
+								? esc_html_e( 'Digite e confirme sua nova senha para acessar sua conta novamente.', 'versao-ltda-theme' )
+								: esc_html_e( 'Informe seu e-mail ou nome de usuário para receber as instruções de redefinição.', 'versao-ltda-theme' );
+							?>
+						</p>
+
+						<?php
+						if ( $has_reset_key ) {
+							wc_get_template(
+								'myaccount/form-reset-password.php',
+								array(
+									'key'   => $reset_key,
+									'login' => $reset_login,
+								)
+							);
+						} elseif ( $show_reset_form && class_exists( 'WC_Shortcode_My_Account' ) ) {
+							WC_Shortcode_My_Account::lost_password();
+						} else {
+							wc_get_template( 'myaccount/form-lost-password.php' );
+						}
+						?>
+
+						<?php if ( $reset_link_sent ) : ?>
+							<p class="account-form__notice account-form__notice--below-submit is-success" role="status">
+								<?php esc_html_e( 'Pronto. Enviamos as instruções de recuperação para o e-mail informado.', 'versao-ltda-theme' ); ?>
+							</p>
+						<?php endif; ?>
+					</section>
+				</div>
+			<?php elseif ( is_user_logged_in() ) : ?>
 				<?php
 				$current_user    = wp_get_current_user();
 				$user_name       = versao_ltda_get_account_first_name( $current_user );
@@ -110,7 +166,7 @@ get_header();
 								</button>
 							</div>
 
-							<a class="account-form__link" href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Esqueci minha senha.', 'versao-ltda-theme' ); ?></a>
+							<a class="account-form__link" href="<?php echo esc_url( function_exists( 'wc_lostpassword_url' ) ? wc_lostpassword_url() : wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Esqueci minha senha.', 'versao-ltda-theme' ); ?></a>
 
 							<?php do_action( 'woocommerce_login_form_end' ); ?>
 						</form>

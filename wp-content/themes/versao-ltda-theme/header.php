@@ -44,6 +44,19 @@
 
 			<!-- Menu -->
 			<nav class="primary-navigation">
+				<div class="header-language header-language--mobile" data-language-dropdown>
+					<button class="header-action header-action--language" type="button" aria-label="<?php esc_attr_e( 'Selecionar idioma', 'versao-ltda-theme' ); ?>" aria-expanded="false" aria-controls="header-language-menu-mobile" data-language-toggle>
+						<img src="<?php echo esc_url( vltda_asset( 'icons/' . $language_switcher['icon'] ) ); ?>" alt="">
+					</button>
+
+					<div class="header-language__menu" id="header-language-menu-mobile" data-language-menu hidden>
+						<?php foreach ( $supported_locales as $locale => $language ) : ?>
+							<a class="header-language__option<?php echo $locale === $language_switcher['current'] ? ' is-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'site_lang', $locale ) ); ?>" lang="<?php echo esc_attr( str_replace( '_', '-', $locale ) ); ?>" aria-label="<?php echo esc_attr( $language['label'] ); ?>" title="<?php echo esc_attr( $language['label'] ); ?>"<?php echo $locale === $language_switcher['current'] ? ' aria-current="true"' : ''; ?>>
+								<img src="<?php echo esc_url( vltda_asset( 'icons/' . $language['icon'] ) ); ?>" alt="">
+							</a>
+						<?php endforeach; ?>
+					</div>
+				</div>
 
 				<?php
 				wp_nav_menu([

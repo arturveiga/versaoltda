@@ -39,14 +39,15 @@ get_header();
 			</div>
 
 			<div class="about-video">
+				<?php $about_video_src = ( function_exists( 'determine_locale' ) ? determine_locale() : get_locale() ) === 'en_US' ? vltda_asset( 'videos/versaoltda-sobre-en.mov' ) : vltda_asset( 'videos/versaoltda-sobre-pt.mov' ); ?>
 				<video
 					controls
 					playsinline
 					preload="metadata"
-					poster="<?php echo esc_url( vltda_asset( 'images/bg-footer.jpg' ) ); ?>"
+					poster="<?php echo esc_url( vltda_asset( 'images/thumb-sobre-ltda.jpg' ) ); ?>"
 					aria-label="<?php esc_attr_e( 'Vídeo institucional da Versão LTDA', 'versao-ltda-theme' ); ?>"
 				>
-					<source src="<?php echo esc_url( vltda_asset( 'videos/brand-manifesto.mp4' ) ); ?>" type="video/mp4">
+					<source src="<?php echo esc_url( $about_video_src ); ?>" type="video/quicktime">
 					<?php esc_html_e( 'Seu navegador não oferece suporte à reprodução deste vídeo.', 'versao-ltda-theme' ); ?>
 				</video>
 			</div>

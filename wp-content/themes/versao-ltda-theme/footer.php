@@ -43,7 +43,9 @@
 			<?php endif; ?>
 		</nav>
 
-		<form class="newsletter" action="<?php echo esc_url(home_url('/')); ?>" method="post">
+		<form class="newsletter" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="newsletter" data-newsletter-form>
+			<?php wp_nonce_field( 'versao_ltda_newsletter', 'versao_ltda_newsletter_nonce' ); ?>
+			<input type="hidden" name="action" value="versao_ltda_newsletter">
 			<label for="newsletter-email"><?php esc_html_e('Não perca nenhuma edição.', 'versao-ltda-theme'); ?></label>
 			<p><?php esc_html_e('Faça parte da nossa lista e seja sempre o primeiro a saber sobre as futuras pré-orders.', 'versao-ltda-theme'); ?>
 			</p>
@@ -52,7 +54,84 @@
 					placeholder="<?php esc_attr_e('e-mail', 'versao-ltda-theme'); ?>">
 				<button type="submit"><?php esc_html_e('OK', 'versao-ltda-theme'); ?></button>
 			</div>
+			<p class="newsletter__message" data-newsletter-message hidden></p>
+			<?php if ( isset( $_GET['newsletter_status'] ) ) : ?>
+				<?php $newsletter_status = sanitize_key( wp_unslash( $_GET['newsletter_status'] ) ); ?>
+				<?php if ( 'success' === $newsletter_status ) : ?>
+					<p class="newsletter__message is-success" role="status"><?php esc_html_e( 'Pronto. Vamos avisar quando houver novidades.', 'versao-ltda-theme' ); ?></p>
+				<?php elseif ( 'validation-error' === $newsletter_status ) : ?>
+					<p class="newsletter__message is-error" role="status"><?php esc_html_e( 'Informe um e-mail válido para receber a newsletter.', 'versao-ltda-theme' ); ?></p>
+				<?php elseif ( 'send-error' === $newsletter_status || 'security-error' === $newsletter_status ) : ?>
+					<p class="newsletter__message is-error" role="status"><?php esc_html_e( 'Não foi possível enviar o cadastro agora. Tente novamente.', 'versao-ltda-theme' ); ?></p>
+				<?php endif; ?>
+			<?php endif; ?>
 		</form>
+		<script>
+		(function () {
+			var form = document.querySelector('[data-newsletter-form]');
+			if (!form) {
+				return;
+			}
+
+			var endpoint = form.getAttribute('action');
+			var message = form.querySelector('[data-newsletter-message]');
+			var email = form.querySelector('input[name="newsletter_email"]');
+			var button = form.querySelector('button[type="submit"]');
+
+			function setMessage(text, isError) {
+				if (!message) {
+					return;
+				}
+
+				message.textContent = text;
+				message.hidden = !text;
+				message.classList.toggle('is-success', !isError && !!text);
+				message.classList.toggle('is-error', !!isError);
+				message.setAttribute('role', 'status');
+			}
+
+			form.addEventListener('submit', function (event) {
+				event.preventDefault();
+
+				if (button) {
+					button.disabled = true;
+				}
+
+				setMessage('', false);
+
+				fetch(endpoint, {
+					method: 'POST',
+					body: new FormData(form),
+					headers: {
+						'X-Requested-With': 'XMLHttpRequest',
+						'Accept': 'application/json'
+					}
+				})
+				.then(function (response) {
+					return response.json().then(function (data) {
+						return { ok: response.ok, data: data };
+					});
+				})
+				.then(function (result) {
+					if (result.ok && result.data && result.data.success) {
+						form.reset();
+						setMessage(result.data.data && result.data.data.message ? result.data.data.message : '<?php echo esc_js( __( 'Pronto. Vamos avisar quando houver novidades.', 'versao-ltda-theme' ) ); ?>', false);
+						return;
+					}
+
+					setMessage(result.data && result.data.data && result.data.data.message ? result.data.data.message : '<?php echo esc_js( __( 'Não foi possível enviar o cadastro agora. Tente novamente.', 'versao-ltda-theme' ) ); ?>', true);
+				})
+				.catch(function () {
+					setMessage('<?php echo esc_js( __( 'Não foi possível enviar o cadastro agora. Tente novamente.', 'versao-ltda-theme' ) ); ?>', true);
+				})
+				.finally(function () {
+					if (button) {
+						button.disabled = false;
+					}
+				});
+			});
+		})();
+		</script>
 	</div>
 
 	<div class="site-footer__credits container">

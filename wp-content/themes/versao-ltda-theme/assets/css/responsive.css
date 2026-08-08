@@ -210,8 +210,12 @@
 		padding-top: 0;
 	}
 
+	.site-logo {
+		padding: 15px;
+	}
+
 	.site-logo__image {
-		width: 140px;
+		width: 110px;
 	}
 
 	.nav-toggle {
@@ -230,8 +234,25 @@
 		justify-self: end;
 	}
 
-	.site-header__actions > :not(.header-action--account):not(.header-action--cart) {
+	.site-header__actions > :not(.header-action--account):not(.header-action--cart):not(.header-language) {
+		display: flex;
+	}
+
+	.site-header__actions .header-language {
 		display: none;
+	}
+
+	.primary-navigation .header-language--mobile {
+		display: flex;
+		margin-bottom: 12px;
+		padding-inline: 18px;
+	}
+
+	.primary-navigation .header-language--mobile .header-language__menu {
+		left: 18px;
+		position: static;
+		transform: none;
+		margin-top: 8px;
 	}
 
 	.site-header__actions .header-action {

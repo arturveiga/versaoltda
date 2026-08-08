@@ -443,9 +443,34 @@ function versao_ltda_ensure_default_products() {
 		if ( $product_id ) {
 			$product = wc_get_product( $product_id );
 
-			if ( $product instanceof WC_Product && $product->is_sold_individually() ) {
-				$product->set_sold_individually( false );
-				$product->save();
+			if ( $product instanceof WC_Product ) {
+				$should_save = false;
+
+				if ( $product->is_sold_individually() ) {
+					$product->set_sold_individually( false );
+					$should_save = true;
+				}
+
+				if ( '001' === $game['sku'] ) {
+					if ( $product->managing_stock() ) {
+						$product->set_manage_stock( false );
+						$should_save = true;
+					}
+
+					if ( 'instock' !== $product->get_stock_status() ) {
+						$product->set_stock_status( 'instock' );
+						$should_save = true;
+					}
+
+					if ( $product->get_meta( '_versao_ltda_card_state' ) ) {
+						$product->delete_meta_data( '_versao_ltda_card_state' );
+						$should_save = true;
+					}
+				}
+
+				if ( $should_save ) {
+					$product->save();
+				}
 			}
 
 			continue;
@@ -859,7 +884,7 @@ function versao_ltda_get_product_action_from_product( $product ) {
  * @param string     $wishlist_mode Wishlist action mode.
  * @return void
  */
-function versao_ltda_render_product_card( $product, $index = 1, $wishlist_mode = 'auto' ) {
+function versao_ltda_render_product_card( $product, $index = 1, $wishlist_mode = 'auto', $show_action = true ) {
 	if ( ! $product instanceof WC_Product ) {
 		return;
 	}
@@ -902,9 +927,11 @@ function versao_ltda_render_product_card( $product, $index = 1, $wishlist_mode =
 		<p><?php esc_html_e( 'Plataforma:', 'versao-ltda-theme' ); ?> <?php echo esc_html( $platform ); ?><br><?php echo esc_html( $edition ); ?></p>
 		<strong><?php echo wp_kses_post( $product->get_price_html() ?: wc_price( 399 ) ); ?></strong>
 		<div class="product-card__actions">
-			<a class="button product-card__button <?php echo esc_attr( trim( $action['class'] ) ); ?>" href="<?php echo esc_url( $action['href'] ); ?>"<?php echo $action['attributes']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-				<?php echo esc_html( $action['label'] ); ?>
-			</a>
+			<?php if ( $show_action ) : ?>
+				<a class="button product-card__button <?php echo esc_attr( trim( $action['class'] ) ); ?>" href="<?php echo esc_url( $action['href'] ); ?>"<?php echo $action['attributes']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+					<?php echo esc_html( $action['label'] ); ?>
+				</a>
+			<?php endif; ?>
 			<a class="product-card__wishlist<?php echo 'remove' === $wishlist_action ? ' is-active is-remove' : ''; ?>" href="<?php echo esc_url( $wishlist_url ); ?>" aria-label="<?php echo esc_attr( $wishlist_label ); ?>" title="<?php echo esc_attr( $wishlist_label ); ?>">
 				<span aria-hidden="true"></span>
 			</a>

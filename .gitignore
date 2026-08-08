@@ -10,6 +10,7 @@
 
 # Large self-hosted media deployed directly to production.
 /wp-content/themes/versao-ltda-theme/assets/videos/*.mp4
+/wp-content/themes/versao-ltda-theme/assets/videos/*.mov
 
 # Local plugin downloads.
 /.tmp-plugin-downloads/

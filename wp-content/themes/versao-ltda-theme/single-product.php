@@ -34,8 +34,10 @@ while ( have_posts() ) :
 	$is_saved     = in_array( $product_id, $wishlist_ids, true );
 	$wishlist_url = versao_ltda_get_wishlist_action_url( $product_id, $is_saved ? 'remove' : 'add' );
 	$is_demo      = '001' === $sku || 'demons-of-asteborg' === $product->get_slug();
+	$is_waiting_preorder = false;
 	$short_copy   = trim( wp_strip_all_tags( $product->get_short_description() ) );
 	$full_copy    = trim( wp_strip_all_tags( $product->get_description() ) );
+	$notify_status = isset( $_GET['notify_status'] ) ? sanitize_key( wp_unslash( $_GET['notify_status'] ) ) : '';
 	$copies_match = $short_copy && $full_copy && $short_copy === $full_copy;
 	$short_words  = $short_copy ? preg_split( '/\s+/u', $short_copy ) : array();
 	$full_words   = $full_copy ? preg_split( '/\s+/u', $full_copy ) : array();
@@ -91,6 +93,14 @@ while ( have_posts() ) :
 
 	$main_image = $gallery[0];
 	$main_src   = ! empty( $main_image[2] ) ? $main_image[0] : vltda_asset( 'images/' . $main_image[0] );
+	$cta_label  = $is_waiting_preorder ? __( 'Pré-Venda em 08.08.26', 'versao-ltda-theme' ) : $action['label'];
+	$current_locale = function_exists( 'determine_locale' ) ? determine_locale() : get_locale();
+	$trailer_src    = 'en_US' === $current_locale ? 'videos/doa-trailer-en.mp4' : 'videos/doa-trailer-pt.mp4';
+	$trailer        = array(
+		'src'    => vltda_asset( $is_demo ? $trailer_src : 'videos/doa-trailer.mp4' ),
+		'poster' => vltda_asset( $is_demo ? 'images/thumb-trailer-jogo.jpg' : 'images/gameplay-1.jpg' ),
+	);
+	$product_permalink = get_permalink( $product_id );
 	$show_related_products = (bool) apply_filters( 'versao_ltda_show_product_related', false );
 	$related               = $show_related_products ? versao_ltda_get_catalog_products( array( 'limit' => 3 ) ) : array();
 	?>
@@ -168,10 +178,48 @@ while ( have_posts() ) :
 						<p class="product-summary__badge"><?php esc_html_e( 'Cartucho cromado exclusivo da pré-venda', 'versao-ltda-theme' ); ?></p>
 						<p class="product-summary__price"><?php echo wp_kses_post( $product->get_price_html() ?: wc_price( 399 ) ); ?></p>
 
-						<a class="button product-summary__cta <?php echo esc_attr( trim( $action['class'] ) ); ?>" href="<?php echo esc_url( $action['href'] ); ?>"<?php echo $action['attributes']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-							<?php echo esc_html( $action['label'] ); ?>
-						</a>
-						<p class="product-summary__note"><?php esc_html_e( 'Pré-venda limitada. Envio estimado em 30 dias.', 'versao-ltda-theme' ); ?></p>
+						<?php if ( $is_waiting_preorder ) : ?>
+							<button class="button product-summary__cta is-soon" type="button">
+								<?php echo esc_html( $cta_label ); ?>
+							</button>
+						<?php else : ?>
+							<a class="button product-summary__cta <?php echo esc_attr( trim( $action['class'] ) ); ?>" href="<?php echo esc_url( $action['href'] ); ?>"<?php echo $action['attributes']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+								<?php echo esc_html( $cta_label ); ?>
+							</a>
+						<?php endif; ?>
+						<p class="product-summary__note">
+							<?php
+							$is_waiting_preorder
+								? esc_html_e( 'A compra será liberada em 08.08.26.', 'versao-ltda-theme' )
+								: esc_html_e( 'Pré-venda limitada. Envio estimado em 30 dias.', 'versao-ltda-theme' );
+							?>
+						</p>
+
+						<?php if ( $is_waiting_preorder ) : ?>
+							<div class="product-summary__notify" id="product-notify">
+								<p class="product-summary__notify-eyebrow"><?php esc_html_e( 'Avise-me', 'versao-ltda-theme' ); ?></p>
+								<form class="product-summary__notify-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+									<?php wp_nonce_field( 'versao_ltda_product_notify', 'versao_ltda_product_notify_nonce' ); ?>
+									<input type="hidden" name="action" value="versao_ltda_product_notify">
+									<input type="hidden" name="product_id" value="<?php echo esc_attr( (string) $product_id ); ?>">
+									<input type="hidden" name="product_name" value="<?php echo esc_attr( $product_name ); ?>">
+									<input type="hidden" name="product_url" value="<?php echo esc_url( $product_permalink ); ?>">
+									<div class="product-summary__notify-row">
+										<input type="email" name="notify_email" placeholder="<?php esc_attr_e( 'Seu e-mail', 'versao-ltda-theme' ); ?>" required>
+										<button type="submit"><?php esc_html_e( 'Avise-me', 'versao-ltda-theme' ); ?></button>
+									</div>
+								</form>
+
+								<?php if ( 'success' === $notify_status ) : ?>
+									<p class="product-summary__notify-message is-success" role="status"><?php esc_html_e( 'Pronto. Vamos avisar quando houver novidades.', 'versao-ltda-theme' ); ?></p>
+								<?php elseif ( 'validation-error' === $notify_status ) : ?>
+									<p class="product-summary__notify-message is-error" role="status"><?php esc_html_e( 'Informe um e-mail válido para receber o aviso.', 'versao-ltda-theme' ); ?></p>
+								<?php elseif ( 'send-error' === $notify_status || 'security-error' === $notify_status ) : ?>
+									<p class="product-summary__notify-message is-error" role="status"><?php esc_html_e( 'Não foi possível enviar o aviso agora. Tente novamente.', 'versao-ltda-theme' ); ?></p>
+								<?php endif; ?>
+
+							</div>
+						<?php endif; ?>
 
 						<ul class="product-summary__features">
 							<li><?php esc_html_e( 'Edição exclusiva de pré-venda com cartucho cromado', 'versao-ltda-theme' ); ?></li>
@@ -179,6 +227,9 @@ while ( have_posts() ) :
 							<li><?php esc_html_e( 'Caixa premium e luva rígida', 'versao-ltda-theme' ); ?></li>
 							<li><?php esc_html_e( 'Manual, pôster e card numerado', 'versao-ltda-theme' ); ?></li>
 							<li><?php esc_html_e( 'Produzido com tecnologia Mark1', 'versao-ltda-theme' ); ?></li>
+							<li><?php esc_html_e( 'Jogo em Português, Inglês, Espanhol, Francês, Alemão e  Italiano', 'versao-ltda-theme' ); ?></li>
+							<li><?php esc_html_e( 'Manual em Português', 'versao-ltda-theme' ); ?></li>
+							<li><?php esc_html_e( 'Save game nativo', 'versao-ltda-theme' ); ?></li>
 						</ul>
 
 						<img class="product-summary__mark" src="<?php echo esc_url( vltda_asset( 'images/mark1.svg' ) ); ?>" alt="Mark1">
@@ -191,18 +242,35 @@ while ( have_posts() ) :
 			<div class="container container--narrow product-story__grid">
 				<div class="product-story__media">
 					<p><?php esc_html_e( 'Vídeo / Trailer:', 'versao-ltda-theme' ); ?></p>
-					<div class="product-story__frame">
-						<video
-							controls
-							playsinline
-							preload="metadata"
-							poster="<?php echo esc_url( vltda_asset( 'images/gameplay-1.jpg' ) ); ?>"
-							aria-label="<?php esc_attr_e( 'Trailer oficial de Demons of Asteborg', 'versao-ltda-theme' ); ?>"
-						>
-							<source src="<?php echo esc_url( vltda_asset( 'videos/doa-trailer.mp4' ) ); ?>" type="video/mp4">
-							<?php esc_html_e( 'Seu navegador não oferece suporte à reprodução deste vídeo.', 'versao-ltda-theme' ); ?>
-						</video>
-					</div>
+					<?php if ( $is_demo ) : ?>
+						<div class="product-trailer">
+							<div class="product-story__frame product-trailer__frame">
+								<video
+									controls
+									playsinline
+									preload="metadata"
+									poster="<?php echo esc_url( $trailer['poster'] ); ?>"
+									aria-label="<?php esc_attr_e( 'Trailer oficial de Demons of Asteborg', 'versao-ltda-theme' ); ?>"
+								>
+									<source src="<?php echo esc_url( $trailer['src'] ); ?>" type="video/mp4">
+									<?php esc_html_e( 'Seu navegador não oferece suporte à reprodução deste vídeo.', 'versao-ltda-theme' ); ?>
+								</video>
+							</div>
+						</div>
+					<?php else : ?>
+						<div class="product-story__frame">
+							<video
+								controls
+								playsinline
+								preload="metadata"
+								poster="<?php echo esc_url( vltda_asset( 'images/gameplay-1.jpg' ) ); ?>"
+								aria-label="<?php esc_attr_e( 'Trailer oficial de Demons of Asteborg', 'versao-ltda-theme' ); ?>"
+							>
+								<source src="<?php echo esc_url( vltda_asset( 'videos/doa-trailer.mp4' ) ); ?>" type="video/mp4">
+								<?php esc_html_e( 'Seu navegador não oferece suporte à reprodução deste vídeo.', 'versao-ltda-theme' ); ?>
+							</video>
+						</div>
+					<?php endif; ?>
 				</div>
 
 				<div class="product-story__copy">

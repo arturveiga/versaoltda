@@ -69,7 +69,6 @@ return array(
 		'Cartucho cromado especial' => 'Special chrome cartridge',
 		'Cartucho cromado' => 'Chrome cartridge',
 		'especial somente na' => 'available only during',
-		'especial somente' => 'available only',
 		'somente' => 'available only during',
 		'na pré-venda.' => 'pre-order.',
 		'A primeira edição de Demons of Asteborg, pela Versão LTDA, acompanha um cartucho cromado especial para marcar o lançamento #001 da coleção.' => 'The first Versao LTDA edition of Demons of Asteborg includes a special chrome cartridge celebrating collection release #001.',

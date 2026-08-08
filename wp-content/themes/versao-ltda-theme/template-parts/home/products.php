@@ -51,7 +51,7 @@
 
 		if ( $products ) :
 			foreach ( $products as $index => $product ) :
-				versao_ltda_render_product_card( $product, $index + 1 );
+				versao_ltda_render_product_card( $product, $index + 1, 'auto' );
 			endforeach;
 		else :
 			?>
