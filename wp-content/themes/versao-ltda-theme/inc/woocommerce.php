@@ -10,6 +10,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Make Stripe payment methods available only on the English storefront.
+ *
+ * This filter is also applied when Checkout Blocks requests its payment
+ * methods through the Store API.
+ *
+ * @param WC_Payment_Gateway[] $gateways Available payment gateways.
+ * @return WC_Payment_Gateway[]
+ */
+function versao_ltda_limit_stripe_to_english( $gateways ) {
+	if ( 'en_US' === determine_locale() ) {
+		return $gateways;
+	}
+
+	foreach ( $gateways as $gateway_id => $gateway ) {
+		$class_name = is_object( $gateway ) ? get_class( $gateway ) : '';
+
+		if ( false !== stripos( (string) $gateway_id, 'stripe' ) || false !== stripos( $class_name, 'stripe' ) ) {
+			unset( $gateways[ $gateway_id ] );
+		}
+	}
+
+	return $gateways;
+}
+add_filter( 'woocommerce_available_payment_gateways', 'versao_ltda_limit_stripe_to_english', 100 );
+
+/**
  * Find a WooCommerce product by its exact title.
  *
  * @param string $title Product title.
