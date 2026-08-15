@@ -139,7 +139,7 @@ function versao_ltda_handle_contact_form() {
 		exit;
 	}
 
-	$recipient = sanitize_email( versao_ltda_contact_env( 'WORDPRESS_CONTACT_RECIPIENT', 'arturveiga_@hotmail.com' ) );
+	$recipient = sanitize_email( versao_ltda_contact_env( 'WORDPRESS_CONTACT_RECIPIENT', 'atendimento@versaoltda.com.br' ) );
 
 	if ( ! is_email( $recipient ) ) {
 		wp_safe_redirect( versao_ltda_get_contact_status_url( 'send-error' ) );
